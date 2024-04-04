@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4wlin680myme"]
+
+[ext_resource type="PackedScene" uid="uid://m3fds71c0yiy" path="res://prefabs/worm/worm.tscn" id="1_wvqpy"]
+
+[node name="WormTest" type="Node2D"]
+
+[node name="Worm" parent="." instance=ExtResource("1_wvqpy")]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://m3fds71c0yiy"]
+
+[ext_resource type="Script" path="res://scripts/worm/worm_controller.gd" id="1_7wfu0"]
+[ext_resource type="PackedScene" uid="uid://df0c367funl53" path="res://prefabs/worm/worm_segment.tscn" id="2_lv01b"]
+[ext_resource type="Script" path="res://scripts/worm/player_worm_input.gd" id="3_go58p"]
+
+[node name="Worm" type="Node2D"]
+
+[node name="Line2D" type="Line2D" parent="."]
+
+[node name="WormController" type="Node2D" parent="." node_paths=PackedStringArray("line_2D", "camera")]
+script = ExtResource("1_7wfu0")
+line_2D = NodePath("../Line2D")
+worm_segment_prefab = ExtResource("2_lv01b")
+camera = NodePath("../Camera2D")
+
+[node name="PlayerWormInput" type="Node2D" parent="." node_paths=PackedStringArray("worm_controller")]
+script = ExtResource("3_go58p")
+worm_controller = NodePath("../WormController")
+
+[node name="Camera2D" type="Camera2D" parent="."]
