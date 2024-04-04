@@ -20,10 +20,13 @@ func _input(event):
 				worm_controller.speed *= speed_scroll_factor
 			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				worm_controller.speed /= speed_scroll_factor
+	if event is InputEventKey:
+		if event.is_pressed() and event.keycode == KEY_D:
+			worm_controller.debug_draw = not worm_controller.debug_draw
 
 
 func _process(delta):
-	var head_to_mouse =  worm_controller.get_global_mouse_position() - worm_controller.head_segment.global_position
+	var head_to_mouse =  worm_controller.get_global_mouse_position() - worm_controller.head_position
 	if head_to_mouse.length_squared() >= _movement_deadzone_sqr:
 		worm_controller.direction = head_to_mouse.normalized()
 	else:
