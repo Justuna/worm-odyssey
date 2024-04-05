@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://m3fds71c0yiy" path="res://prefabs/worm/worm.tscn" id="1_wvqpy"]
 [ext_resource type="Texture2D" uid="uid://dh68bsojeg13w" path="res://icon.svg" id="2_cl5xy"]
 [ext_resource type="Theme" uid="uid://hl7m0movyn5i" path="res://assets/themes/theme.tres" id="3_g1jxf"]
-[ext_resource type="PackedScene" uid="uid://dia0hd4cr5mwx" path="res://prefabs/equipment_texture_holder.tscn" id="4_88yel"]
+[ext_resource type="Script" path="res://scripts/ui/set_theme_variation.gd" id="4_hp2gp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1fcaq"]
 size = Vector2(128, 126)
@@ -42,41 +42,50 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_g1jxf")
 
-[node name="PanelContainer" type="PanelContainer" parent="UI/Control"]
-custom_minimum_size = Vector2(300, 0)
+[node name="MarginContainer" type="MarginContainer" parent="UI/Control"]
 layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
+anchors_preset = 2
+anchor_top = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 2
+offset_top = -92.0
+offset_right = 316.0
+grow_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/PanelContainer"]
+[node name="ConfigWormControls" type="RichTextLabel" parent="UI/Control/MarginContainer"]
+visible = false
 layout_mode = 2
+theme_type_variation = &"ThickRichTextLabel"
+theme_override_constants/line_separation = 6
+theme_override_font_sizes/normal_font_size = 6
+bbcode_enabled = true
+text = "[img=24]res://assets/art/control_icons/xbox_button_color_a.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_b.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_x.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_y.png[/img] Bind Equip
+[img=24]res://assets/art/control_icons/xbox_rt.png[/img] + [img=24]res://assets/art/control_icons/xbox_dpad_vertical.png[/img] Move Equip
+[img=24]res://assets/art/control_icons/xbox_dpad_vertical.png[/img] Move Selection
+[img=24]res://assets/art/control_icons/xbox_rb.png[/img] Eject Equip
+[img=24]res://assets/art/control_icons/xbox_lb.png[/img] Exit Config Mode"
+fit_content = true
+scroll_active = false
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/PanelContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
+[node name="SetThemeVariation" type="Node" parent="UI/Control/MarginContainer/ConfigWormControls"]
+script = ExtResource("4_hp2gp")
+theme_variation = "ThickRichTextLabel"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="WormControls" type="RichTextLabel" parent="UI/Control/MarginContainer"]
 layout_mode = 2
+theme_type_variation = &"ThickRichTextLabel"
+theme_override_constants/line_separation = 6
+theme_override_font_sizes/normal_font_size = 6
+bbcode_enabled = true
+text = "[img=24]res://assets/art/control_icons/xbox_button_color_a.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_b.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_x.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_y.png[/img] Activate Equip
+[img=24]res://assets/art/control_icons/xbox_rs.png[/img] Move
+[img=24]res://assets/art/control_icons/xbox_lb.png[/img] Enter Config Mode"
+fit_content = true
+scroll_active = false
 
-[node name="EquipmentTextureHolder" parent="UI/Control/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_88yel")]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="UI/Control/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme_type_variation = &"HeaderLarge"
-text = "BOW"
-
-[node name="ScrollContainer" type="ScrollContainer" parent="UI/Control/PanelContainer/HBoxContainer"]
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/PanelContainer/HBoxContainer/ScrollContainer"]
-layout_mode = 2
-
-[node name="EquipmentTextureHolder2" parent="UI/Control/PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("texture_rect") instance=ExtResource("4_88yel")]
-layout_mode = 2
-texture_rect = NodePath("../../../VBoxContainer/HBoxContainer/EquipmentTextureHolder/TextureRect")
+[node name="SetThemeVariation" type="Node" parent="UI/Control/MarginContainer/WormControls"]
+script = ExtResource("4_hp2gp")
+theme_variation = "ThickRichTextLabel"
