@@ -68,10 +68,12 @@ func _process(delta):
 		var angle_to_head = _head_direction.angle_to(direction)
 		if abs(angle_to_head) > deg_to_rad(turning_cone_deg) * speed * delta:
 			_actual_direction = _head_direction.rotated(deg_to_rad(turning_cone_deg) * speed * delta * sign(angle_to_head)).normalized() * direction.length()
-		_head_direction = _actual_direction.normalized()
 		
 		worm_head.velocity = _actual_direction * speed
 		worm_head.move_and_slide()
+		
+		if worm_head.get_real_velocity().length_squared() > 1:
+			_head_direction = _actual_direction.normalized()
 		
 		# Next fixed visual point starts off at the current fixed visual head point
 		var next_fixed_visual_point = _fixed_visual_segment_positions[_fixed_visual_segment_positions.size() - 1]
