@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://df0c367funl53"]
+
+[ext_resource type="Script" path="res://scripts/worm/worm_segment.gd" id="1_44kv3"]
+[ext_resource type="Texture2D" uid="uid://cqsjwv7i833mh" path="res://assets/art/segments/strap.png" id="3_rg1sj"]
+[ext_resource type="Shader" path="res://assets/shaders/outline.gdshader" id="4_rbxe0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u7npg"]
+shader = ExtResource("4_rbxe0")
+shader_parameter/line_thickness = 2.0
+shader_parameter/line_color = Color(0, 0.839216, 0.0117647, 1)
+
+[node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group")]
+script = ExtResource("1_44kv3")
+canvas_group = NodePath("CanvasGroup")
+x_color = Color(0.113725, 0.529412, 0.866667, 1)
+y_color = Color(0.905882, 0.803922, 0.129412, 1)
+b_color = Color(0.894118, 0.176471, 0.176471, 1)
+a_color = Color(0.152941, 0.886275, 0.180392, 1)
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+material = SubResource("ShaderMaterial_u7npg")
+
+[node name="SlotVisuals" type="Node2D" parent="CanvasGroup"]
+
+[node name="SlotSprite" type="Sprite2D" parent="CanvasGroup/SlotVisuals"]
+texture = ExtResource("3_rg1sj")

@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://c4wlin680myme"]
+
+[ext_resource type="PackedScene" uid="uid://m3fds71c0yiy" path="res://prefabs/worm/worm.tscn" id="1_wvqpy"]
+[ext_resource type="Texture2D" uid="uid://dh68bsojeg13w" path="res://icon.svg" id="2_cl5xy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1fcaq"]
+size = Vector2(128, 126)
+
+[node name="WormTest" type="Node2D"]
+
+[node name="Worm" parent="." instance=ExtResource("1_wvqpy")]
+
+[node name="Wall" type="StaticBody2D" parent="."]
+position = Vector2(-101, 12)
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall"]
+texture = ExtResource("2_cl5xy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+shape = SubResource("RectangleShape2D_1fcaq")
+
+[node name="Wall2" type="StaticBody2D" parent="."]
+position = Vector2(281, 218)
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall2"]
+texture = ExtResource("2_cl5xy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
+shape = SubResource("RectangleShape2D_1fcaq")

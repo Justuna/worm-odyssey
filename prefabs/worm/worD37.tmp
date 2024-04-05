@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://m3fds71c0yiy"]
+
+[ext_resource type="Texture2D" uid="uid://b4acd5t3p4n32" path="res://assets/art/worm.png" id="1_4kr8s"]
+[ext_resource type="Script" path="res://scripts/worm/worm_controller.gd" id="1_7wfu0"]
+[ext_resource type="PackedScene" uid="uid://df0c367funl53" path="res://prefabs/worm/worm_segment.tscn" id="2_lv01b"]
+[ext_resource type="Script" path="res://scripts/worm/player_worm_input.gd" id="3_go58p"]
+[ext_resource type="Texture2D" uid="uid://84iwdf64ebqi" path="res://assets/art/worm_tail.png" id="5_y18rj"]
+[ext_resource type="Texture2D" uid="uid://s3d3ul1xj7bj" path="res://assets/art/worm_head.png" id="6_232fd"]
+
+[node name="Worm" type="Node2D"]
+
+[node name="Line2D" type="Line2D" parent="."]
+texture_repeat = 2
+points = PackedVector2Array(22, 6, 99, 9)
+width = 64.0
+texture = ExtResource("1_4kr8s")
+texture_mode = 1
+joint_mode = 2
+
+[node name="WormHead" type="Sprite2D" parent="."]
+position = Vector2(95, -19)
+texture = ExtResource("6_232fd")
+offset = Vector2(32, 0)
+
+[node name="WormTail" type="Sprite2D" parent="."]
+z_index = -5
+position = Vector2(92, 25)
+texture = ExtResource("5_y18rj")
+offset = Vector2(-32, 0)
+
+[node name="WormController" type="Node2D" parent="." node_paths=PackedStringArray("line_2D", "worm_head", "worm_tail", "camera")]
+script = ExtResource("1_7wfu0")
+direction = null
+speed = null
+visual_segment_count = null
+visual_segment_length = null
+turning_cone_deg = null
+line_2D = NodePath("../Line2D")
+worm_head = NodePath("../WormHead")
+worm_tail = NodePath("../WormTail")
+worm_segment_prefab = ExtResource("2_lv01b")
+camera = NodePath("../Camera2D")
+
+[node name="PlayerWormInput" type="Node2D" parent="." node_paths=PackedStringArray("worm_controller")]
+script = ExtResource("3_go58p")
+worm_controller = NodePath("../WormController")
+
+[node name="Camera2D" type="Camera2D" parent="."]
