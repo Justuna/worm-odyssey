@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://dia0hd4cr5mwx"]
+
+[ext_resource type="Texture2D" uid="uid://b00b8obwj0107" path="res://assets/art/segments/bow_turret.png" id="1_6vjbb"]
+[ext_resource type="Script" path="res://scripts/ui/equipment_texture_holder.gd" id="1_dyrcd"]
+
+[node name="EquipmentTextureHolder" type="ColorRect" node_paths=PackedStringArray("texture_rect")]
+clip_children = 1
+custom_minimum_size = Vector2(80, 80)
+script = ExtResource("1_dyrcd")
+texture = ExtResource("1_6vjbb")
+texture_rect = NodePath("TextureRect")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_6vjbb")
+expand_mode = 2
+stretch_mode = 3

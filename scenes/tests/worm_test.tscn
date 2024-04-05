@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4wlin680myme"]
+[gd_scene load_steps=6 format=3 uid="uid://c4wlin680myme"]
 
 [ext_resource type="PackedScene" uid="uid://m3fds71c0yiy" path="res://prefabs/worm/worm.tscn" id="1_wvqpy"]
 [ext_resource type="Texture2D" uid="uid://dh68bsojeg13w" path="res://icon.svg" id="2_cl5xy"]
 [ext_resource type="Theme" uid="uid://hl7m0movyn5i" path="res://assets/themes/theme.tres" id="3_g1jxf"]
+[ext_resource type="PackedScene" uid="uid://dia0hd4cr5mwx" path="res://prefabs/equipment_texture_holder.tscn" id="4_88yel"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1fcaq"]
 size = Vector2(128, 126)
@@ -50,3 +51,32 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="EquipmentTextureHolder" parent="UI/Control/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_88yel")]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Control/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "BOW"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/Control/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/PanelContainer/HBoxContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="EquipmentTextureHolder2" parent="UI/Control/PanelContainer/HBoxContainer/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("texture_rect") instance=ExtResource("4_88yel")]
+layout_mode = 2
+texture_rect = NodePath("../../../VBoxContainer/HBoxContainer/EquipmentTextureHolder/TextureRect")
