@@ -68,6 +68,8 @@ func _process(delta):
 		var angle_to_head = _head_direction.angle_to(direction)
 		if abs(angle_to_head) > deg_to_rad(turning_cone_deg) * speed * delta:
 			_actual_direction = _head_direction.rotated(deg_to_rad(turning_cone_deg) * speed * delta * sign(angle_to_head)).normalized() * direction.length()
+		if worm_head.get_slide_collision_count() > 0 and worm_head.get_real_velocity().length_squared() < 0.5 * speed * delta:
+				_actual_direction = worm_head.get_real_velocity().normalized()
 		
 		worm_head.velocity = _actual_direction * speed
 		worm_head.move_and_slide()

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://df0c367funl53" path="res://prefabs/worm/worm_segment.tscn" id="2_lv01b"]
 [ext_resource type="Texture2D" uid="uid://bmmknuw7l4o7o" path="res://assets/art/hat/worm_hat.png" id="3_830wt"]
 [ext_resource type="Texture2D" uid="uid://6ndnn4u44kya" path="res://assets/art/worms/worm_3/worm_tail_3.png" id="3_g1otc"]
-[ext_resource type="Script" path="res://scripts/worm/player_worm_input.gd" id="3_go58p"]
+[ext_resource type="Script" path="res://scripts/worm/keyboard_worm_input.gd" id="7_p55je"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ex6gi"]
 radius = 32.0
@@ -51,10 +51,10 @@ camera = NodePath("../Camera2D")
 segments_container = NodePath("../WormSegments")
 
 [node name="PlayerWormInput" type="Node2D" parent="." node_paths=PackedStringArray("worm_controller")]
-script = ExtResource("3_go58p")
+script = ExtResource("7_p55je")
 worm_controller = NodePath("../WormController")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.75, 0.75)
+zoom = Vector2(0.5, 0.5)
 
 [node name="WormSegments" type="Node2D" parent="."]

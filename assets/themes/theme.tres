@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://hl7m0movyn5i"]
+
+[ext_resource type="FontFile" uid="uid://cbenhdyaxytb3" path="res://assets/fonts/slkscrb.ttf" id="1_64h25"]
+[ext_resource type="FontFile" uid="uid://bndfqnaxpwovh" path="res://assets/fonts/slkscr.ttf" id="2_ubith"]
+
+[resource]
+default_font = ExtResource("2_ubith")
+Button/fonts/font = ExtResource("1_64h25")

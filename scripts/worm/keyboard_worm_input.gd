@@ -1,5 +1,5 @@
 extends Node
-class_name PlayerWormInput
+class_name KeyboardWormInput
 
 
 @export var worm_controller: WormController
