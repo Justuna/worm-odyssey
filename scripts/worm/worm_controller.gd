@@ -4,7 +4,7 @@ class_name WormController
 
 @export var direction: Vector2
 @export var speed: float = 100
-@export var segment_count: int = 8
+@export var segment_count: int = 32
 @export var visual_segments_per_segment: int = 8
 @export var visual_segment_count: int = 8
 @export var visual_segment_length: float = 8
@@ -35,6 +35,7 @@ var head_direction: Vector2 :
 @export var worm_tail: Node2D
 @export var worm_segment_prefab: PackedScene
 @export var camera: Camera2D
+@export var segments_container: Node2D
 
 var _fixed_visual_segment_positions: Array[Vector2]
 var _visual_segment_positions: PackedVector2Array
@@ -42,11 +43,14 @@ var _actual_direction: Vector2
 var _head_direction: Vector2
 var _prev_debug_draw: bool
 
+
 func _ready():
 	segments = []
 	visual_segment_count = segment_count * visual_segments_per_segment
 	for i in range(segment_count):
-		segments.append(worm_segment_prefab.instantiate() as WormSegment)
+		var segment_inst = worm_segment_prefab.instantiate() as WormSegment
+		segments_container.add_child(segment_inst)
+		segments.append(segment_inst)
 	_fixed_visual_segment_positions = []
 	var curr_segment_pos: Vector2 = global_position
 	worm_head.global_position = global_position
@@ -55,6 +59,7 @@ func _ready():
 		curr_segment_pos.x -= visual_segment_length
 	_visual_segment_positions = PackedVector2Array(_fixed_visual_segment_positions)
 	line_2D.points = PackedVector2Array(_fixed_visual_segment_positions)
+
 
 func _process(delta):
 	# Adds fixed points to _fixed_visual_segment_positions every time the worm moves a distance of visual_segement_length
@@ -91,6 +96,9 @@ func _process(delta):
 	worm_tail.global_position = _visual_segment_positions[0]
 	worm_tail.rotation = (_visual_segment_positions[1] - _visual_segment_positions[0]).angle()
 	worm_head.rotation = (_visual_segment_positions[_visual_segment_positions.size() - 2] - _visual_segment_positions[_visual_segment_positions.size() - 1]).angle() + PI
+	for i in range(segments.size()):
+		segments[i].global_position = _visual_segment_positions[i * visual_segments_per_segment]
+		segments[i].global_rotation = segments[i].global_position.angle_to_point(_visual_segment_positions[i * visual_segments_per_segment + 1])
 	
 	# Debug draw
 	if debug_draw:
@@ -99,6 +107,7 @@ func _process(delta):
 		if not debug_draw:
 			queue_redraw()
 		_prev_debug_draw = debug_draw
+
 
 func _draw():
 	if debug_draw:

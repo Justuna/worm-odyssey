@@ -22,6 +22,7 @@ texture_mode = 1
 joint_mode = 2
 
 [node name="WormHead" type="CharacterBody2D" parent="."]
+position = Vector2(-20, 180)
 motion_mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WormHead"]
@@ -36,20 +37,24 @@ texture = ExtResource("3_830wt")
 
 [node name="WormTail" type="Sprite2D" parent="."]
 z_index = -5
-position = Vector2(92, 25)
+position = Vector2(36, 102)
 texture = ExtResource("3_g1otc")
 offset = Vector2(-32, 0)
 
-[node name="WormController" type="Node2D" parent="." node_paths=PackedStringArray("line_2D", "worm_head", "worm_tail", "camera")]
+[node name="WormController" type="Node2D" parent="." node_paths=PackedStringArray("line_2D", "worm_head", "worm_tail", "camera", "segments_container")]
 script = ExtResource("1_7wfu0")
 line_2D = NodePath("../Line2D")
 worm_head = NodePath("../WormHead")
 worm_tail = NodePath("../WormTail")
 worm_segment_prefab = ExtResource("2_lv01b")
 camera = NodePath("../Camera2D")
+segments_container = NodePath("../WormSegments")
 
 [node name="PlayerWormInput" type="Node2D" parent="." node_paths=PackedStringArray("worm_controller")]
 script = ExtResource("3_go58p")
 worm_controller = NodePath("../WormController")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.75, 0.75)
+
+[node name="WormSegments" type="Node2D" parent="."]
