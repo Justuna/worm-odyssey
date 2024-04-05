@@ -3,6 +3,7 @@ extends Node
 class_name Effect
 
 enum Type {
+	ALOE_VERA,
 	DURABLE
 }
 
