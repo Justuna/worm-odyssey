@@ -54,3 +54,25 @@ func construct(_worm: Node2D, _segment: WormSegment, _direction: Direction):
 
 func use_active():
 	active_used.emit()
+
+
+static func rotate_left(direction: Direction) -> Direction:
+	match direction:
+		Direction.UP:
+			return Direction.RIGHT
+		Direction.RIGHT:
+			return Direction.DOWN
+		Direction.DOWN:
+			return Direction.LEFT
+	return Direction.UP
+
+
+static func rotate_right(direction: Direction) -> Direction:
+	match direction:
+		Direction.UP:
+			return Direction.LEFT
+		Direction.LEFT:
+			return Direction.DOWN
+		Direction.DOWN:
+			return Direction.RIGHT
+	return Direction.UP

@@ -33,7 +33,7 @@ func interact(interactor: Interactor):
 
 func _update_selected_visuals():
 	if _selected:
-		(visuals.material as ShaderMaterial).set_shader_parameter("enabled", true)
+		(visuals.material as ShaderMaterial).set_shader_parameter("line_enabled", true)
 		(visuals.material as ShaderMaterial).set_shader_parameter("line_color", selected_color)
 	else:
-		(visuals.material as ShaderMaterial).set_shader_parameter("enabled", false)
+		(visuals.material as ShaderMaterial).set_shader_parameter("line_enabled", false)

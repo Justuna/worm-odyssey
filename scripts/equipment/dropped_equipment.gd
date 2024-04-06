@@ -13,6 +13,8 @@ func construct(_equipment: Equipment):
 	equipment = _equipment
 	visuals_container.add_child(_equipment)
 	_equipment.position = Vector2.ZERO
+	_equipment.rotation = 0
+	_equipment.direction = Equipment.Direction.RIGHT
 
 
 func _ready():

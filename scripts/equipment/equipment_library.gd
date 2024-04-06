@@ -33,3 +33,10 @@ func spawn_dropped_equipment(equipment_type: Equipment.Type) -> Node2D:
 	var dropped_equipment = inst.get_node("DroppedEquipment") as DroppedEquipment
 	dropped_equipment.construct(spawn_equipment(equipment_type))
 	return inst
+
+
+func spawn_dropped_equipment_from_existing(equipment: Equipment) -> Node2D:
+	var inst = dropped_equipment_prefab.instantiate()
+	var dropped_equipment = inst.get_node("DroppedEquipment") as DroppedEquipment
+	dropped_equipment.construct(equipment)
+	return inst
