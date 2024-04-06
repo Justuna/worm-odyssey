@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7de3ouo1vrb6"]
+
+[ext_resource type="Script" path="res://scripts/equipment/equipment.gd" id="1_n5psm"]
+[ext_resource type="Texture2D" uid="uid://dad6uean70t1i" path="res://assets/art/segments/fire_tome.png" id="2_rv3ec"]
+
+[node name="FireTome" type="Node2D" node_paths=PackedStringArray("rotated_part")]
+script = ExtResource("1_n5psm")
+equipment_type = 1
+rotated_part = NodePath("Sprite")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_rv3ec")

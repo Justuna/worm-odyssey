@@ -29,12 +29,11 @@ var head_direction: Vector2 :
 	get:
 		return _head_direction
 
-@export_category("Dependencies")
+@export_group("Dependencies")
 @export var line_2D: Line2D
 @export var worm_head: CharacterBody2D
 @export var worm_tail: Node2D
 @export var worm_segment_prefab: PackedScene
-@export var camera: Camera2D
 @export var segments_container: Node2D
 
 var _fixed_visual_segment_positions: Array[Vector2]
@@ -68,6 +67,8 @@ func _process(delta):
 		var angle_to_head = _head_direction.angle_to(direction)
 		if abs(angle_to_head) > deg_to_rad(turning_cone_deg) * speed * delta:
 			_actual_direction = _head_direction.rotated(deg_to_rad(turning_cone_deg) * speed * delta * sign(angle_to_head)).normalized() * direction.length()
+		if worm_head.get_slide_collision_count() > 0 and worm_head.get_real_velocity().length_squared() < 0.5 * speed * delta:
+				_actual_direction = worm_head.get_real_velocity().normalized()
 		
 		worm_head.velocity = _actual_direction * speed
 		worm_head.move_and_slide()
@@ -92,8 +93,6 @@ func _process(delta):
 		for i in range(_visual_segment_positions.size() - 2, -1, -1):
 			_visual_segment_positions[i] = _fixed_visual_segment_positions[i].lerp(_fixed_visual_segment_positions[i + 1], lerp_amount_per_segment)
 	
-	# Make camera follow head, set line2D points, set head and tail sprites
-	camera.global_position = worm_head.global_position
 	line_2D.points = _visual_segment_positions
 	worm_tail.global_position = _visual_segment_positions[0]
 	worm_tail.rotation = (_visual_segment_positions[1] - _visual_segment_positions[0]).angle()
@@ -109,6 +108,26 @@ func _process(delta):
 		if not debug_draw:
 			queue_redraw()
 		_prev_debug_draw = debug_draw
+
+
+## Uses the active abilities of all equipment
+## bound to a given binding.
+func use_active(binding: WormSegment.Binding):
+	assert(binding != WormSegment.Binding.NONE)
+	for segment in segments:
+		if segment.binding == binding:
+			segment.use_active()
+
+
+## Tries to add an equipment into the first empty slot
+## on the worm. Returns true if successful, and false
+## if the worm has no empty slots.
+func try_add_equipment(equipment: Equipment) -> bool:
+	for segment in segments:
+		if segment.equipment == null:
+			segment.add_equipment(equipment, Equipment.Direction.UP)
+			return true
+	return false
 
 
 func _draw():

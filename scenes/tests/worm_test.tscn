@@ -1,29 +1,193 @@
-[gd_scene load_steps=4 format=3 uid="uid://c4wlin680myme"]
+[gd_scene load_steps=13 format=3 uid="uid://c4wlin680myme"]
 
+[ext_resource type="Script" path="res://scripts/test/worm_test.gd" id="1_e11fb"]
 [ext_resource type="PackedScene" uid="uid://m3fds71c0yiy" path="res://prefabs/worm/worm.tscn" id="1_wvqpy"]
+[ext_resource type="Resource" uid="uid://dxe2vo0p5hajv" path="res://libraries/equipment_library.tres" id="2_6jmem"]
 [ext_resource type="Texture2D" uid="uid://dh68bsojeg13w" path="res://icon.svg" id="2_cl5xy"]
+[ext_resource type="Script" path="res://scripts/worm/controller_worm_input.gd" id="3_8ovgw"]
+[ext_resource type="Script" path="res://scripts/worm/worm_configurer.gd" id="3_addbt"]
+[ext_resource type="Theme" uid="uid://hl7m0movyn5i" path="res://assets/themes/theme.tres" id="3_g1jxf"]
+[ext_resource type="Script" path="res://scripts/ui/set_theme_variation.gd" id="4_hp2gp"]
+[ext_resource type="Script" path="res://scripts/worm/camera_controller.gd" id="9_8uqem"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jjv65"]
+size = Vector2(1024, 1024)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1fcaq"]
 size = Vector2(128, 126)
 
+[sub_resource type="Curve" id="Curve_3h615"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.269544), -0.347194, 0.0, 0, 0]
+point_count = 2
+
 [node name="WormTest" type="Node2D"]
+script = ExtResource("1_e11fb")
+equipment_library = ExtResource("2_6jmem")
+equipment_spawn_area = SubResource("RectangleShape2D_jjv65")
 
-[node name="Worm" parent="." instance=ExtResource("1_wvqpy")]
+[node name="Level" type="Node2D" parent="."]
+z_index = 10
 
-[node name="Wall" type="StaticBody2D" parent="."]
+[node name="Wall" type="StaticBody2D" parent="Level"]
 position = Vector2(-101, 12)
 
-[node name="Sprite2D" type="Sprite2D" parent="Wall"]
+[node name="Sprite2D" type="Sprite2D" parent="Level/Wall"]
 texture = ExtResource("2_cl5xy")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Wall"]
 shape = SubResource("RectangleShape2D_1fcaq")
 
-[node name="Wall2" type="StaticBody2D" parent="."]
+[node name="Wall2" type="StaticBody2D" parent="Level"]
 position = Vector2(281, 218)
+rotation = 0.886361
+scale = Vector2(1, 1)
 
-[node name="Sprite2D" type="Sprite2D" parent="Wall2"]
+[node name="Sprite2D" type="Sprite2D" parent="Level/Wall2"]
 texture = ExtResource("2_cl5xy")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Wall2"]
 shape = SubResource("RectangleShape2D_1fcaq")
+
+[node name="PlayerWorm" type="Node2D" parent="."]
+
+[node name="Worm" parent="PlayerWorm" instance=ExtResource("1_wvqpy")]
+z_index = 5
+
+[node name="UI" type="CanvasLayer" parent="PlayerWorm"]
+
+[node name="Control" type="Control" parent="PlayerWorm/UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_g1jxf")
+metadata/_edit_use_anchors_ = true
+
+[node name="ConfigWormUI" type="Control" parent="PlayerWorm/UI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerWorm/UI/Control/ConfigWormUI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -92.0
+offset_right = 316.0
+grow_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ConfigWormControls" type="RichTextLabel" parent="PlayerWorm/UI/Control/ConfigWormUI/MarginContainer"]
+layout_mode = 2
+theme_type_variation = &"ThickRichTextLabel"
+theme_override_constants/line_separation = 6
+theme_override_font_sizes/normal_font_size = 6
+bbcode_enabled = true
+text = "[img=24]res://assets/art/control_icons/xbox_button_color_a.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_b.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_x.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_y.png[/img] Bind Equip
+[img=24]res://assets/art/control_icons/xbox_rt.png[/img] + [img=24]res://assets/art/control_icons/xbox_dpad_vertical.png[/img] Move Equip
+[img=24]res://assets/art/control_icons/xbox_dpad_vertical.png[/img] Move Selection
+[img=24]res://assets/art/control_icons/xbox_rb.png[/img] Eject Equip
+[img=24]res://assets/art/control_icons/xbox_dpad_horizontal.png[/img] Rotate Equip
+[img=24]res://assets/art/control_icons/xbox_lb.png[/img] Exit Config Mode"
+fit_content = true
+scroll_active = false
+
+[node name="SetThemeVariation" type="Node" parent="PlayerWorm/UI/Control/ConfigWormUI/MarginContainer/ConfigWormControls"]
+script = ExtResource("4_hp2gp")
+theme_variation = "ThickRichTextLabel"
+
+[node name="MarginContainer2" type="MarginContainer" parent="PlayerWorm/UI/Control/ConfigWormUI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -47.5
+offset_right = 47.5
+offset_bottom = 49.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Label" type="Label" parent="PlayerWorm/UI/Control/ConfigWormUI/MarginContainer2"]
+layout_mode = 2
+theme_type_variation = &"ThickLabel"
+theme_override_font_sizes/font_size = 6
+text = "Config"
+
+[node name="SetThemeVariation" type="Node" parent="PlayerWorm/UI/Control/ConfigWormUI/MarginContainer2/Label"]
+script = ExtResource("4_hp2gp")
+theme_variation = "ThickLabel"
+
+[node name="WormUI" type="Control" parent="PlayerWorm/UI/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerWorm/UI/Control/WormUI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -182.0
+offset_right = 316.0
+grow_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="WormControls" type="RichTextLabel" parent="PlayerWorm/UI/Control/WormUI/MarginContainer"]
+layout_mode = 2
+theme_type_variation = &"ThickRichTextLabel"
+theme_override_constants/line_separation = 6
+theme_override_font_sizes/normal_font_size = 6
+bbcode_enabled = true
+text = "[img=24]res://assets/art/control_icons/xbox_button_color_a.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_b.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_x.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_y.png[/img] Activate Equip
+[img=24]res://assets/art/control_icons/xbox_rs.png[/img] Move
+[img=24]res://assets/art/control_icons/xbox_lb.png[/img] Enter Config Mode
+[img=24]res://assets/art/control_icons/xbox_rb.png[/img] Pickup Equip / Item
+[img=24]res://assets/art/control_icons/xbox_lt.png[/img][img=24]res://assets/art/control_icons/xbox_rt.png[/img] Zoom"
+fit_content = true
+scroll_active = false
+
+[node name="SetThemeVariation" type="Node" parent="PlayerWorm/UI/Control/WormUI/MarginContainer/WormControls"]
+script = ExtResource("4_hp2gp")
+theme_variation = "ThickRichTextLabel"
+
+[node name="CameraController" type="Camera2D" parent="PlayerWorm"]
+process_mode = 3
+zoom = Vector2(0.5, 0.5)
+script = ExtResource("9_8uqem")
+
+[node name="ControllerWormInput" type="Node" parent="PlayerWorm" node_paths=PackedStringArray("worm", "camera_controller", "worm_configurer")]
+process_mode = 3
+script = ExtResource("3_8ovgw")
+move_segment_interval_max = 0.25
+move_segment_interval_curve = SubResource("Curve_3h615")
+worm = NodePath("../Worm")
+camera_controller = NodePath("../CameraController")
+worm_configurer = NodePath("../WormConfigurer")
+
+[node name="WormConfigurer" type="Node" parent="PlayerWorm" node_paths=PackedStringArray("worm", "config_worm_ui", "worm_ui", "camera")]
+process_mode = 3
+script = ExtResource("3_addbt")
+worm = NodePath("../Worm")
+config_worm_ui = NodePath("../UI/Control/ConfigWormUI")
+worm_ui = NodePath("../UI/Control/WormUI")
+camera = NodePath("../CameraController")
+equipment_library = ExtResource("2_6jmem")

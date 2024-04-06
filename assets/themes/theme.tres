@@ -1,0 +1,42 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://hl7m0movyn5i"]
+
+[ext_resource type="FontFile" uid="uid://cbenhdyaxytb3" path="res://assets/fonts/slkscrb.ttf" id="1_64h25"]
+[ext_resource type="FontFile" uid="uid://bqfidmatkdhtk" path="res://assets/fonts/fat_pixel_font.ttf" id="2_bqwht"]
+[ext_resource type="FontFile" uid="uid://clf2e1mh02d2q" path="res://assets/fonts/slkscre.ttf" id="2_m2fg8"]
+[ext_resource type="FontFile" uid="uid://bndfqnaxpwovh" path="res://assets/fonts/slkscr.ttf" id="2_ubith"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i20pa"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[resource]
+default_font = ExtResource("2_ubith")
+default_font_size = 16
+Button/fonts/font = ExtResource("1_64h25")
+HeaderLarge/base_type = &"Label"
+HeaderLarge/font_sizes/font_size = 28
+HeaderLarge/fonts/font = ExtResource("1_64h25")
+HeaderMedium/base_type = &"Label"
+HeaderMedium/font_sizes/font_size = 24
+HeaderMedium/fonts/font = ExtResource("1_64h25")
+HeaderSmall/base_type = &"Label"
+HeaderSmall/font_sizes/font_size = 20
+HeaderSmall/fonts/font = ExtResource("1_64h25")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_i20pa")
+RichTextLabel/fonts/bold_font = ExtResource("1_64h25")
+RichTextLabel/fonts/bold_italics_font = ExtResource("1_64h25")
+RichTextLabel/fonts/mono_font = ExtResource("2_m2fg8")
+RichTextLabel/fonts/normal_font = ExtResource("2_ubith")
+ThickLabel/base_type = &"Label"
+ThickLabel/font_sizes/font_size = 16
+ThickLabel/fonts/font = ExtResource("2_bqwht")
+ThickRichTextLabel/base_type = &"RichTextLabel"
+ThickRichTextLabel/fonts/normal_font = ExtResource("2_bqwht")

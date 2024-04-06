@@ -7,18 +7,23 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u7npg"]
 shader = ExtResource("4_rbxe0")
 shader_parameter/line_thickness = 2.0
-shader_parameter/line_color = Color(0, 0.839216, 0.0117647, 1)
+shader_parameter/line_color = Color(0.490196, 0.717647, 0, 1)
+shader_parameter/line_enabled = false
+shader_parameter/overlay_color = Color(1, 1, 1, 1)
+shader_parameter/overlay_amount = 0.6
+shader_parameter/overlay_enabled = false
 
 [node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group")]
 script = ExtResource("1_44kv3")
 canvas_group = NodePath("CanvasGroup")
-x_color = Color(0.113725, 0.529412, 0.866667, 1)
-y_color = Color(0.905882, 0.803922, 0.129412, 1)
-b_color = Color(0.894118, 0.176471, 0.176471, 1)
-a_color = Color(0.152941, 0.886275, 0.180392, 1)
+x_color = Color(0, 0.623529, 0.921569, 1)
+y_color = Color(0.996078, 0.709804, 0.0156863, 1)
+b_color = Color(0.937255, 0.305882, 0.160784, 1)
+a_color = Color(0.490196, 0.717647, 0, 1)
 
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
 material = SubResource("ShaderMaterial_u7npg")
+scale = Vector2(1.25, 1.25)
 
 [node name="SlotVisuals" type="Node2D" parent="CanvasGroup"]
 

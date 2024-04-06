@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://m3fds71c0yiy"]
+[gd_scene load_steps=10 format=3 uid="uid://m3fds71c0yiy"]
 
 [ext_resource type="Texture2D" uid="uid://ble783o2t5wng" path="res://assets/art/worms/worm_3/worm_body_3.png" id="1_2pkf7"]
 [ext_resource type="Script" path="res://scripts/worm/worm_controller.gd" id="1_7wfu0"]
@@ -6,10 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://df0c367funl53" path="res://prefabs/worm/worm_segment.tscn" id="2_lv01b"]
 [ext_resource type="Texture2D" uid="uid://bmmknuw7l4o7o" path="res://assets/art/hat/worm_hat.png" id="3_830wt"]
 [ext_resource type="Texture2D" uid="uid://6ndnn4u44kya" path="res://assets/art/worms/worm_3/worm_tail_3.png" id="3_g1otc"]
-[ext_resource type="Script" path="res://scripts/worm/player_worm_input.gd" id="3_go58p"]
+[ext_resource type="Script" path="res://scripts/interaction/interactor.gd" id="7_uru4d"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ex6gi"]
 radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nov5t"]
+radius = 256.0
 
 [node name="Worm" type="Node2D"]
 
@@ -35,26 +38,30 @@ offset = Vector2(32, 0)
 [node name="HatSprite" type="Sprite2D" parent="WormHead/HeadSprite"]
 texture = ExtResource("3_830wt")
 
+[node name="InteractArea" type="Area2D" parent="WormHead"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WormHead/InteractArea"]
+shape = SubResource("CircleShape2D_nov5t")
+debug_color = Color(0.513726, 0.701961, 0, 0.419608)
+
 [node name="WormTail" type="Sprite2D" parent="."]
 z_index = -5
 position = Vector2(36, 102)
 texture = ExtResource("3_g1otc")
 offset = Vector2(-32, 0)
 
-[node name="WormController" type="Node2D" parent="." node_paths=PackedStringArray("line_2D", "worm_head", "worm_tail", "camera", "segments_container")]
+[node name="WormController" type="Node2D" parent="." node_paths=PackedStringArray("line_2D", "worm_head", "worm_tail", "segments_container")]
 script = ExtResource("1_7wfu0")
+speed = 500.0
+segment_count = 8
 line_2D = NodePath("../Line2D")
 worm_head = NodePath("../WormHead")
 worm_tail = NodePath("../WormTail")
 worm_segment_prefab = ExtResource("2_lv01b")
-camera = NodePath("../Camera2D")
 segments_container = NodePath("../WormSegments")
 
-[node name="PlayerWormInput" type="Node2D" parent="." node_paths=PackedStringArray("worm_controller")]
-script = ExtResource("3_go58p")
-worm_controller = NodePath("../WormController")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.75, 0.75)
-
 [node name="WormSegments" type="Node2D" parent="."]
+
+[node name="Interactor" type="Node2D" parent="." node_paths=PackedStringArray("interact_area")]
+script = ExtResource("7_uru4d")
+interact_area = NodePath("../WormHead/InteractArea")
