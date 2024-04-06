@@ -8,21 +8,21 @@ const ALOE_VERA_TIMER = 2
 
 var modifier = 0
 var active = true
-var timer: float = 0
+var _timer: float = 0
 
 func _init():
     effect_type = Effect.Type.ALOE_VERA
-    # TODO: Attach _deactivate() to the on_damage signal from the Health component
+    (effect_holder.target.get_node("Health") as Health).on_damage.connect(_deactivate)
 
 func _process(delta):
-    if timer > 0:
-        timer = max(timer - delta, 0)
-        if timer == 0:
+    if _timer > 0:
+        _timer = max(_timer - delta, 0)
+        if _timer == 0:
             active = true
 
 func _deactivate():
     active = false
-    timer = ALOE_VERA_TIMER
+    _timer = ALOE_VERA_TIMER
 
 func _on_stack():
     modifier += ALOE_VERA_STACK_MODIFIER
