@@ -6,7 +6,7 @@ class_name CameraController
 	get:
 		return zoom.x
 	set(value):
-		zoom = Vector2.ONE * clampf(value, 0.2, 2)
+		zoom = Vector2.ONE * clampf(value, 0.2, 1)
 @export var target: Node2D :
 	get:
 		return _target

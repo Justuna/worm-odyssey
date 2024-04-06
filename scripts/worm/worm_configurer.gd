@@ -24,11 +24,13 @@ var _current_segment_index: int
 var _current_segment: WormSegment :
 	get:
 		return worm_controller.segments[_current_segment_index]
+var _original_cam_zoom: float
 
 @onready var worm_controller: WormController = worm.get_node("WormController")
 
 
 func _ready():
+	_original_cam_zoom = camera.camera_zoom
 	_set_config_mode(false)
 
 
@@ -112,11 +114,16 @@ func _set_config_mode(value: bool):
 		config_worm_ui.visible = _in_config_mode
 		worm_ui.visible = not _in_config_mode
 		get_tree().paused = _in_config_mode
+		var tween = get_tree().create_tween()
+		tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 		if _in_config_mode:
 			_select_segment(worm_controller.segment_count - 1)
+			_original_cam_zoom = camera.camera_zoom
+			tween.tween_property(camera, "camera_zoom", 0.5, 0.5)
 		else:
 			camera.set_target(worm_controller.worm_head)
 			worm_controller.segments[_current_segment_index].is_selected = false
+			tween.tween_property(camera, "camera_zoom", _original_cam_zoom, 0.5)
 
 
 func _set_in_move_mode(value: bool):
