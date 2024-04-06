@@ -36,6 +36,7 @@ RichTextLabel/fonts/bold_italics_font = ExtResource("1_64h25")
 RichTextLabel/fonts/mono_font = ExtResource("2_m2fg8")
 RichTextLabel/fonts/normal_font = ExtResource("2_ubith")
 ThickLabel/base_type = &"Label"
+ThickLabel/font_sizes/font_size = 16
 ThickLabel/fonts/font = ExtResource("2_bqwht")
 ThickRichTextLabel/base_type = &"RichTextLabel"
 ThickRichTextLabel/fonts/normal_font = ExtResource("2_bqwht")
