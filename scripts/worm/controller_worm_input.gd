@@ -28,6 +28,7 @@ var _move_segment_pressed: bool
 var _binding_button_pressed: bool 
 var _eject_button_pressed: bool
 var _rotate_pressed: bool
+var _single_rotate_pressed: bool
 
 func _ready():
 	_movement_deadzone_sqr = movement_deadzone * movement_deadzone 
@@ -39,8 +40,9 @@ func _process(delta):
 		if joypad_ids.size() > 0:
 			device_id = joypad_ids[0]
 	if worm_configurer.in_config_mode:
-		var dpad_up = Input.is_joy_button_pressed(device_id, JOY_BUTTON_DPAD_UP)
-		var dpad_down = Input.is_joy_button_pressed(device_id, JOY_BUTTON_DPAD_DOWN)
+		var left_stick_y_axis = Input.get_joy_axis(device_id, JOY_AXIS_LEFT_Y)
+		var dpad_up = Input.is_joy_button_pressed(device_id, JOY_BUTTON_DPAD_UP) or (left_stick_y_axis < -0.5)
+		var dpad_down = Input.is_joy_button_pressed(device_id, JOY_BUTTON_DPAD_DOWN)  or (left_stick_y_axis > 0.5)
 		if dpad_up or dpad_down:
 			if not _move_segment_pressed:
 				_move_segment_pressed = true
@@ -94,6 +96,13 @@ func _process(delta):
 					worm_configurer.rotate_segment_right()
 		elif _rotate_pressed:
 			_rotate_pressed = false
+		var left_trigger = Input.get_joy_axis(device_id, JOY_AXIS_TRIGGER_LEFT)
+		if left_trigger > 0.5:
+			if not _single_rotate_pressed:
+				_single_rotate_pressed = true
+				worm_configurer.rotate_segment_right()
+		elif _single_rotate_pressed:
+			_single_rotate_pressed = false
 	else:
 		var movement_dir = Vector2(Input.get_joy_axis(device_id, JOY_AXIS_LEFT_X), Input.get_joy_axis(device_id, JOY_AXIS_LEFT_Y))
 		if movement_dir.length_squared() < movement_deadzone:
