@@ -1,3 +1,4 @@
+@icon("res://assets/art/editor_icons/icon_packed_data_container.svg")
 extends Resource
 class_name EffectLibrary
 
@@ -7,7 +8,7 @@ class_name EffectLibrary
 # [Effect.Type]: PackedScene
 var effect_prefabs_dict: Dictionary :
 	get:
-		if _effect_prefabs_dict == null:
+		if not _effect_prefabs_dict:
 			_effect_prefabs_dict = {}
 			for effect_prefab in effect_prefabs:
 				var inst = effect_prefab.instantiate() as Effect

@@ -8,6 +8,7 @@
 shader = ExtResource("4_rbxe0")
 shader_parameter/line_thickness = 2.0
 shader_parameter/line_color = Color(0, 0.839216, 0.0117647, 1)
+shader_parameter/enabled = false
 
 [node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group")]
 script = ExtResource("1_44kv3")

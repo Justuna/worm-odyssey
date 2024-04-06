@@ -38,6 +38,7 @@ var _binding: Binding
 
 func _ready():
 	_update_binding_visuals()
+	canvas_group.material = canvas_group.material.duplicate()
 
 
 func construct(_worm: Node2D):
@@ -52,7 +53,8 @@ func add_equipment(_equipment: Equipment, direction: Equipment.Direction) -> Equ
 		old_equipment = remove_equipment()
 	equipment = _equipment
 	equipment.reparent(canvas_group)
-	equipment.global_position = global_position
+	equipment.position = Vector2.ZERO
+	equipment.rotation = 0
 	equipment.construct(worm, self, direction)
 	_update_binding_visuals()
 	return old_equipment
@@ -72,5 +74,9 @@ func use_active():
 
 func _update_binding_visuals():
 	if canvas_group:
-		var binding_color = BINDING_TO_COLOR[_binding]
-		(canvas_group.material as ShaderMaterial).set_shader_parameter("line_color", binding_color)
+		if _binding == Binding.NONE:
+			(canvas_group.material as ShaderMaterial).set_shader_parameter("enabled", false)
+		else:
+			(canvas_group.material as ShaderMaterial).set_shader_parameter("enabled", true)
+			var binding_color = BINDING_TO_COLOR[_binding]
+			(canvas_group.material as ShaderMaterial).set_shader_parameter("line_color", binding_color)

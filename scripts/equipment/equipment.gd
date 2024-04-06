@@ -9,6 +9,13 @@ enum Direction {
 	RIGHT,
 }
 
+enum Type {
+	BOW,
+	FIRE_TOME,
+	ICE_TOME,
+	POISON_TOME
+}
+
 const DIRECTION_TO_RADIANS: Dictionary = {
 	Direction.UP: deg_to_rad(90),
 	Direction.LEFT: deg_to_rad(180),
@@ -31,6 +38,9 @@ var direction: Direction :
 			rotated_part.rotation = DIRECTION_TO_RADIANS[_direction]
 var orientable: bool
 
+@export var equipment_type: Type
+
+@export_group("Dependencies")
 @export var rotated_part: Node2D
 
 var _direction: Direction

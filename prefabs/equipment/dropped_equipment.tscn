@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dgqx3we05fwxx"]
+
+[ext_resource type="Script" path="res://scripts/equipment/dropped_equipment.gd" id="1_7iqhc"]
+[ext_resource type="Shader" path="res://assets/shaders/outline.gdshader" id="2_ijgik"]
+[ext_resource type="Script" path="res://scripts/interaction/interactable.gd" id="2_vnyj4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_me05m"]
+radius = 32.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rfy8k"]
+shader = ExtResource("2_ijgik")
+shader_parameter/line_thickness = 2.0
+shader_parameter/line_color = Color(0.890196, 0.698039, 0.121569, 1)
+shader_parameter/enabled = false
+
+[node name="DroppedEquipment" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_me05m")
+
+[node name="DroppedEquipment" type="Node" parent="." node_paths=PackedStringArray("interactable", "visuals_container")]
+script = ExtResource("1_7iqhc")
+interactable = NodePath("../Interactable")
+visuals_container = NodePath("../Visuals")
+
+[node name="Visuals" type="CanvasGroup" parent="."]
+material = SubResource("ShaderMaterial_rfy8k")
+
+[node name="Interactable" type="Node2D" parent="." node_paths=PackedStringArray("visuals")]
+script = ExtResource("2_vnyj4")
+visuals = NodePath("../Visuals")
+selected_color = Color(0.890196, 0.698039, 0.121569, 1)

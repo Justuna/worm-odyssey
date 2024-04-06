@@ -5,6 +5,7 @@
 
 [node name="IceTome" type="Node2D" node_paths=PackedStringArray("rotated_part")]
 script = ExtResource("1_4766g")
+equipment_type = 2
 rotated_part = NodePath("Sprite")
 
 [node name="Sprite" type="Sprite2D" parent="."]

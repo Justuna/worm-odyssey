@@ -3,8 +3,9 @@
 [ext_resource type="Script" path="res://scripts/equipment/equipment.gd" id="1_def4o"]
 [ext_resource type="Texture2D" uid="uid://b3vus8g35ml6l" path="res://assets/art/segments/poison_tome.png" id="2_tn3wd"]
 
-[node name="FireTome" type="Node2D" node_paths=PackedStringArray("rotated_part")]
+[node name="PoisonTome" type="Node2D" node_paths=PackedStringArray("rotated_part")]
 script = ExtResource("1_def4o")
+equipment_type = 3
 rotated_part = NodePath("Sprite")
 
 [node name="Sprite" type="Sprite2D" parent="."]

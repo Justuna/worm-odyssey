@@ -1,25 +1,18 @@
-[gd_scene load_steps=12 format=3 uid="uid://c4wlin680myme"]
+[gd_scene load_steps=9 format=3 uid="uid://c4wlin680myme"]
 
 [ext_resource type="Script" path="res://scripts/test/worm_test.gd" id="1_e11fb"]
 [ext_resource type="PackedScene" uid="uid://m3fds71c0yiy" path="res://prefabs/worm/worm.tscn" id="1_wvqpy"]
-[ext_resource type="Resource" uid="uid://dxe2vo0p5hajv" path="res://libraries/equipment_library.tres" id="2_6jmem"]
 [ext_resource type="Texture2D" uid="uid://dh68bsojeg13w" path="res://icon.svg" id="2_cl5xy"]
 [ext_resource type="Script" path="res://scripts/worm/controller_worm_input.gd" id="3_8ovgw"]
 [ext_resource type="Script" path="res://scripts/worm/worm_configurer.gd" id="3_addbt"]
 [ext_resource type="Theme" uid="uid://hl7m0movyn5i" path="res://assets/themes/theme.tres" id="3_g1jxf"]
 [ext_resource type="Script" path="res://scripts/ui/set_theme_variation.gd" id="4_hp2gp"]
-[ext_resource type="Script" path="res://scripts/worm/camera_controller.gd" id="9_8uqem"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jjv65"]
-size = Vector2(1024, 1024)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1fcaq"]
 size = Vector2(128, 126)
 
 [node name="WormTest" type="Node2D"]
 script = ExtResource("1_e11fb")
-equipment_library = ExtResource("2_6jmem")
-equipment_spawn_area = SubResource("RectangleShape2D_jjv65")
 
 [node name="Wall" type="StaticBody2D" parent="."]
 position = Vector2(-101, 12)
@@ -43,6 +36,9 @@ shape = SubResource("RectangleShape2D_1fcaq")
 [node name="PlayerWorm" type="Node2D" parent="."]
 
 [node name="Worm" parent="PlayerWorm" instance=ExtResource("1_wvqpy")]
+
+[node name="ControllerWormInput" type="Node" parent="PlayerWorm/Worm"]
+script = ExtResource("3_8ovgw")
 
 [node name="UI" type="CanvasLayer" parent="PlayerWorm"]
 
@@ -96,9 +92,7 @@ theme_override_font_sizes/normal_font_size = 6
 bbcode_enabled = true
 text = "[img=24]res://assets/art/control_icons/xbox_button_color_a.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_b.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_x.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_y.png[/img] Activate Equip
 [img=24]res://assets/art/control_icons/xbox_rs.png[/img] Move
-[img=24]res://assets/art/control_icons/xbox_lb.png[/img] Enter Config Mode
-[img=24]res://assets/art/control_icons/xbox_rb.png[/img] Pickup Equip / Item
-[img=24]res://assets/art/control_icons/xbox_lt.png[/img][img=24]res://assets/art/control_icons/xbox_rt.png[/img] Zoom"
+[img=24]res://assets/art/control_icons/xbox_lb.png[/img] Enter Config Mode"
 fit_content = true
 scroll_active = false
 
@@ -106,22 +100,5 @@ scroll_active = false
 script = ExtResource("4_hp2gp")
 theme_variation = "ThickRichTextLabel"
 
-[node name="CameraController" type="Camera2D" parent="PlayerWorm"]
-process_mode = 3
-zoom = Vector2(0.5, 0.5)
-script = ExtResource("9_8uqem")
-
-[node name="ControllerWormInput" type="Node" parent="PlayerWorm" node_paths=PackedStringArray("worm", "camera_controller", "worm_configurer")]
-process_mode = 3
-script = ExtResource("3_8ovgw")
-worm = NodePath("../Worm")
-camera_controller = NodePath("../CameraController")
-worm_configurer = NodePath("../WormConfigurer")
-
-[node name="WormConfigurer" type="Node" parent="PlayerWorm" node_paths=PackedStringArray("worm", "config_worm_controls_info", "worm_controls_info", "camera")]
-process_mode = 3
+[node name="WormConfigurer" type="Node" parent="PlayerWorm"]
 script = ExtResource("3_addbt")
-worm = NodePath("../Worm")
-config_worm_controls_info = NodePath("../UI/Control/MarginContainer/ConfigWormControls")
-worm_controls_info = NodePath("../UI/Control/MarginContainer/WormControls")
-camera = NodePath("../CameraController")
