@@ -1,8 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://df0c367funl53"]
+[gd_scene load_steps=12 format=3 uid="uid://df0c367funl53"]
 
 [ext_resource type="Script" path="res://scripts/worm/worm_segment.gd" id="1_44kv3"]
 [ext_resource type="Texture2D" uid="uid://cqsjwv7i833mh" path="res://assets/art/segments/strap.png" id="3_rg1sj"]
 [ext_resource type="Shader" path="res://assets/shaders/outline.gdshader" id="4_rbxe0"]
+[ext_resource type="Script" path="res://scripts/effects/effect_holder.gd" id="5_bsu82"]
+[ext_resource type="Script" path="res://scripts/entities/hit_taker.gd" id="5_iqw05"]
+[ext_resource type="Resource" uid="uid://x0nym0cu3uxm" path="res://libraries/effect_library.tres" id="6_4o5w6"]
+[ext_resource type="Script" path="res://scripts/entities/passive_regen.gd" id="6_5650k"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detector.gd" id="7_i4yxk"]
+[ext_resource type="Script" path="res://scripts/entities/health.gd" id="7_qqxq3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u7npg"]
 shader = ExtResource("4_rbxe0")
@@ -12,6 +18,9 @@ shader_parameter/line_enabled = false
 shader_parameter/overlay_color = Color(1, 1, 1, 1)
 shader_parameter/overlay_amount = 0.6
 shader_parameter/overlay_enabled = false
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x3mp7"]
+radius = 45.3982
 
 [node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group")]
 script = ExtResource("1_44kv3")
@@ -29,3 +38,32 @@ scale = Vector2(1.25, 1.25)
 
 [node name="SlotSprite" type="Sprite2D" parent="CanvasGroup/SlotVisuals"]
 texture = ExtResource("3_rg1sj")
+
+[node name="EffectHolder" type="Node" parent="."]
+script = ExtResource("5_bsu82")
+effect_library = ExtResource("6_4o5w6")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("7_qqxq3")
+base_max_health = 100
+
+[node name="HitDetector" type="Area2D" parent="." node_paths=PackedStringArray("entity")]
+script = ExtResource("7_i4yxk")
+entity = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetector"]
+shape = SubResource("CircleShape2D_x3mp7")
+
+[node name="HitTaker" type="Node" parent="." node_paths=PackedStringArray("health", "hurtbox")]
+script = ExtResource("5_iqw05")
+health = NodePath("../Health")
+hurtbox = NodePath("../HitDetector")
+
+[node name="PassiveRegen" type="Node" parent="." node_paths=PackedStringArray("health")]
+script = ExtResource("6_5650k")
+health = NodePath("../Health")
+tick_heal = 8
+tick_rate = 0.5
+interrupt_time = 1.0
+
+[connection signal="on_death" from="Health" to="." method="die"]

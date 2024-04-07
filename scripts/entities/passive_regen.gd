@@ -13,7 +13,7 @@ var _timer = 0
 var _interrupt_timer = 0
 
 
-func _init():
+func _ready():
 	health.on_damage.connect(_interrupt)
 	_timer = tick_rate
 

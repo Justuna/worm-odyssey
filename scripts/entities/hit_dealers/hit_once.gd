@@ -7,7 +7,7 @@ extends HitType
 
 var _been_hit: Dictionary
 
-func _init():
+func _ready():
 	hitbox.detector_entered.connect(_deal_hit)
 
 func _deal_hit(_hit_detector: HitDetector, other_hit_detector: HitDetector):
