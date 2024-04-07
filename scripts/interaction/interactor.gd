@@ -12,6 +12,9 @@ var nearby_interactables: Array[Interactable] :
 	get:
 		var result: Array[Interactable] = []
 		result.assign(_nearby_interactables.keys())
+
+		result.filter(func(interactable): return interactable.available)
+
 		return result
 
 # [Area2D]: null
@@ -34,6 +37,17 @@ func _on_area_entered(area: Area2D):
 	var interactable = area.get_node_or_null("Interactable")
 	if interactable:
 		_nearby_interactables[interactable] = null
+		interactable.on_available.connect(_select_closest_interactable)
+		interactable.on_unavailable.connect(_select_closest_interactable)
+		_select_closest_interactable()
+
+
+func _on_area_exited(area: Area2D):
+	var interactable = area.get_node_or_null("Interactable")
+	if interactable:
+		interactable.on_available.disconnect(_select_closest_interactable)
+		interactable.on_unavailable.disconnect(_select_closest_interactable)
+		_nearby_interactables.erase(interactable)
 		_select_closest_interactable()
 
 
@@ -98,7 +112,3 @@ func _draw():
 			var debug_str = _nearby_interactables[interactable]
 			if debug_str:
 				draw_string(ThemeDB.fallback_font, interactable.global_position + Vector2(0, -40), debug_str)
-
-func _on_area_exited(area: Area2D):
-	_nearby_interactables.erase(area.get_node_or_null("Interactable"))
-	_select_closest_interactable()
