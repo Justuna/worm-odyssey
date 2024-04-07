@@ -2,6 +2,8 @@ extends Node2D
 class_name WormController
 
 
+signal on_death
+
 @export var direction: Vector2
 @export var speed: float = 100
 @export var segment_count: int = 32
@@ -29,6 +31,7 @@ var head_direction: Vector2 :
 		return _head_direction
 
 @export_group("Dependencies")
+@export var team: Team
 @export var line_2D: Line2D
 @export var worm_head: CharacterBody2D
 @export var worm_tail: Node2D
@@ -52,10 +55,10 @@ func _ready():
 	var curr_segment_pos: Vector2 = global_position
 	worm_head.global_position = global_position
 	for i in range(_visual_segment_count):
-		_fixed_visual_segment_positions.push_front(curr_segment_pos)
+		_fixed_visual_segment_positions.append(curr_segment_pos)
 		curr_segment_pos.x -= visual_segment_length
 	_visual_segment_positions = PackedVector2Array(_fixed_visual_segment_positions)
-	line_2D.points = PackedVector2Array(_fixed_visual_segment_positions)
+	line_2D.points = _visual_segment_positions
 
 
 func _process(delta):
@@ -75,28 +78,28 @@ func _process(delta):
 			_head_direction = _actual_direction.normalized()
 		
 		# Next fixed visual point starts off at the current fixed visual head point
-		var next_fixed_visual_point = _fixed_visual_segment_positions[_fixed_visual_segment_positions.size() - 1]
+		var next_fixed_visual_point = _fixed_visual_segment_positions[0]
 		var fixed_visual_head_to_real_head_dir = (worm_head.global_position - next_fixed_visual_point).normalized()
 		var fixed_visual_head_to_real_head_dist = next_fixed_visual_point.distance_to(worm_head.global_position)
 		while fixed_visual_head_to_real_head_dist >= visual_segment_length:
 			fixed_visual_head_to_real_head_dist -= visual_segment_length;
 			next_fixed_visual_point += visual_segment_length * fixed_visual_head_to_real_head_dir
-			_fixed_visual_segment_positions.pop_front()
-			_fixed_visual_segment_positions.push_back(next_fixed_visual_point)
+			_fixed_visual_segment_positions.pop_back()
+			_fixed_visual_segment_positions.push_front(next_fixed_visual_point)
 	
 		# Lerping across fixed points to make movement smooth
-		_visual_segment_positions[_visual_segment_positions.size() - 1] = head_position
-		var fixed_head_to_head_dist = head_position.distance_to(_fixed_visual_segment_positions[_fixed_visual_segment_positions.size() - 1])
+		_visual_segment_positions[0] = head_position
+		var fixed_head_to_head_dist = head_position.distance_to(_fixed_visual_segment_positions[0])
 		var lerp_amount_per_segment = fixed_head_to_head_dist / visual_segment_length
-		for i in range(_visual_segment_positions.size() - 2, -1, -1):
-			_visual_segment_positions[i] = _fixed_visual_segment_positions[i].lerp(_fixed_visual_segment_positions[i + 1], lerp_amount_per_segment)
-	
+		for i in range(1, _visual_segment_positions.size()):
+			_visual_segment_positions[i] = _fixed_visual_segment_positions[i].lerp(_fixed_visual_segment_positions[i - 1], lerp_amount_per_segment)
+		
 	line_2D.points = _visual_segment_positions
-	worm_tail.global_position = _visual_segment_positions[0]
-	worm_tail.rotation = (_visual_segment_positions[1] - _visual_segment_positions[0]).angle()
-	worm_head.rotation = (_visual_segment_positions[_visual_segment_positions.size() - 2] - _visual_segment_positions[_visual_segment_positions.size() - 1]).angle() + PI
+	worm_tail.global_position = _visual_segment_positions[_visual_segment_positions.size() - 1]
+	worm_tail.rotation = (_visual_segment_positions[_visual_segment_positions.size() - 2] - _visual_segment_positions[_visual_segment_positions.size() - 1]).angle()
+	worm_head.rotation = (_visual_segment_positions[1] - _visual_segment_positions[0]).angle() + PI
 	for i in range(segments.size()):
-		segments[i].global_position = _visual_segment_positions[i * visual_segments_per_segment]
+		segments[i].global_position = _visual_segment_positions[(i + 1) * visual_segments_per_segment - 1]
 		segments[i].global_rotation = segments[i].global_position.angle_to_point(_visual_segment_positions[i * visual_segments_per_segment + 1])
 	
 	# Debug draw
@@ -144,27 +147,39 @@ func _draw():
 
 func grow():
 	_add_segment()
+	segment_count += 1
 
+	var last_visual_segment_pos = _visual_segment_positions[_visual_segment_count - 1]
+	var last_fixed_segment_pos = _fixed_visual_segment_positions[_visual_segment_count - 1]
+	var last_segment_dir = (_visual_segment_positions[_visual_segment_count - 1] - _visual_segment_positions[_visual_segment_count - 2]).normalized()
 	_visual_segment_count += visual_segments_per_segment
 	for i in range(0, visual_segments_per_segment):
-		_fixed_visual_segment_positions.append(Vector2(0, 0))
-		_visual_segment_positions.append(Vector2(0, 0))
+		var delta = last_segment_dir * visual_segment_length
+		last_visual_segment_pos += delta
+		last_fixed_segment_pos += delta
+		_fixed_visual_segment_positions.append(last_visual_segment_pos)
+		_visual_segment_positions.append(last_fixed_segment_pos)
 
 
 func _add_segment():
 	var segment_inst = worm_segment_prefab.instantiate() as WormSegment
+	segment_inst.construct(self, team.team)
 	segments_container.add_child(segment_inst)
 	segments.append(segment_inst)
 
-	segment_inst.segment_death.connect(_remove)
+	segment_inst.on_death.connect(_remove_segment.bind(segment_inst))
 
 
-func _remove(segment: WormSegment):
+func _remove_segment(segment: WormSegment):
 	segments.erase(segment)
 	segment.queue_free()
+	segment_count -= 1
 
 	_visual_segment_count -= visual_segments_per_segment
 	for i in range(0, visual_segments_per_segment):
 		_fixed_visual_segment_positions.pop_back()
 		_visual_segment_positions.remove_at(_visual_segment_positions.size() - 1)
 	
+	if segment_count == 0:
+		on_death.emit()
+		get_parent().queue_free()

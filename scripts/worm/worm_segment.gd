@@ -11,7 +11,7 @@ enum Binding {
 }
 
 
-signal segment_death(segment: WormSegment)
+signal on_death
 
 var worm: Node2D
 var equipment: Equipment
@@ -45,6 +45,8 @@ var _is_moving: bool
 	set(value):
 		_binding = value
 		_update_binding_visuals()
+@export var health: Health
+@export var team: Team
 
 var _binding: Binding
 @onready var BINDING_TO_COLOR: Dictionary = {
@@ -63,10 +65,13 @@ func _ready():
 	_update_is_selected_visuals()
 	_update_is_moving_visuals()
 	canvas_group.material = canvas_group.material.duplicate()
+	health.on_death.connect(_on_death)
+	health.on_damage.connect(_on_damage)
 
 
-func construct(_worm: Node2D):
+func construct(_worm: Node2D, _team: String):
 	worm = _worm
+	team.team = _team
 
 
 ## Swaps this segment's equipment with another segment's equipment.
@@ -146,9 +151,21 @@ func _update_is_selected_visuals():
 func _update_is_moving_visuals():
 	if canvas_group:
 		if _is_moving:
-			(canvas_group.material as ShaderMaterial).set_shader_parameter("overlay_enabled", true)
+			(canvas_group.material as ShaderMaterial).set_shader_parameter("overlay_2_enabled", true)
 		else:
-			(canvas_group.material as ShaderMaterial).set_shader_parameter("overlay_enabled", false)
+			(canvas_group.material as ShaderMaterial).set_shader_parameter("overlay_2_enabled", false)
 
-func die():
-	segment_death.emit(self)
+
+func _on_death():
+	on_death.emit()
+
+
+func _on_damage(amount: int):
+	(canvas_group.material as ShaderMaterial).set_shader_parameter.bind()
+	var tween = get_tree().create_tween()
+	tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_method(_set_damage_flash_color, 1.0, 0.0, 0.5)
+
+
+func _set_damage_flash_color(amount: float):
+	(canvas_group.material as ShaderMaterial).set_shader_parameter("overlay_amount", amount)

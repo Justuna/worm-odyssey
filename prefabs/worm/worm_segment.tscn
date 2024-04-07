@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://df0c367funl53"]
+[gd_scene load_steps=15 format=3 uid="uid://df0c367funl53"]
 
 [ext_resource type="Script" path="res://scripts/worm/worm_segment.gd" id="1_44kv3"]
 [ext_resource type="Texture2D" uid="uid://cqsjwv7i833mh" path="res://assets/art/segments/strap.png" id="3_rg1sj"]
@@ -9,6 +9,9 @@
 [ext_resource type="Script" path="res://scripts/entities/passive_regen.gd" id="6_5650k"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detector.gd" id="7_i4yxk"]
 [ext_resource type="Script" path="res://scripts/entities/health.gd" id="7_qqxq3"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="10_nyqvj"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="11_cgg08"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="12_bxh31"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u7npg"]
 shader = ExtResource("4_rbxe0")
@@ -16,19 +19,37 @@ shader_parameter/line_thickness = 2.0
 shader_parameter/line_color = Color(0.490196, 0.717647, 0, 1)
 shader_parameter/line_enabled = false
 shader_parameter/overlay_color = Color(1, 1, 1, 1)
-shader_parameter/overlay_amount = 0.6
-shader_parameter/overlay_enabled = false
+shader_parameter/overlay_amount = 0.0
+shader_parameter/overlay_enabled = true
+shader_parameter/overlay_2_color = Color(1, 1, 1, 1)
+shader_parameter/overlay_2_amount = 0.0
+shader_parameter/overlay_2_enabled = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x3mp7"]
 radius = 45.3982
 
-[node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group")]
+[node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group", "health", "team")]
 script = ExtResource("1_44kv3")
 canvas_group = NodePath("CanvasGroup")
 x_color = Color(0, 0.623529, 0.921569, 1)
 y_color = Color(0.996078, 0.709804, 0.0156863, 1)
 b_color = Color(0.937255, 0.305882, 0.160784, 1)
 a_color = Color(0.490196, 0.717647, 0, 1)
+health = NodePath("Health")
+team = NodePath("Team")
+
+[node name="StatBlock" type="Node" parent="."]
+script = ExtResource("10_nyqvj")
+
+[node name="MaxHealth" type="Node" parent="StatBlock"]
+script = ExtResource("11_cgg08")
+type = 1
+base_amount = 100
+
+[node name="Regen" type="Node" parent="StatBlock"]
+script = ExtResource("11_cgg08")
+type = 2
+base_amount = 40
 
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
 material = SubResource("ShaderMaterial_u7npg")
@@ -39,13 +60,14 @@ scale = Vector2(1.25, 1.25)
 [node name="SlotSprite" type="Sprite2D" parent="CanvasGroup/SlotVisuals"]
 texture = ExtResource("3_rg1sj")
 
-[node name="EffectHolder" type="Node" parent="."]
-script = ExtResource("5_bsu82")
-effect_library = ExtResource("6_4o5w6")
-
-[node name="Health" type="Node" parent="."]
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("max_health")]
 script = ExtResource("7_qqxq3")
-base_max_health = 100
+max_health = NodePath("../StatBlock/MaxHealth")
+
+[node name="PassiveRegen" type="Node" parent="Health" node_paths=PackedStringArray("health", "regen_stat")]
+script = ExtResource("6_5650k")
+health = NodePath("..")
+regen_stat = NodePath("../../StatBlock/Regen")
 
 [node name="HitDetector" type="Area2D" parent="." node_paths=PackedStringArray("entity")]
 script = ExtResource("7_i4yxk")
@@ -54,16 +76,19 @@ entity = NodePath("..")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetector"]
 shape = SubResource("CircleShape2D_x3mp7")
 
+[node name="HitTaker" type="Node" parent="HitDetector" node_paths=PackedStringArray("health", "hurtbox")]
+script = ExtResource("5_iqw05")
+health = NodePath("../../Health")
+hurtbox = NodePath("..")
+
 [node name="HitTaker" type="Node" parent="." node_paths=PackedStringArray("health", "hurtbox")]
 script = ExtResource("5_iqw05")
 health = NodePath("../Health")
 hurtbox = NodePath("../HitDetector")
 
-[node name="PassiveRegen" type="Node" parent="." node_paths=PackedStringArray("health")]
-script = ExtResource("6_5650k")
-health = NodePath("../Health")
-tick_heal = 8
-tick_rate = 0.5
-interrupt_time = 1.0
+[node name="EffectHolder" type="Node" parent="."]
+script = ExtResource("5_bsu82")
+effect_library = ExtResource("6_4o5w6")
 
-[connection signal="on_death" from="Health" to="." method="die"]
+[node name="Team" type="Node" parent="."]
+script = ExtResource("12_bxh31")

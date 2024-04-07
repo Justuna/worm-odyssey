@@ -35,6 +35,8 @@ func _ready():
 
 
 func _process(delta):
+	if not is_instance_valid(_worm_controller):
+		return
 	if auto_find_device:
 		var joypad_ids = Input.get_connected_joypads()
 		if joypad_ids.size() > 0:
@@ -53,9 +55,9 @@ func _process(delta):
 			if _move_segment_interval_timer > _move_segment_interval:
 				_move_segment_interval = move_segment_interval_curve.sample(float(_move_segment_interval_count) / move_segment_interval_count_max) * move_segment_interval_max
 				if dpad_up:
-					worm_configurer.select_next_segment(_move_segment_interval)
-				else:
 					worm_configurer.select_prev_segment(_move_segment_interval)
+				else:
+					worm_configurer.select_next_segment(_move_segment_interval)
 				_move_segment_interval_timer = 0.0
 				if _move_segment_interval_count < move_segment_interval_count_max:
 					_move_segment_interval_count += 1

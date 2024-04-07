@@ -1,3 +1,4 @@
+@icon("res://assets/art/editor_icons/icon_file_list.svg")
 extends Node
 class_name EffectHolder
 
@@ -20,6 +21,7 @@ func add_effect(effect_type: Effect.Type):
 		effect._on_add()
 	effect.stack_amount += 1
 	effect._on_stack()
+	effect._on_stack_changed()
 
 
 func get_effect(effect_type: Effect.Type) -> Effect:
@@ -30,6 +32,7 @@ func remove_effect(effect_type: Effect.Type):
 	var effect = get_effect(effect_type)
 	if effect:
 		effect._on_unstack()
+		effect._on_stack_changed()
 		effect.stack_amount -= 1
 		if effect.stack_amount == 0:
 			effects[effect.type] = null

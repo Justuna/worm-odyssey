@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="EnemyLibrary" load_steps=3 format=3 uid="uid://dqtlknmqynp57"]
+
+[ext_resource type="Script" path="res://scripts/enemies/enemy_library.gd" id="1_65d7d"]
+[ext_resource type="PackedScene" uid="uid://bec88jbk7ctt4" path="res://prefabs/enemies/slime.tscn" id="1_pwm1a"]
+
+[resource]
+script = ExtResource("1_65d7d")
+enemy_prefabs = Array[PackedScene]([ExtResource("1_pwm1a")])

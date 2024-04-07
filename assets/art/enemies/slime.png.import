@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dr77khifgsnfo"
-path="res://.godot/imported/xbox_rs.png-33474f08d031a4022e7844142ff4c22c.ctex"
+uid="uid://qnqhsj8vs6fb"
+path="res://.godot/imported/slime.png-a6e05a5a58967e39a26da62ccba37a93.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/control_icons/xbox_rs.png"
-dest_files=["res://.godot/imported/xbox_rs.png-33474f08d031a4022e7844142ff4c22c.ctex"]
+source_file="res://assets/art/enemies/slime.png"
+dest_files=["res://.godot/imported/slime.png-a6e05a5a58967e39a26da62ccba37a93.ctex"]
 
 [params]
 

@@ -3,10 +3,6 @@
 class_name Health
 extends Node
 
-@export var base_max_health: int
-
-var _max_health: int
-var _current_health: int
 
 signal before_damage(raw_amount: int)
 signal on_damage(final_amount: int)
@@ -14,16 +10,17 @@ signal before_heal(raw_amount: int)
 signal on_heal(final_amount: int)
 signal on_death
 
+@export var max_health: Stat
+
+var health: int
+
+var _prev_max_health: int
+
+
 func _ready():
-	_max_health = base_max_health
-	_current_health = _max_health
-
-func set_max_health(amount: int):
-	_max_health = amount
-	_current_health = clamp(_current_health, 0, _max_health)
-
-func increment_max_health(amount: int):
-	set_max_health(_max_health + amount)
+	health = max_health.amount
+	_prev_max_health = max_health.amount
+	max_health.updated.connect(_on_max_health_updated)
 
 func take_damage(amount: int):
 	before_damage.emit(amount)
@@ -31,10 +28,10 @@ func take_damage(amount: int):
 	# TODO: Compute the effect of all effects on this entity first
 	var final_amount = amount
 
-	_current_health = max(_current_health - final_amount, 0)
+	health = max(health - final_amount, 0)
 	on_damage.emit(final_amount)
 
-	if _current_health == 0:
+	if health == 0:
 		on_death.emit()
 
 func take_healing(amount: int):
@@ -43,5 +40,11 @@ func take_healing(amount: int):
 	# TODO: Compute the effect of all effects on this entity first
 	var final_amount = amount
 
-	_current_health = min(_current_health + final_amount, _max_health)
+	health = min(health + final_amount, max_health.amount)
 	on_heal.emit(final_amount)
+
+
+func _on_max_health_updated():
+	# Scale health to max health by percentage of health to previous max health
+	health = roundi(max_health.amount * (float(health) / _prev_max_health))
+	_prev_max_health = max_health.amount
