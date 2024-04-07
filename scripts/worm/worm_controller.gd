@@ -99,7 +99,6 @@ func _process(delta):
 	worm_tail.rotation = (_visual_segment_positions[_visual_segment_positions.size() - 2] - _visual_segment_positions[_visual_segment_positions.size() - 1]).angle()
 	worm_head.rotation = (_visual_segment_positions[1] - _visual_segment_positions[0]).angle() + PI
 	for i in range(segments.size()):
-		var vis_seg_size = _visual_segment_positions.size()
 		segments[i].global_position = _visual_segment_positions[(i + 1) * visual_segments_per_segment - 1]
 		segments[i].global_rotation = segments[i].global_position.angle_to_point(_visual_segment_positions[i * visual_segments_per_segment + 1])
 	

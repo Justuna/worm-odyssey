@@ -69,7 +69,6 @@ func _ready():
 	canvas_group.material = canvas_group.material.duplicate()
 	health_indicator.material = health_indicator.material.duplicate()
 	health.on_death.connect(_on_death)
-	health.on_damage.connect(_on_damage)
 	health.on_health_changed.connect(_on_health_changed.unbind(1))
 	health_indicator_container.visible = false
 
@@ -161,16 +160,6 @@ func _update_is_moving_visuals():
 
 func _on_death():
 	on_death.emit()
-
-
-func _on_damage(amount: int):
-	var tween = get_tree().create_tween()
-	tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
-	tween.tween_method(_set_damage_flash_color, 1.0, 0.0, 0.5)
-
-
-func _set_damage_flash_color(amount: float):
-	(canvas_group.material as ShaderMaterial).set_shader_parameter("overlay_amount", amount)
 
 
 func _on_health_changed():

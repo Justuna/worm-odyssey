@@ -1,18 +1,38 @@
-# Represents an entity or area that continuously deals hits to other entities that overlap with it. Meant for areas of effect.
-
+## Represents an entity or area that continuously deals hits to other entities that 
+## overlap with it. Meant for areas of effect.
 class_name HitContinuously
 extends HitType
 
+
 @export var tick_rate: float
+## Delay between hits.
+## Limits the amount of attacks this hitbox 
+## can make during a short amount of time.
+@export var hit_cooldown: float
+## Maximum number of hits before
+## this hitbox goes on cooldown.
+@export var max_hits: int
 
 # [Node (Entity)]: null
 var _can_hit: Dictionary
 # [Node (Entity)]: float (Timer)
 var _timers: Dictionary
+var _cooldown_timer: float
+var _is_on_cooldown: bool
+var _curr_hits: int
+
+var _has_cooldown: bool :
+	get:
+		return hit_cooldown > 0
+
 
 func _ready():
 	hitbox.detector_entered.connect(_register_can_hit)
 	hitbox.detector_exited.connect(_deregister_can_hit)
+	_cooldown_timer = 0.0
+	_curr_hits = 0
+	_is_on_cooldown = false
+
 
 func _process(delta):
 	for entity in _timers.keys():
@@ -24,6 +44,11 @@ func _process(delta):
 		if _timers[entity] == 0:
 			_deal_hit(entity)
 			_timers[entity] = tick_rate
+	if _is_on_cooldown and _cooldown_timer > 0:
+		_cooldown_timer -= delta
+		if _cooldown_timer <= 0:
+			_is_on_cooldown = false
+			_curr_hits = 0
 
 
 func _register_can_hit(other_hit_detector: HitDetector):
@@ -40,6 +65,14 @@ func _deregister_can_hit(other_hit_detector: HitDetector):
 
 
 func _deal_hit(hit_entity: Node):
+	if _has_cooldown:
+		if _curr_hits >= max_hits:
+			if not _is_on_cooldown:
+				_is_on_cooldown = true
+				_cooldown_timer = hit_cooldown
+			return
+		else:
+			_curr_hits += 1
 	var health = hit_entity.get_node("Health")
 	if health != null and health is Health:
 		if is_healing:
