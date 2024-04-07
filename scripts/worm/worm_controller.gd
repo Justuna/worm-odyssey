@@ -47,9 +47,7 @@ func _ready():
 	segments = []
 	_visual_segment_count = segment_count * visual_segments_per_segment
 	for i in range(segment_count):
-		var segment_inst = worm_segment_prefab.instantiate() as WormSegment
-		segments_container.add_child(segment_inst)
-		segments.append(segment_inst)
+		_add_segment()
 	_fixed_visual_segment_positions = []
 	var curr_segment_pos: Vector2 = global_position
 	worm_head.global_position = global_position
@@ -145,9 +143,7 @@ func _draw():
 
 
 func grow():
-	var segment_inst = worm_segment_prefab.instantiate() as WormSegment
-	segments_container.add_child(segment_inst)
-	segments.append(segment_inst)
+	_add_segment()
 
 	_visual_segment_count += visual_segments_per_segment
 	for i in range(0, visual_segments_per_segment):
@@ -155,11 +151,17 @@ func grow():
 		_visual_segment_positions.append(Vector2(0, 0))
 
 
-func remove(index: int):
-	var segment_to_remove = segments[index]
-	segments.remove_at(index)
+func _add_segment():
+	var segment_inst = worm_segment_prefab.instantiate() as WormSegment
+	segments_container.add_child(segment_inst)
+	segments.append(segment_inst)
 
-	segment_to_remove.queue_free()
+	segment_inst.segment_death.connect(_remove)
+
+
+func _remove(segment: WormSegment):
+	segments.erase(segment)
+	segment.queue_free()
 
 	_visual_segment_count -= visual_segments_per_segment
 	for i in range(0, visual_segments_per_segment):

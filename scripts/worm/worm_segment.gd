@@ -11,6 +11,8 @@ enum Binding {
 }
 
 
+signal segment_death(segment: WormSegment)
+
 var worm: Node2D
 var equipment: Equipment
 var is_selected: bool :
@@ -147,3 +149,6 @@ func _update_is_moving_visuals():
 			(canvas_group.material as ShaderMaterial).set_shader_parameter("overlay_enabled", true)
 		else:
 			(canvas_group.material as ShaderMaterial).set_shader_parameter("overlay_enabled", false)
+
+func die():
+	segment_death.emit(self)
