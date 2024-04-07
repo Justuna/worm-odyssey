@@ -35,6 +35,7 @@ var is_moving: bool :
 var _is_moving: bool
 
 @export var canvas_group: CanvasGroup
+@export var equipment_container: Node2D
 @export var x_color: Color
 @export var y_color: Color
 @export var b_color: Color
@@ -47,6 +48,9 @@ var _is_moving: bool
 		_update_binding_visuals()
 @export var health: Health
 @export var team: Team
+@export var health_indicator: Sprite2D
+@export var health_indicator_container: Node2D
+@export var damage_gradient: Gradient
 
 var _binding: Binding
 @onready var BINDING_TO_COLOR: Dictionary = {
@@ -57,16 +61,17 @@ var _binding: Binding
 	Binding.A_BUTTON: a_color,
 }
 
-var _tween: Tween
-
 
 func _ready():
 	_update_binding_visuals()
 	_update_is_selected_visuals()
 	_update_is_moving_visuals()
 	canvas_group.material = canvas_group.material.duplicate()
+	health_indicator.material = health_indicator.material.duplicate()
 	health.on_death.connect(_on_death)
 	health.on_damage.connect(_on_damage)
+	health.on_health_changed.connect(_on_health_changed.unbind(1))
+	health_indicator_container.visible = false
 
 
 func construct(_worm: Node2D, _team: String):
@@ -103,9 +108,9 @@ func add_equipment(_equipment: Equipment, direction: Equipment.Direction) -> Equ
 	equipment = _equipment
 	if equipment:
 		if equipment.get_parent():
-			equipment.reparent(canvas_group)
+			equipment.reparent(equipment_container)
 		else:
-			canvas_group.add_child(equipment)
+			equipment_container.add_child(equipment)
 		equipment.position = Vector2.ZERO
 		equipment.rotation = 0
 		equipment.construct(worm, self, direction)
@@ -115,7 +120,7 @@ func add_equipment(_equipment: Equipment, direction: Equipment.Direction) -> Equ
 
 func remove_equipment() -> Equipment:
 	if equipment:
-		canvas_group.remove_child(equipment)
+		equipment_container.remove_child(equipment)
 	var old_equipment = equipment
 	equipment = null
 	_update_binding_visuals()
@@ -138,14 +143,12 @@ func _update_binding_visuals():
 
 func _update_is_selected_visuals():
 	if canvas_group:
-		if _tween and _tween.is_running():
-			_tween.kill()
-		_tween = get_tree().create_tween()
-		_tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC).set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+		var scale_tween = get_tree().create_tween()
+		scale_tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC).set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 		if _is_selected:
-			_tween.tween_property(canvas_group, "scale", Vector2(1.5, 1.5), 0.25)
+			scale_tween.tween_property(canvas_group, "scale", Vector2(1.5, 1.5), 0.25)
 		else:
-			_tween.tween_property(canvas_group, "scale", Vector2(1, 1), 0.25)
+			scale_tween.tween_property(canvas_group, "scale", Vector2(1, 1), 0.25)
 
 
 func _update_is_moving_visuals():
@@ -161,7 +164,6 @@ func _on_death():
 
 
 func _on_damage(amount: int):
-	(canvas_group.material as ShaderMaterial).set_shader_parameter.bind()
 	var tween = get_tree().create_tween()
 	tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_method(_set_damage_flash_color, 1.0, 0.0, 0.5)
@@ -169,3 +171,24 @@ func _on_damage(amount: int):
 
 func _set_damage_flash_color(amount: float):
 	(canvas_group.material as ShaderMaterial).set_shader_parameter("overlay_amount", amount)
+
+
+func _on_health_changed():
+	var fill_amount = float(health.health) / health.max_health.amount
+	if fill_amount == 1.0:
+		health_indicator_container.visible = false
+	else:
+		health_indicator_container.visible = true
+		var prev_fill_amount = (health_indicator.material as ShaderMaterial).get_shader_parameter("fill_amount")
+		var tween = get_tree().create_tween()
+		tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+		tween.tween_method(_animate_health_indicator, prev_fill_amount, fill_amount, 0.5)
+
+
+func _animate_health_indicator(fill_amount: float):
+	var fill_color = damage_gradient.sample(fill_amount)
+	health_indicator.self_modulate = fill_color
+	fill_color.s += 0.1
+	fill_color.v -= 0.2
+	(health_indicator.material as ShaderMaterial).set_shader_parameter("background_color", fill_color)
+	(health_indicator.material as ShaderMaterial).set_shader_parameter("fill_amount", fill_amount)

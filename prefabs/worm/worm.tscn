@@ -54,13 +54,8 @@ offset = Vector2(-32, 0)
 
 [node name="WormController" type="Node2D" parent="." node_paths=PackedStringArray("team", "line_2D", "worm_head", "worm_tail", "segments_container")]
 script = ExtResource("1_7wfu0")
-direction = null
 speed = 500.0
 segment_count = 8
-visual_segments_per_segment = null
-visual_segment_length = null
-turning_cone_deg = null
-debug_draw = null
 team = NodePath("../Team")
 line_2D = NodePath("../Line2D")
 worm_head = NodePath("../WormHead")

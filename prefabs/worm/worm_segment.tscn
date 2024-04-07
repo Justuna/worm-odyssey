@@ -1,42 +1,61 @@
-[gd_scene load_steps=15 format=3 uid="uid://df0c367funl53"]
+[gd_scene load_steps=20 format=3 uid="uid://df0c367funl53"]
 
 [ext_resource type="Script" path="res://scripts/worm/worm_segment.gd" id="1_44kv3"]
 [ext_resource type="Texture2D" uid="uid://cqsjwv7i833mh" path="res://assets/art/segments/strap.png" id="3_rg1sj"]
 [ext_resource type="Shader" path="res://assets/shaders/outline.gdshader" id="4_rbxe0"]
 [ext_resource type="Script" path="res://scripts/effects/effect_holder.gd" id="5_bsu82"]
 [ext_resource type="Script" path="res://scripts/entities/hit_taker.gd" id="5_iqw05"]
+[ext_resource type="Texture2D" uid="uid://blgm5mno3yiwm" path="res://assets/art/fx/16_circle_fx.png" id="6_2vnd3"]
 [ext_resource type="Resource" uid="uid://x0nym0cu3uxm" path="res://libraries/effect_library.tres" id="6_4o5w6"]
+[ext_resource type="Shader" path="res://assets/shaders/health_indicator.gdshader" id="6_35olg"]
 [ext_resource type="Script" path="res://scripts/entities/passive_regen.gd" id="6_5650k"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detector.gd" id="7_i4yxk"]
+[ext_resource type="Texture2D" uid="uid://dbyhlue2oodjo" path="res://assets/art/fx/20_circle_fx.png" id="7_pgmi6"]
 [ext_resource type="Script" path="res://scripts/entities/health.gd" id="7_qqxq3"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="10_nyqvj"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="11_cgg08"]
 [ext_resource type="Script" path="res://scripts/entities/team.gd" id="12_bxh31"]
 
+[sub_resource type="Gradient" id="Gradient_4p2et"]
+offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
+colors = PackedColorArray(0.433594, 0.230347, 0.230347, 1, 0.875, 0.215332, 0.215332, 1, 0.847656, 0.613004, 0.208603, 1, 0.859375, 0.818121, 0.379333, 1, 1, 1, 1, 1)
+metadata/_snap_count = 8
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u7npg"]
 shader = ExtResource("4_rbxe0")
 shader_parameter/line_thickness = 2.0
 shader_parameter/line_color = Color(0.490196, 0.717647, 0, 1)
-shader_parameter/line_enabled = false
+shader_parameter/line_enabled = true
 shader_parameter/overlay_color = Color(1, 1, 1, 1)
 shader_parameter/overlay_amount = 0.0
 shader_parameter/overlay_enabled = true
 shader_parameter/overlay_2_color = Color(1, 1, 1, 1)
-shader_parameter/overlay_2_amount = 0.0
+shader_parameter/overlay_2_amount = 0.6
 shader_parameter/overlay_2_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ijc37"]
+shader = ExtResource("6_35olg")
+shader_parameter/background_color = Color(0, 0, 0, 1)
+shader_parameter/fill_amount = 0.77
+shader_parameter/offset_angle = 90.0
+shader_parameter/flip_cutoff = false
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x3mp7"]
 radius = 45.3982
 
-[node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group", "health", "team")]
+[node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group", "equipment_container", "health", "team", "health_indicator", "health_indicator_container")]
 script = ExtResource("1_44kv3")
 canvas_group = NodePath("CanvasGroup")
+equipment_container = NodePath("CanvasGroup/EquipmentContainer")
 x_color = Color(0, 0.623529, 0.921569, 1)
 y_color = Color(0.996078, 0.709804, 0.0156863, 1)
 b_color = Color(0.937255, 0.305882, 0.160784, 1)
 a_color = Color(0.490196, 0.717647, 0, 1)
 health = NodePath("Health")
 team = NodePath("Team")
+health_indicator = NodePath("HealthIndicatorContainer/HealthIndicator")
+health_indicator_container = NodePath("HealthIndicatorContainer")
+damage_gradient = SubResource("Gradient_4p2et")
 
 [node name="StatBlock" type="Node" parent="."]
 script = ExtResource("10_nyqvj")
@@ -59,6 +78,19 @@ scale = Vector2(1.25, 1.25)
 
 [node name="SlotSprite" type="Sprite2D" parent="CanvasGroup/SlotVisuals"]
 texture = ExtResource("3_rg1sj")
+
+[node name="EquipmentContainer" type="Node2D" parent="CanvasGroup"]
+scale = Vector2(1, 1)
+
+[node name="HealthIndicatorContainer" type="Sprite2D" parent="."]
+self_modulate = Color(0, 0, 0, 1)
+position = Vector2(32, 32)
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("7_pgmi6")
+
+[node name="HealthIndicator" type="Sprite2D" parent="HealthIndicatorContainer"]
+material = SubResource("ShaderMaterial_ijc37")
+texture = ExtResource("6_2vnd3")
 
 [node name="Health" type="Node" parent="." node_paths=PackedStringArray("max_health")]
 script = ExtResource("7_qqxq3")
