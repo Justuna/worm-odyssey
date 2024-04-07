@@ -5,8 +5,8 @@ extends Area2D
 
 @export var entity: Node
 
-signal detector_entered(hit_detector, other_hit_detector)
-signal detector_exited(hit_detector, other_hit_detector)
+signal detector_entered(other_hit_detector: HitDetector)
+signal detector_exited(other_hit_detector: HitDetector)
 
 func _ready():
 	area_entered.connect(_on_enter)
@@ -14,8 +14,8 @@ func _ready():
 
 func _on_enter(area: Area2D):
 	if area is HitDetector:
-		detector_entered.emit(self, area)
+		detector_entered.emit(area)
 
 func _on_exit(area: Area2D):
 	if area is HitDetector:
-		detector_exited.emit(self, area)
+		detector_exited.emit(area)

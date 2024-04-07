@@ -1,6 +1,6 @@
 @icon("res://assets/art/editor_icons/icon_packed_data_container.svg")
-extends Resource
 class_name EffectLibrary
+extends Resource
 
 
 @export var effect_prefabs: Array[PackedScene]

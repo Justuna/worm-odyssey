@@ -17,7 +17,12 @@ enum Mode {
 
 # [Node2D]: null
 var entities: Dictionary
-var nearest_entity: Node2D
+var nearest_entity: Node2D :
+	get:
+		if not is_instance_valid(_nearest_entity):
+			_nearest_entity = null
+		return _nearest_entity
+var _nearest_entity: Node2D
 
 
 func _ready():
@@ -29,15 +34,18 @@ func _process(delta):
 	if track_nearest_entity:
 		if entities.size() > 0:
 			var entities = entities.keys()
-			nearest_entity = entities[0] as Node2D
+			_nearest_entity = entities[0] as Node2D
 			var nearest_entity_dist = global_position.distance_squared_to(nearest_entity.global_position)
 			for entity: Node2D in entities:
+				if not is_instance_valid(entity):
+					entities.erase(entity)
+					continue
 				var curr_dist = global_position.distance_squared_to(entity.global_position)
 				if curr_dist < nearest_entity_dist:
-					nearest_entity = entity
+					_nearest_entity = entity
 					nearest_entity_dist = curr_dist
 		elif nearest_entity:
-			nearest_entity = null
+			_nearest_entity = null
 
 
 func _can_add(other_team: Team) -> bool:

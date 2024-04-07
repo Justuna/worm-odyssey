@@ -31,6 +31,7 @@ var head_direction: Vector2 :
 		return _head_direction
 
 @export_group("Dependencies")
+@export var team: Team
 @export var line_2D: Line2D
 @export var worm_head: CharacterBody2D
 @export var worm_tail: Node2D
@@ -162,6 +163,7 @@ func grow():
 
 func _add_segment():
 	var segment_inst = worm_segment_prefab.instantiate() as WormSegment
+	segment_inst.construct(self, team.team)
 	segments_container.add_child(segment_inst)
 	segments.append(segment_inst)
 

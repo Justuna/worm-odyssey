@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bec88jbk7ctt4"]
+[gd_scene load_steps=19 format=3 uid="uid://bec88jbk7ctt4"]
 
 [ext_resource type="Texture2D" uid="uid://qnqhsj8vs6fb" path="res://assets/art/enemies/slime.png" id="1_3ddp4"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detector.gd" id="2_jqabg"]
@@ -11,6 +11,9 @@
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="9_8ns0o"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="10_7n2k5"]
 [ext_resource type="Script" path="res://scripts/entities/passive_regen.gd" id="11_0a3j3"]
+[ext_resource type="Script" path="res://scripts/effects/effect_holder.gd" id="12_4dsbr"]
+[ext_resource type="Resource" uid="uid://x0nym0cu3uxm" path="res://libraries/effect_library.tres" id="13_s6epj"]
+[ext_resource type="AnimationLibrary" uid="uid://xpohjy813mq" path="res://assets/animations/entity.tres" id="14_ablhh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u53qh"]
 radius = 15.0333
@@ -26,6 +29,7 @@ radius = 512.0
 
 [node name="Slime" type="CharacterBody2D"]
 collision_layer = 2
+motion_mode = 1
 
 [node name="StatBlock" type="Node" parent="."]
 script = ExtResource("9_8ns0o")
@@ -40,7 +44,19 @@ script = ExtResource("10_7n2k5")
 type = 2
 base_amount = 20
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Damage" type="Node" parent="StatBlock"]
+script = ExtResource("10_7n2k5")
+type = 5
+base_amount = 20
+
+[node name="Speed" type="Node" parent="StatBlock"]
+script = ExtResource("10_7n2k5")
+base_amount = 50
+
+[node name="VisualHolder" type="Node2D" parent="."]
+position = Vector2(0, 3.31899)
+
+[node name="Visual" type="Sprite2D" parent="VisualHolder"]
 position = Vector2(0, -13)
 texture = ExtResource("1_3ddp4")
 
@@ -68,10 +84,11 @@ entity = NodePath("..")
 shape = SubResource("CircleShape2D_vx137")
 debug_color = Color(0.701961, 0, 0, 0.0784314)
 
-[node name="HitContinuously" type="Node" parent="Hitbox" node_paths=PackedStringArray("hitbox")]
+[node name="HitContinuously" type="Node" parent="Hitbox" node_paths=PackedStringArray("hitbox", "amount_stat")]
 script = ExtResource("8_5t8x6")
 tick_rate = 1.0
 hitbox = NodePath("..")
+amount_stat = NodePath("../../StatBlock/Damage")
 
 [node name="Health" type="Node" parent="." node_paths=PackedStringArray("max_health")]
 script = ExtResource("3_qd5mw")
@@ -86,14 +103,27 @@ regen_stat = NodePath("../../StatBlock/Regen")
 script = ExtResource("6_f7n8q")
 team = "Enemy"
 
-[node name="Chase" type="Node2D" parent="." node_paths=PackedStringArray("enemy_detector")]
+[node name="Chase" type="Node2D" parent="." node_paths=PackedStringArray("enemy_detector", "speed", "animation_player")]
 script = ExtResource("5_wyg5w")
 enemy_detector = NodePath("EntityTracker")
+speed = NodePath("../StatBlock/Speed")
+animation_player = NodePath("../AnimationPlayer")
 
-[node name="EntityTracker" type="Area2D" parent="Chase"]
+[node name="EntityTracker" type="Area2D" parent="Chase" node_paths=PackedStringArray("team")]
 script = ExtResource("6_vfs0d")
 mode = 2
+team = NodePath("../../Team")
+track_nearest_entity = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Chase/EntityTracker"]
 shape = SubResource("CircleShape2D_dl1ub")
 debug_color = Color(0, 0.701961, 0.305882, 0.0941176)
+
+[node name="EffectHolder" type="Node" parent="."]
+script = ExtResource("12_4dsbr")
+effect_library = ExtResource("13_s6epj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"entity": ExtResource("14_ablhh")
+}

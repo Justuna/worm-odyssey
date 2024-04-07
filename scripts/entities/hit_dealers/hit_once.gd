@@ -10,7 +10,7 @@ var _been_hit: Dictionary
 func _ready():
 	hitbox.detector_entered.connect(_deal_hit)
 
-func _deal_hit(_hit_detector: HitDetector, other_hit_detector: HitDetector):
+func _deal_hit(other_hit_detector: HitDetector):
 	var hit_entity = other_hit_detector.entity
 	
 	if hit_entity in _been_hit:
