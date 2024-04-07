@@ -8,13 +8,13 @@ extends Node
 var _max_health: int
 var _current_health: int
 
-signal before_damage(raw_amount)
-signal on_damage(final_amount)
-signal before_heal(raw_amount)
-signal on_heal(final_amount)
+signal before_damage(raw_amount: int)
+signal on_damage(final_amount: int)
+signal before_heal(raw_amount: int)
+signal on_heal(final_amount: int)
 signal on_death
 
-func _init():
+func _ready():
 	_max_health = base_max_health
 	_current_health = _max_health
 

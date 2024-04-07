@@ -8,7 +8,7 @@ extends HitType
 var _can_hit: Dictionary
 var _timers: Dictionary
 
-func _init():
+func _ready():
 	hitbox.detector_entered.connect(_register_can_hit)
 	hitbox.detector_exited.connect(_deregister_can_hit)
 

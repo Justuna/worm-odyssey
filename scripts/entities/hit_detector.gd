@@ -8,7 +8,7 @@ extends Area2D
 signal detector_entered(hit_detector, other_hit_detector)
 signal detector_exited(hit_detector, other_hit_detector)
 
-func _init():
+func _ready():
 	area_entered.connect(_on_enter)
 	area_exited.connect(_on_exit)
 
