@@ -19,10 +19,13 @@ enum State {
 @export var wander_walk_interval: Vector2 = Vector2(2, 4)
 @export var wander_wait_interval: Vector2 = Vector2(0.5, 2)
 @export var animation_player: AnimationPlayer
+@export var random_jitter: float = 32
 
 @onready var body: CharacterBody2D = get_parent() as CharacterBody2D
 
 var state: State = State.WANDER_WALK
+
+var _chase_jitter: Vector2
 
 var _wander_walk_timer: float
 var _wander_direction: Vector2
@@ -47,7 +50,7 @@ func _process(delta):
 			if not enemy_detector.nearest_entity:
 				_switch_state(State.WANDER_WALK)
 				return
-			body.velocity = speed.amount * (enemy_detector.nearest_entity.global_position - global_position).normalized()
+			body.velocity = speed.amount * ((enemy_detector.nearest_entity.global_position + _chase_jitter) - global_position).normalized()
 			body.move_and_slide()
 		State.WANDER_WALK:
 			_wander_walk_timer -= delta
@@ -65,6 +68,7 @@ func _switch_state(_state: State):
 	state = _state
 	match state:
 		State.CHASE:
+			_chase_jitter = Vector2(randf_range(-1, 1) * random_jitter, randf_range(-1, 1) * random_jitter)
 			animation_player.play("entity/walk")
 		State.WANDER_WALK:
 			_wander_walk_timer = randf_range(wander_walk_interval.x, wander_walk_interval.y)
