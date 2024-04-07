@@ -5,7 +5,13 @@ extends Node
 
 @export var hitbox: HitDetector
 
-@export var damage: int
+@export var amount_stat: Stat
+@export var amount_stat_multiplier: float = 1.0
+
+var amount: int :
+	get:
+		return int(amount_stat.amount * amount_stat_multiplier)
+
 @export var is_healing: bool
 @export var effects: Array[Effect.Type]
 

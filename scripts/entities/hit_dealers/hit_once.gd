@@ -27,9 +27,9 @@ func _deal_hit(_hit_detector: HitDetector, other_hit_detector: HitDetector):
 
 		if (hit_taker.hurtbox == other_hit_detector):
 			if is_healing:
-				hit_taker.route_healing(damage)
+				hit_taker.route_healing(amount)
 			else:
-				hit_taker.route_damage(damage, can_crit)
+				hit_taker.route_damage(amount, can_crit)
 	
 	var effect_holder = hit_entity.get_node("EffectHolder")
 	if effect_holder != null and effect_holder is EffectHolder:

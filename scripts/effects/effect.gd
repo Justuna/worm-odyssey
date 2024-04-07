@@ -19,6 +19,12 @@ var effect_holder: EffectHolder
 func _on_add():
 	pass
 
+
+## Called every time the effect is stacked/unstacked
+func _on_stack_changed():
+	pass
+
+
 ## Called every time the effect is stacked.
 func _on_stack():
 	pass
@@ -27,8 +33,11 @@ func _on_stack():
 func _on_unstack():
 	pass
 
-
 ## Called when the effect is remove.
 ## Is not called on repeated unstacking of the effect.
 func _on_remove():
 	pass
+
+
+func _get_holder_stat(stat: Stat.Type) -> Stat:
+	return (effect_holder.target.get_node("StatBlock") as StatBlock).get_stat(stat)

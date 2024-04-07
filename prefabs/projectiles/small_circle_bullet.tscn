@@ -1,0 +1,49 @@
+[gd_scene load_steps=10 format=3 uid="uid://dp6ibxtg4brre"]
+
+[ext_resource type="Texture2D" uid="uid://dikv5gnwo8tkr" path="res://assets/art/bullets/bullet_circle_small.png" id="1_5ao8e"]
+[ext_resource type="Script" path="res://prefabs/projectiles/projectile.gd" id="1_461tj"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detector.gd" id="2_ldp3a"]
+[ext_resource type="Script" path="res://scripts/entities/hit_dealers/hit_once.gd" id="3_r1dm5"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="4_44na5"]
+[ext_resource type="Script" path="res://scripts/projectiles/forward_projectile.gd" id="5_4xyi7"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="7_i1yqw"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="8_56mmh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2nwya"]
+radius = 16.0
+
+[node name="SmallCircleBullet" type="Node2D"]
+script = ExtResource("1_461tj")
+
+[node name="StatBlock" type="Node" parent="."]
+script = ExtResource("7_i1yqw")
+
+[node name="Speed" type="Node" parent="StatBlock"]
+script = ExtResource("8_56mmh")
+base_amount = null
+
+[node name="Damage" type="Node" parent="StatBlock"]
+script = ExtResource("8_56mmh")
+type = 3
+base_amount = null
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_5ao8e")
+
+[node name="HitBox" type="Area2D" parent="."]
+script = ExtResource("2_ldp3a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CircleShape2D_2nwya")
+
+[node name="HitOnce" type="Node" parent="HitBox" node_paths=PackedStringArray("hitbox", "amount_stat")]
+script = ExtResource("3_r1dm5")
+hitbox = NodePath("..")
+amount_stat = NodePath("../../StatBlock/Damage")
+
+[node name="Team" type="Node" parent="."]
+script = ExtResource("4_44na5")
+
+[node name="ForwardProjectile" type="Node" parent="." node_paths=PackedStringArray("speed_stat")]
+script = ExtResource("5_4xyi7")
+speed_stat = NodePath("../StatBlock/Speed")

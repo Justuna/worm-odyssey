@@ -40,9 +40,9 @@ func _deal_hit(hit_entity: Node):
 	var health = hit_entity.get_node("Health")
 	if health != null and health is Health:
 		if is_healing:
-			health.take_healing(damage)
+			health.take_healing(amount)
 		else:
-			health.take_damage(damage)
+			health.take_damage(amount)
 	
 	var effect_holder = hit_entity.get_node("EffectHolder")
 	if effect_holder != null and effect_holder is EffectHolder:

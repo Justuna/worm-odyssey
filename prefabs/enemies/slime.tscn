@@ -1,0 +1,92 @@
+[gd_scene load_steps=15 format=3 uid="uid://bec88jbk7ctt4"]
+
+[ext_resource type="Texture2D" uid="uid://qnqhsj8vs6fb" path="res://assets/art/enemies/slime.png" id="1_3ddp4"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detector.gd" id="2_jqabg"]
+[ext_resource type="Script" path="res://scripts/entities/health.gd" id="3_qd5mw"]
+[ext_resource type="Script" path="res://scripts/entities/hit_taker.gd" id="3_sbi66"]
+[ext_resource type="Script" path="res://scripts/ai/chase_ai.gd" id="5_wyg5w"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="6_f7n8q"]
+[ext_resource type="Script" path="res://scripts/entities/entity_tracker.gd" id="6_vfs0d"]
+[ext_resource type="Script" path="res://scripts/entities/hit_dealers/hit_continuously.gd" id="8_5t8x6"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="9_8ns0o"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="10_7n2k5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u53qh"]
+radius = 15.0333
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kdnrq"]
+radius = 32.0624
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dl1ub"]
+radius = 512.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vx137"]
+radius = 23.0868
+
+[node name="Slime" type="CharacterBody2D"]
+collision_layer = 2
+
+[node name="StatBlock" type="Node" parent="."]
+script = ExtResource("9_8ns0o")
+
+[node name="Health" type="Node" parent="StatBlock"]
+script = ExtResource("10_7n2k5")
+type = 1
+base_amount = null
+
+[node name="MaxHealth" type="Node" parent="StatBlock"]
+script = ExtResource("10_7n2k5")
+type = 2
+base_amount = null
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_3ddp4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 10)
+shape = SubResource("CircleShape2D_u53qh")
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("entity")]
+script = ExtResource("2_jqabg")
+entity = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_kdnrq")
+
+[node name="HitTaker" type="Node" parent="Hurtbox" node_paths=PackedStringArray("health", "hurtbox")]
+script = ExtResource("3_sbi66")
+health = NodePath("../../Health")
+hurtbox = NodePath("..")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("3_qd5mw")
+base_max_health = 10
+
+[node name="Chase" type="Node2D" parent="." node_paths=PackedStringArray("enemy_detector")]
+script = ExtResource("5_wyg5w")
+enemy_detector = NodePath("EntityTracker")
+
+[node name="EntityTracker" type="Area2D" parent="Chase"]
+script = ExtResource("6_vfs0d")
+mode = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chase/EntityTracker"]
+shape = SubResource("CircleShape2D_dl1ub")
+debug_color = Color(0, 0.701961, 0.305882, 0.0941176)
+
+[node name="Team" type="Node" parent="."]
+script = ExtResource("6_f7n8q")
+team = "Enemy"
+
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("entity")]
+script = ExtResource("2_jqabg")
+entity = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_vx137")
+debug_color = Color(0.701961, 0, 0, 0.0784314)
+
+[node name="HitContinuously" type="Node" parent="Hitbox" node_paths=PackedStringArray("hitbox")]
+script = ExtResource("8_5t8x6")
+tick_rate = 1.0
+hitbox = NodePath("..")

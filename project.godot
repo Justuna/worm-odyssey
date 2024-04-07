@@ -28,6 +28,15 @@ window/stretch/aspect="expand"
 
 project/assembly_name="Worm Odyssey"
 
+[editor_plugins]
+
+enabled=PackedStringArray()
+
+[layer_names]
+
+2d_physics/layer_1="Any"
+2d_physics/layer_2="Entities"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
