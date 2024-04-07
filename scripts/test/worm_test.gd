@@ -47,6 +47,8 @@ func _input(event):
 				KEY_B:
 					if is_instance_valid(worm_controller):
 						(worm_controller.segments[0].get_node("Health") as Health).take_damage(50)
+						if worm_controller.segments.size() > 2:
+							(worm_controller.segments[2].get_node("Health") as Health).take_damage(50)
 				KEY_D:
 					if is_instance_valid(worm_controller):
 						worm_controller.debug_draw = not worm_controller.debug_draw
