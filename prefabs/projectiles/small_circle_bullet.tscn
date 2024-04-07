@@ -20,12 +20,12 @@ script = ExtResource("7_i1yqw")
 
 [node name="Speed" type="Node" parent="StatBlock"]
 script = ExtResource("8_56mmh")
-base_amount = null
+base_amount = 50
 
 [node name="Damage" type="Node" parent="StatBlock"]
 script = ExtResource("8_56mmh")
-type = 3
-base_amount = null
+type = 5
+base_amount = 10
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_5ao8e")

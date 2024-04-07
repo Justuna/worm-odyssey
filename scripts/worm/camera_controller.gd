@@ -26,7 +26,7 @@ func _ready():
 
 
 func _process(delta):
-	if target and not is_tweening:
+	if is_instance_valid(target) and not is_tweening:
 		global_position = target.global_position
 
 

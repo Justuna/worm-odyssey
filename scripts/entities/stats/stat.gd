@@ -6,7 +6,6 @@ class_name Stat
 
 enum Type {
 	SPEED,
-	HEALTH,
 	MAX_HEALTH,
 	REGEN,
 	DEFENSE,
@@ -19,6 +18,7 @@ enum Type {
 	EXPLOSIVE_DAMGE,
 }
 
+signal updated
 
 @export var type: Type :
 	get:
@@ -36,6 +36,7 @@ var modifiers: Array[StatModifier] :
 		return arr
 # [StatModifier]: null
 var _modifiers_dict: Dictionary
+var _prev_max_health: int
 
 @export var base_amount: int
 
@@ -59,5 +60,6 @@ func remove_modifier(modifier: StatModifier):
 
 func _update_amount():
 	amount = base_amount
+	updated.emit()
 	for modifier: StatModifier in _modifiers_dict.keys():
 		amount = modifier.modify_stat(base_amount, amount)

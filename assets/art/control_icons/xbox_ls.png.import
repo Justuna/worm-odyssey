@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dr77khifgsnfo"
-path="res://.godot/imported/xbox_rs.png-33474f08d031a4022e7844142ff4c22c.ctex"
+uid="uid://b38nato3rqouv"
+path="res://.godot/imported/xbox_ls.png-c8e7af235a045516ade7a0243facdf8f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/control_icons/xbox_rs.png"
-dest_files=["res://.godot/imported/xbox_rs.png-33474f08d031a4022e7844142ff4c22c.ctex"]
+source_file="res://assets/art/control_icons/xbox_ls.png"
+dest_files=["res://.godot/imported/xbox_ls.png-c8e7af235a045516ade7a0243facdf8f.ctex"]
 
 [params]
 

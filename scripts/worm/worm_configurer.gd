@@ -117,12 +117,13 @@ func _set_config_mode(value: bool):
 		var tween = get_tree().create_tween()
 		tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 		if _in_config_mode:
-			_select_segment(worm_controller.segment_count - 1)
+			_select_segment(0)
 			_original_cam_zoom = camera.camera_zoom
 			tween.tween_property(camera, "camera_zoom", 0.5, 0.5)
 		else:
 			camera.set_target(worm_controller.worm_head)
 			worm_controller.segments[_current_segment_index].is_selected = false
+			worm_controller.segments[_current_segment_index].is_moving = false
 			tween.tween_property(camera, "camera_zoom", _original_cam_zoom, 0.5)
 
 

@@ -20,10 +20,11 @@ size = Vector2(128, 126)
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.269544), -0.347194, 0.0, 0, 0]
 point_count = 2
 
-[node name="WormTest" type="Node2D"]
+[node name="WormTest" type="Node2D" node_paths=PackedStringArray("worm")]
 script = ExtResource("1_e11fb")
 equipment_library = ExtResource("2_6jmem")
 equipment_spawn_area = SubResource("RectangleShape2D_jjv65")
+worm = NodePath("PlayerWorm/Worm")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -181,7 +182,7 @@ theme_override_constants/line_separation = 6
 theme_override_font_sizes/normal_font_size = 6
 bbcode_enabled = true
 text = "[img=24]res://assets/art/control_icons/xbox_button_color_a.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_b.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_x.png[/img][img=24]res://assets/art/control_icons/xbox_button_color_y.png[/img] Activate Equip
-[img=24]res://assets/art/control_icons/xbox_rs.png[/img] Move
+[img=24]res://assets/art/control_icons/xbox_ls.png[/img] Move
 [img=24]res://assets/art/control_icons/xbox_lb.png[/img] Enter Config Mode
 [img=24]res://assets/art/control_icons/xbox_rb.png[/img] Pickup Equip / Item
 [img=24]res://assets/art/control_icons/xbox_lt.png[/img][img=24]res://assets/art/control_icons/xbox_rt.png[/img] Zoom"

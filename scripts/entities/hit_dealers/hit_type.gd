@@ -10,7 +10,7 @@ extends Node
 
 var amount: int :
 	get:
-		return int(amount_stat.amount * amount_stat_multiplier)
+		return round(amount_stat.amount * amount_stat_multiplier)
 
 @export var is_healing: bool
 @export var effects: Array[Effect.Type]

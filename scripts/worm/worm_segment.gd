@@ -11,7 +11,7 @@ enum Binding {
 }
 
 
-signal segment_death(segment: WormSegment)
+signal on_death
 
 var worm: Node2D
 var equipment: Equipment
@@ -45,6 +45,7 @@ var _is_moving: bool
 	set(value):
 		_binding = value
 		_update_binding_visuals()
+@export var health: Health
 
 var _binding: Binding
 @onready var BINDING_TO_COLOR: Dictionary = {
@@ -63,6 +64,7 @@ func _ready():
 	_update_is_selected_visuals()
 	_update_is_moving_visuals()
 	canvas_group.material = canvas_group.material.duplicate()
+	health.on_death.connect(_on_death)
 
 
 func construct(_worm: Node2D):
@@ -150,5 +152,5 @@ func _update_is_moving_visuals():
 		else:
 			(canvas_group.material as ShaderMaterial).set_shader_parameter("overlay_enabled", false)
 
-func die():
-	segment_death.emit(self)
+func _on_death():
+	on_death.emit()

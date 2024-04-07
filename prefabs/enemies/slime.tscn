@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bec88jbk7ctt4"]
+[gd_scene load_steps=16 format=3 uid="uid://bec88jbk7ctt4"]
 
 [ext_resource type="Texture2D" uid="uid://qnqhsj8vs6fb" path="res://assets/art/enemies/slime.png" id="1_3ddp4"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detector.gd" id="2_jqabg"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/entities/hit_dealers/hit_continuously.gd" id="8_5t8x6"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="9_8ns0o"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="10_7n2k5"]
+[ext_resource type="Script" path="res://scripts/entities/passive_regen.gd" id="11_0a3j3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u53qh"]
 radius = 15.0333
@@ -17,11 +18,11 @@ radius = 15.0333
 [sub_resource type="CircleShape2D" id="CircleShape2D_kdnrq"]
 radius = 32.0624
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_dl1ub"]
-radius = 512.0
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_vx137"]
 radius = 23.0868
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dl1ub"]
+radius = 512.0
 
 [node name="Slime" type="CharacterBody2D"]
 collision_layer = 2
@@ -29,24 +30,25 @@ collision_layer = 2
 [node name="StatBlock" type="Node" parent="."]
 script = ExtResource("9_8ns0o")
 
-[node name="Health" type="Node" parent="StatBlock"]
-script = ExtResource("10_7n2k5")
-type = 1
-base_amount = null
-
 [node name="MaxHealth" type="Node" parent="StatBlock"]
 script = ExtResource("10_7n2k5")
+type = 1
+base_amount = 50
+
+[node name="Regen" type="Node" parent="StatBlock"]
+script = ExtResource("10_7n2k5")
 type = 2
-base_amount = null
+base_amount = 20
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -13)
 texture = ExtResource("1_3ddp4")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 10)
+[node name="WallCollider" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_u53qh")
 
 [node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("entity")]
+position = Vector2(0, -13)
 script = ExtResource("2_jqabg")
 entity = NodePath("..")
 
@@ -57,26 +59,6 @@ shape = SubResource("CircleShape2D_kdnrq")
 script = ExtResource("3_sbi66")
 health = NodePath("../../Health")
 hurtbox = NodePath("..")
-
-[node name="Health" type="Node" parent="."]
-script = ExtResource("3_qd5mw")
-base_max_health = 10
-
-[node name="Chase" type="Node2D" parent="." node_paths=PackedStringArray("enemy_detector")]
-script = ExtResource("5_wyg5w")
-enemy_detector = NodePath("EntityTracker")
-
-[node name="EntityTracker" type="Area2D" parent="Chase"]
-script = ExtResource("6_vfs0d")
-mode = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Chase/EntityTracker"]
-shape = SubResource("CircleShape2D_dl1ub")
-debug_color = Color(0, 0.701961, 0.305882, 0.0941176)
-
-[node name="Team" type="Node" parent="."]
-script = ExtResource("6_f7n8q")
-team = "Enemy"
 
 [node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("entity")]
 script = ExtResource("2_jqabg")
@@ -90,3 +72,28 @@ debug_color = Color(0.701961, 0, 0, 0.0784314)
 script = ExtResource("8_5t8x6")
 tick_rate = 1.0
 hitbox = NodePath("..")
+
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("max_health")]
+script = ExtResource("3_qd5mw")
+max_health = NodePath("../StatBlock/MaxHealth")
+
+[node name="PassiveRegen" type="Node" parent="Health" node_paths=PackedStringArray("health", "regen_stat")]
+script = ExtResource("11_0a3j3")
+health = NodePath("..")
+regen_stat = NodePath("../../StatBlock/Regen")
+
+[node name="Team" type="Node" parent="."]
+script = ExtResource("6_f7n8q")
+team = "Enemy"
+
+[node name="Chase" type="Node2D" parent="." node_paths=PackedStringArray("enemy_detector")]
+script = ExtResource("5_wyg5w")
+enemy_detector = NodePath("EntityTracker")
+
+[node name="EntityTracker" type="Area2D" parent="Chase"]
+script = ExtResource("6_vfs0d")
+mode = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chase/EntityTracker"]
+shape = SubResource("CircleShape2D_dl1ub")
+debug_color = Color(0, 0.701961, 0.305882, 0.0941176)
