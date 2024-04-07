@@ -6,7 +6,6 @@ class_name WormController
 @export var speed: float = 100
 @export var segment_count: int = 32
 @export var visual_segments_per_segment: int = 8
-@export var visual_segment_count: int = 8
 @export var visual_segment_length: float = 8
 @export var turning_cone_deg: float = 1
 @export var debug_draw: bool = false
@@ -38,6 +37,7 @@ var head_direction: Vector2 :
 
 var _fixed_visual_segment_positions: Array[Vector2]
 var _visual_segment_positions: PackedVector2Array
+var _visual_segment_count: int;
 var _actual_direction: Vector2
 var _head_direction: Vector2
 var _prev_debug_draw: bool
@@ -45,15 +45,13 @@ var _prev_debug_draw: bool
 
 func _ready():
 	segments = []
-	visual_segment_count = segment_count * visual_segments_per_segment
+	_visual_segment_count = segment_count * visual_segments_per_segment
 	for i in range(segment_count):
-		var segment_inst = worm_segment_prefab.instantiate() as WormSegment
-		segments_container.add_child(segment_inst)
-		segments.append(segment_inst)
+		_add_segment()
 	_fixed_visual_segment_positions = []
 	var curr_segment_pos: Vector2 = global_position
 	worm_head.global_position = global_position
-	for i in range(visual_segment_count):
+	for i in range(_visual_segment_count):
 		_fixed_visual_segment_positions.push_front(curr_segment_pos)
 		curr_segment_pos.x -= visual_segment_length
 	_visual_segment_positions = PackedVector2Array(_fixed_visual_segment_positions)
@@ -142,3 +140,31 @@ func _draw():
 		for segment_pos in _visual_segment_positions:
 			draw_circle(segment_pos, 4, Color.BLUE)
 		draw_circle(worm_head.global_position, 4, Color.RED)
+
+
+func grow():
+	_add_segment()
+
+	_visual_segment_count += visual_segments_per_segment
+	for i in range(0, visual_segments_per_segment):
+		_fixed_visual_segment_positions.append(Vector2(0, 0))
+		_visual_segment_positions.append(Vector2(0, 0))
+
+
+func _add_segment():
+	var segment_inst = worm_segment_prefab.instantiate() as WormSegment
+	segments_container.add_child(segment_inst)
+	segments.append(segment_inst)
+
+	segment_inst.segment_death.connect(_remove)
+
+
+func _remove(segment: WormSegment):
+	segments.erase(segment)
+	segment.queue_free()
+
+	_visual_segment_count -= visual_segments_per_segment
+	for i in range(0, visual_segments_per_segment):
+		_fixed_visual_segment_positions.pop_back()
+		_visual_segment_positions.remove_at(_visual_segment_positions.size() - 1)
+	
