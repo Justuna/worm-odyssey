@@ -193,6 +193,7 @@ theme_variation = "ThickRichTextLabel"
 [node name="CameraController" type="Camera2D" parent="PlayerWorm"]
 process_mode = 3
 zoom = Vector2(0.5, 0.5)
+position_smoothing_enabled = true
 script = ExtResource("9_8uqem")
 camera_zoom = 0.5
 

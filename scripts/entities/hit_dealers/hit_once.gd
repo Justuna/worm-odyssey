@@ -11,6 +11,10 @@ func _ready():
 	hitbox.detector_entered.connect(_deal_hit)
 
 func _deal_hit(other_hit_detector: HitDetector):
+	var team = other_hit_detector.entity.get_node_or_null("Team") as Team
+	if not team or not _can_add(team):
+		return
+	
 	var hit_entity = other_hit_detector.entity
 	
 	if hit_entity in _been_hit:
