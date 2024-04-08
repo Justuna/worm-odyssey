@@ -50,16 +50,18 @@ func _ready():
 func add_modifier(modifier: StatModifier):
 	_modifiers_dict[modifier] = null
 	modifier.updated.connect(_update_amount)
+	_update_amount()
 
 
 func remove_modifier(modifier: StatModifier):
 	if modifier in _modifiers_dict:
 		_modifiers_dict.erase(modifier)
 		modifier.updated.disconnect(_update_amount)
+		_update_amount()
 
 
 func _update_amount():
 	amount = base_amount
-	updated.emit()
 	for modifier: StatModifier in _modifiers_dict.keys():
 		amount = modifier.modify_stat(base_amount, amount)
+	updated.emit()

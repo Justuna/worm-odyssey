@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://4yl4bjq6n3j0"]
+[gd_scene load_steps=27 format=3 uid="uid://4yl4bjq6n3j0"]
 
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="1_7khcy"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="2_ee77u"]
@@ -39,6 +39,10 @@ radius = 64.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dl1ub"]
 radius = 1280.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gsvs6"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 98, 0)
 
 [node name="LanternFly" type="CharacterBody2D"]
 collision_layer = 2
@@ -158,6 +162,7 @@ enemy_detector = NodePath("EntityTracker")
 speed = NodePath("../StatBlock/Speed")
 animation_player = NodePath("../AnimationPlayer")
 bullet_prefab = ExtResource("17_nil5c")
+bullet_pattern = 3
 team = NodePath("../Team")
 
 [node name="EntityTracker" type="Area2D" parent="LanternFlyAI" node_paths=PackedStringArray("team")]
@@ -178,3 +183,6 @@ effect_library = ExtResource("15_d5h1i")
 libraries = {
 "lantern_fly": ExtResource("21_bymds")
 }
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+process_material = SubResource("ParticleProcessMaterial_gsvs6")
