@@ -1,44 +1,41 @@
-# Represents an entity with the capability to deal a hit to other entities once at most over its lifetime. Meant for projectiles and explosions.
-
+## Represents an entity with the capability to deal a hit to other entities once 
+## at most over its lifetime. Meant for projectiles and explosions.
+## Can land crits.
 class_name HitOnce
 extends HitType
 
-@export var can_crit: bool
 
 var _been_hit: Dictionary
 
-func _ready():
-	hitbox.detector_entered.connect(_deal_hit)
 
-func _deal_hit(other_hit_detector: HitDetector):
-	var team = other_hit_detector.entity.get_node_or_null("Team") as Team
-	if not team or not _can_add(team):
+func _ready():
+	hitbox.detector_entered.connect(_on_detector_entered)
+
+
+func _on_detector_entered(other_hit_detector: HitDetector):	
+	var hit_taker = other_hit_detector.get_node_or_null("HitTaker")
+	if not hit_taker:
 		return
 	
 	var hit_entity = other_hit_detector.entity
-	
 	if hit_entity in _been_hit:
 		return
 	else:
 		_been_hit[hit_entity] = null
 	
-	var hit_takers = []
-	ClassUtils.get_children_by_class(hit_entity, "HitTaker", hit_takers)
+	_deal_hit(hit_taker)
 
-	for hit_taker in hit_takers:
-		if not hit_taker is HitTaker: 
-			return
 
-		if (hit_taker.hurtbox == other_hit_detector):
-			if is_healing:
-				hit_taker.route_healing(amount)
-			else:
-				hit_taker.route_damage(amount, can_crit)
-	
+func _deal_hit(hit_taker: HitTaker):
+	if is_healing:
+		hit_taker.route_healing(amount)
+	else:
+		hit_taker.route_damage(amount, can_crit)
+
+	var hit_entity = hit_taker.hurtbox.entity
 	var effect_holder = hit_entity.get_node("EffectHolder")
 	if effect_holder != null and effect_holder is EffectHolder:
 		for effect in effects:
 			effect_holder.add_effect(effect)
 	
 	hit_dealt.emit(hit_entity)
-

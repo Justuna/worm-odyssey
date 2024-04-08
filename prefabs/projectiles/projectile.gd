@@ -10,8 +10,9 @@ var stat_block: StatBlock :
 		return get_node("StatBlock")
 
 
-func construct(_position: Vector2, _direction: Vector2):
+func construct(_position: Vector2, _direction: Vector2, _team: String):
 	direction = _direction
 	if rotate_to_direction:
 		global_rotation = direction.angle()
 	global_position = _position
+	(get_node("Team") as Team).team = _team

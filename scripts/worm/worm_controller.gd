@@ -93,8 +93,9 @@ func _process(delta):
 		var lerp_amount_per_segment = fixed_head_to_head_dist / visual_segment_length
 		for i in range(1, _visual_segment_positions.size()):
 			_visual_segment_positions[i] = _fixed_visual_segment_positions[i].lerp(_fixed_visual_segment_positions[i - 1], lerp_amount_per_segment)
-		
-	line_2D.points = _visual_segment_positions
+	var copy = PackedVector2Array(_visual_segment_positions)
+	copy.reverse()
+	line_2D.points = copy
 	worm_tail.global_position = _visual_segment_positions[_visual_segment_positions.size() - 1]
 	worm_tail.rotation = (_visual_segment_positions[_visual_segment_positions.size() - 2] - _visual_segment_positions[_visual_segment_positions.size() - 1]).angle()
 	worm_head.rotation = (_visual_segment_positions[1] - _visual_segment_positions[0]).angle() + PI
@@ -165,6 +166,7 @@ func _add_segment():
 	var segment_inst = worm_segment_prefab.instantiate() as WormSegment
 	segment_inst.construct(self, team.team)
 	segments_container.add_child(segment_inst)
+	segments_container.move_child(segment_inst, 0)
 	segments.append(segment_inst)
 
 	segment_inst.on_death.connect(_remove_segment.bind(segment_inst))

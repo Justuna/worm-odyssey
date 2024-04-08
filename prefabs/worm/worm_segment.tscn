@@ -42,7 +42,7 @@ shader_parameter/offset_angle = 90.0
 shader_parameter/flip_cutoff = false
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x3mp7"]
-radius = 45.3982
+radius = 20.0
 
 [node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group", "equipment_container", "health", "team", "health_indicator", "health_indicator_container")]
 script = ExtResource("1_44kv3")

@@ -125,19 +125,19 @@ regen_stat = NodePath("../../StatBlock/Regen")
 script = ExtResource("6_f7n8q")
 team = "Enemy"
 
-[node name="Chase" type="Node2D" parent="." node_paths=PackedStringArray("enemy_detector", "speed", "animation_player")]
+[node name="ChaseAI" type="Node2D" parent="." node_paths=PackedStringArray("enemy_detector", "speed", "animation_player")]
 script = ExtResource("5_wyg5w")
 enemy_detector = NodePath("EntityTracker")
 speed = NodePath("../StatBlock/Speed")
 animation_player = NodePath("../AnimationPlayer")
 
-[node name="EntityTracker" type="Area2D" parent="Chase" node_paths=PackedStringArray("team")]
+[node name="EntityTracker" type="Area2D" parent="ChaseAI" node_paths=PackedStringArray("team")]
 script = ExtResource("6_vfs0d")
 mode = 2
 team = NodePath("../../Team")
 track_nearest_entity = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Chase/EntityTracker"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseAI/EntityTracker"]
 shape = SubResource("CircleShape2D_dl1ub")
 debug_color = Color(0, 0.701961, 0.305882, 0.0941176)
 

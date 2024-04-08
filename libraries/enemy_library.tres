@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="EnemyLibrary" load_steps=3 format=3 uid="uid://dqtlknmqynp57"]
+[gd_resource type="Resource" script_class="EnemyLibrary" load_steps=4 format=3 uid="uid://dqtlknmqynp57"]
 
 [ext_resource type="Script" path="res://scripts/enemies/enemy_library.gd" id="1_65d7d"]
 [ext_resource type="PackedScene" uid="uid://bec88jbk7ctt4" path="res://prefabs/enemies/slime.tscn" id="1_pwm1a"]
+[ext_resource type="PackedScene" uid="uid://4yl4bjq6n3j0" path="res://prefabs/enemies/lantern_fly.tscn" id="2_8hq85"]
 
 [resource]
 script = ExtResource("1_65d7d")
-enemy_prefabs = Array[PackedScene]([ExtResource("1_pwm1a")])
+enemy_prefabs = Array[PackedScene]([ExtResource("1_pwm1a"), ExtResource("2_8hq85")])

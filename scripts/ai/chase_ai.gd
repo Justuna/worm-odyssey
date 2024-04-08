@@ -61,7 +61,7 @@ func _process(delta):
 		State.WANDER_WAIT:
 			_wait_timer -= delta
 			if _wait_timer <= 0:
-				_switch_state(State.WANDER_WALK)	
+				_switch_state(State.WANDER_WALK)
 
 
 func _switch_state(_state: State):
