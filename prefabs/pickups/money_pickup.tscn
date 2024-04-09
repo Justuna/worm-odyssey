@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://dmma7ldnvvwku"]
+
+[ext_resource type="Script" path="res://scripts/shop/money_pickup.gd" id="1_71db8"]
+[ext_resource type="Script" path="res://scripts/interaction/auto_interactable.gd" id="2_swx71"]
+[ext_resource type="Shader" path="res://assets/shaders/outline.gdshader" id="3_2ioqa"]
+[ext_resource type="Texture2D" uid="uid://i4ccqqajya4y" path="res://assets/art/items/goldpile.png" id="3_fniv0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6wwd8"]
+radius = 32.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_woqb7"]
+shader = ExtResource("3_2ioqa")
+shader_parameter/line_thickness = null
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_enabled = false
+shader_parameter/overlay_color = Color(0, 0, 0, 0)
+shader_parameter/overlay_amount = null
+shader_parameter/overlay_enabled = true
+shader_parameter/overlay_2_color = Color(0, 0, 0, 0)
+shader_parameter/overlay_2_amount = null
+shader_parameter/overlay_2_enabled = true
+
+[node name="MoneyPickup" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6wwd8")
+
+[node name="MoneyPickup" type="Node" parent="." node_paths=PackedStringArray("root", "interactable")]
+script = ExtResource("1_71db8")
+root = NodePath("..")
+interactable = NodePath("../AutoInteractable")
+
+[node name="AutoInteractable" type="Node2D" parent="."]
+script = ExtResource("2_swx71")
+
+[node name="Visuals" type="CanvasGroup" parent="."]
+material = SubResource("ShaderMaterial_woqb7")
+
+[node name="Sprite" type="Sprite2D" parent="Visuals"]
+position = Vector2(0, -10)
+texture = ExtResource("3_fniv0")

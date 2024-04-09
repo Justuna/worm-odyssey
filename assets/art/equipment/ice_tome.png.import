@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3vus8g35ml6l"
-path="res://.godot/imported/poison_tome.png-fb7dbd5424e148bfd7b26d8921d4200d.ctex"
+uid="uid://wl84pwbu4noi"
+path="res://.godot/imported/ice_tome.png-6373a0e9ab7f35913a1cbd4625bd36fb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/segments/poison_tome.png"
-dest_files=["res://.godot/imported/poison_tome.png-fb7dbd5424e148bfd7b26d8921d4200d.ctex"]
+source_file="res://assets/art/equipment/ice_tome.png"
+dest_files=["res://.godot/imported/ice_tome.png-6373a0e9ab7f35913a1cbd4625bd36fb.ctex"]
 
 [params]
 

@@ -2,7 +2,9 @@ extends Node2D
 class_name Interactable
 
 
+signal on_available()
 signal on_interact()
+signal on_unavailable()
 
 
 ## Interactable is selected when it's in the range of an Interactor
@@ -19,6 +21,17 @@ signal on_interact()
 @export var visuals: CanvasGroup
 @export var selected_color: Color
 
+var available: bool :
+	get:
+		return _available
+	set(value):
+		_available = value
+		if _available:
+			on_available.emit()
+		else:
+			on_unavailable.emit()
+
+var _available: bool = true
 var _selected: bool
 
 

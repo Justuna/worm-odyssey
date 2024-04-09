@@ -1,20 +1,20 @@
-extends Node
-class_name DroppedEquipment
+class_name EquipmentPickup
+extends Pickup
 
 
-@export var equipment: Equipment
-
-@export_group("Dependencies")
-@export var interactable: Interactable
-@export var visuals_container: Node2D
+var _equipment: Equipment
 
 
-func construct(_equipment: Equipment):
-	equipment = _equipment
+func construct(equipment: Equipment, disguised = false):
+	_equipment = equipment
 	visuals_container.add_child(_equipment)
 	_equipment.position = Vector2.ZERO
 	_equipment.rotation = 0
 	_equipment.direction = Equipment.Direction.RIGHT
+
+	if disguised:
+		disguise.visible = true
+		_equipment.visible = false
 
 
 func _ready():
@@ -23,8 +23,10 @@ func _ready():
 
 func _on_interact(interactor: Interactor):
 	var worm_controller = interactor.get_parent().get_node_or_null("WormController") as WormController
+	_equipment.visible = true;
+
 	if worm_controller:
-		if worm_controller.try_add_equipment(equipment):
+		if worm_controller.try_add_equipment(_equipment):
 			# TODO: Add pickup FX
-			queue_free()
+			root.queue_free()
 

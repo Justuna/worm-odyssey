@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://dgqx3we05fwxx"]
+
+[ext_resource type="Script" path="res://scripts/equipment/equipment_pickup.gd" id="1_pmvfx"]
+[ext_resource type="Shader" path="res://assets/shaders/outline.gdshader" id="2_5w7la"]
+[ext_resource type="Script" path="res://scripts/interaction/interactable.gd" id="3_spec5"]
+[ext_resource type="Texture2D" uid="uid://nuxtx7us6rqo" path="res://assets/art/segment_slot.png" id="3_wwqt5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_me05m"]
+radius = 32.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rfy8k"]
+shader = ExtResource("2_5w7la")
+shader_parameter/line_thickness = 2.0
+shader_parameter/line_color = Color(0.890196, 0.698039, 0.121569, 1)
+shader_parameter/line_enabled = false
+shader_parameter/overlay_color = Color(0, 0, 0, 0)
+shader_parameter/overlay_amount = null
+shader_parameter/overlay_enabled = true
+shader_parameter/overlay_2_color = Color(0, 0, 0, 0)
+shader_parameter/overlay_2_amount = null
+shader_parameter/overlay_2_enabled = true
+
+[node name="EquipmentPickup" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_me05m")
+
+[node name="EquipmentPickup" type="Node" parent="." node_paths=PackedStringArray("interactable", "visuals_container", "disguise", "root")]
+script = ExtResource("1_pmvfx")
+interactable = NodePath("../Interactable")
+visuals_container = NodePath("../Visuals")
+disguise = NodePath("../Visuals/Disguise")
+root = NodePath("..")
+
+[node name="Visuals" type="CanvasGroup" parent="."]
+material = SubResource("ShaderMaterial_rfy8k")
+
+[node name="Disguise" type="Sprite2D" parent="Visuals"]
+visible = false
+texture = ExtResource("3_wwqt5")
+
+[node name="Interactable" type="Node2D" parent="." node_paths=PackedStringArray("visuals")]
+script = ExtResource("3_spec5")
+visuals = NodePath("../Visuals")
+selected_color = Color(0.890196, 0.698039, 0.121569, 1)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bjr3gnlplvacv"]
 
 [ext_resource type="Script" path="res://scripts/equipment/equipment.gd" id="1_yruca"]
-[ext_resource type="Texture2D" uid="uid://b00b8obwj0107" path="res://assets/art/segments/bow_turret.png" id="3_75p34"]
+[ext_resource type="Texture2D" uid="uid://b00b8obwj0107" path="res://assets/art/equipment/bow_turret.png" id="3_75p34"]
 
 [node name="Bow" type="Node2D" node_paths=PackedStringArray("rotated_part")]
 script = ExtResource("1_yruca")
