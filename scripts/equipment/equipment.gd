@@ -23,6 +23,8 @@ const DIRECTION_TO_RADIANS: Dictionary = {
 	Direction.RIGHT: 0
 }
 
+signal equipment_added
+signal equipment_removed
 signal active_used
 signal cooldown_ended
 

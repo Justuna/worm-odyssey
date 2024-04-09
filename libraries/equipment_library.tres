@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="EquipmentLibrary" load_steps=7 format=3 uid="uid://dxe2vo0p5hajv"]
 
 [ext_resource type="Script" path="res://scripts/equipment/equipment_library.gd" id="1_nwjns"]
-[ext_resource type="PackedScene" uid="uid://dgqx3we05fwxx" path="res://prefabs/equipment/dropped_equipment.tscn" id="1_xr3rw"]
-[ext_resource type="PackedScene" uid="uid://bjr3gnlplvacv" path="res://prefabs/equipment/types/bow_equipment.tscn" id="2_5vylb"]
-[ext_resource type="PackedScene" uid="uid://b7de3ouo1vrb6" path="res://prefabs/equipment/types/fire_tome_equipment.tscn" id="3_iijt3"]
-[ext_resource type="PackedScene" uid="uid://bbngyjm7yntxq" path="res://prefabs/equipment/types/ice_tome_equipment.tscn" id="4_v4ekk"]
-[ext_resource type="PackedScene" uid="uid://dw5jbmxsqkfh7" path="res://prefabs/equipment/types/poison_tome_equipment.tscn" id="5_wdihg"]
+[ext_resource type="PackedScene" uid="uid://dgqx3we05fwxx" path="res://prefabs/pickups/equipment_pickup.tscn" id="1_xr3rw"]
+[ext_resource type="PackedScene" uid="uid://bjr3gnlplvacv" path="res://prefabs/equipment/bow_equipment.tscn" id="2_5vylb"]
+[ext_resource type="PackedScene" uid="uid://b7de3ouo1vrb6" path="res://prefabs/equipment/fire_tome_equipment.tscn" id="3_iijt3"]
+[ext_resource type="PackedScene" uid="uid://bbngyjm7yntxq" path="res://prefabs/equipment/ice_tome_equipment.tscn" id="4_v4ekk"]
+[ext_resource type="PackedScene" uid="uid://dw5jbmxsqkfh7" path="res://prefabs/equipment/poison_tome_equipment.tscn" id="5_wdihg"]
 
 [resource]
 script = ExtResource("1_nwjns")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bbngyjm7yntxq"]
 
 [ext_resource type="Script" path="res://scripts/equipment/equipment.gd" id="1_4766g"]
-[ext_resource type="Texture2D" uid="uid://wl84pwbu4noi" path="res://assets/art/segments/ice_tome.png" id="2_7sf7k"]
+[ext_resource type="Texture2D" uid="uid://wl84pwbu4noi" path="res://assets/art/equipment/ice_tome.png" id="2_7sf7k"]
 
 [node name="IceTome" type="Node2D" node_paths=PackedStringArray("rotated_part")]
 script = ExtResource("1_4766g")

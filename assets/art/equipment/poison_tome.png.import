@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b00b8obwj0107"
-path="res://.godot/imported/bow_turret.png-1740284eaf4501b17e68cbc3e7e9551d.ctex"
+uid="uid://b3vus8g35ml6l"
+path="res://.godot/imported/poison_tome.png-b6d1fbbab91b577c215c5100050f5afc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/segments/bow_turret.png"
-dest_files=["res://.godot/imported/bow_turret.png-1740284eaf4501b17e68cbc3e7e9551d.ctex"]
+source_file="res://assets/art/equipment/poison_tome.png"
+dest_files=["res://.godot/imported/poison_tome.png-b6d1fbbab91b577c215c5100050f5afc.ctex"]
 
 [params]
 
