@@ -1,11 +1,224 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjr3gnlplvacv"]
+[gd_scene load_steps=26 format=3 uid="uid://bplmeut6jbu2y"]
 
 [ext_resource type="Script" path="res://scripts/equipment/equipment.gd" id="1_yruca"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat_block_proxy.gd" id="2_8mffn"]
 [ext_resource type="Texture2D" uid="uid://b00b8obwj0107" path="res://assets/art/equipment/bow_turret.png" id="3_75p34"]
+[ext_resource type="Script" path="res://scripts/equipment/equipment_turret.gd" id="3_mrvex"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_qbvke"]
+[ext_resource type="Script" path="res://scripts/entities/fx.gd" id="3_sm037"]
+[ext_resource type="Texture2D" uid="uid://blj683acjnbdy" path="res://assets/art/fx/32_circle_fx.png" id="4_omfbw"]
+[ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="5_ep48q"]
+[ext_resource type="PackedScene" uid="uid://672bqlw1v4gm" path="res://prefabs/projectiles/bow_bullet.tscn" id="7_r0jqd"]
+[ext_resource type="Script" path="res://scripts/entities/entity_tracker.gd" id="8_bd71c"]
+[ext_resource type="Script" path="res://scripts/equipment/range_collision_shape_2d.gd" id="9_iyvek"]
+[ext_resource type="Texture2D" uid="uid://1h26xngwhymm" path="res://assets/art/fx/64_star_fx.png" id="10_cv6ew"]
+[ext_resource type="Script" path="res://scripts/equipment/equipment_active_shoot.gd" id="12_38ptw"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="12_ftm3c"]
+[ext_resource type="PackedScene" uid="uid://0p0tmff3x8mf" path="res://prefabs/projectiles/bow_pierce_bullet.tscn" id="13_yv2yj"]
+
+[sub_resource type="Curve" id="Curve_jjilh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_8hrb1"]
+curve = SubResource("Curve_jjilh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_63e31"]
+particle_flag_disable_z = true
+spread = 60.0
+initial_velocity_min = 200.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 0, 0)
+damping_min = 300.0
+damping_max = 300.0
+scale_curve = SubResource("CurveTexture_8hrb1")
+
+[sub_resource type="Animation" id="Animation_0qob0"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.05848, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_hgqwl"]
+resource_name = "recoil_light"
+length = 0.3
+step = 0.025
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(2, 2, 2),
+"points": PackedFloat32Array(0.05848, 0, 0, 0.025, 2.95344, 7, -0.0333333, 0, 0.0666667, 0, 0.05848, -0.05, 4.83461, 0, 0),
+"times": PackedFloat32Array(0, 0.1, 0.3)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yh25v"]
+_data = {
+"RESET": SubResource("Animation_0qob0"),
+"recoil_light": SubResource("Animation_hgqwl")
+}
+
+[sub_resource type="Animation" id="Animation_4k2do"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_ewhr6"]
+resource_name = "recoil_heavy"
+length = 0.5
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 2, 0),
+"points": PackedFloat32Array(0.05848, -0.25, 0, 0.05, 9.06433, 17.7485, -0.100021, -0.0292459, 0.1, 0.0292397, 0.05848, -0.1, 11.5497, 0.1, -0.438596),
+"times": PackedFloat32Array(0, 0.15, 0.5)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8volk"]
+_data = {
+"RESET": SubResource("Animation_4k2do"),
+"recoil_heavy": SubResource("Animation_ewhr6")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ourt5"]
+radius = 400.0
 
 [node name="Bow" type="Node2D" node_paths=PackedStringArray("rotated_part")]
 script = ExtResource("1_yruca")
-rotated_part = NodePath("Sprite")
+cooldown = 5.0
+rotated_part = NodePath("EquipmentTurret/TurretHead")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="StatBlockProxy" type="Node" parent="."]
+script = ExtResource("2_8mffn")
+
+[node name="Reload" type="Node" parent="StatBlockProxy"]
+script = ExtResource("3_qbvke")
+type = 4
+base_amount = 50
+
+[node name="Damage" type="Node" parent="StatBlockProxy"]
+script = ExtResource("3_qbvke")
+type = 5
+base_amount = 50
+
+[node name="Range" type="Node" parent="StatBlockProxy"]
+script = ExtResource("3_qbvke")
+type = 13
+base_amount = 50
+
+[node name="EquipmentTurret" type="Node2D" parent="." node_paths=PackedStringArray("turret_head", "turret_muzzle", "entity_tracker", "team")]
+script = ExtResource("3_mrvex")
+turret_head = NodePath("TurretHead")
+turret_muzzle = NodePath("TurretHead/TurretMuzzle")
+entity_tracker = NodePath("EntityTracker")
+bullet_prefab = ExtResource("7_r0jqd")
+team = NodePath("../Team")
+
+[node name="TurretHead" type="Node2D" parent="EquipmentTurret"]
+
+[node name="Sprite2D" type="Sprite2D" parent="EquipmentTurret/TurretHead"]
 texture = ExtResource("3_75p34")
+
+[node name="TurretMuzzle" type="Node2D" parent="EquipmentTurret/TurretHead"]
+position = Vector2(0, -28)
+
+[node name="FireFX" type="Node2D" parent="EquipmentTurret/TurretHead/TurretMuzzle"]
+z_index = 1
+script = ExtResource("3_sm037")
+animation_name = "recoil_light"
+
+[node name="Particles" type="GPUParticles2D" parent="EquipmentTurret/TurretHead/TurretMuzzle/FireFX"]
+self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
+position = Vector2(0, -1)
+rotation = -1.57079
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_63e31")
+texture = ExtResource("4_omfbw")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.8
+script = ExtResource("5_ep48q")
+repeat_oneshot = true
+
+[node name="RecoilLight" type="AnimationPlayer" parent="EquipmentTurret/TurretHead/TurretMuzzle/FireFX"]
+root_node = NodePath("../../..")
+libraries = {
+"": SubResource("AnimationLibrary_yh25v")
+}
+
+[node name="PierceFireFX" type="Node2D" parent="EquipmentTurret/TurretHead/TurretMuzzle"]
+z_index = 1
+script = ExtResource("3_sm037")
+animation_name = "recoil_heavy"
+
+[node name="Particles" type="GPUParticles2D" parent="EquipmentTurret/TurretHead/TurretMuzzle/PierceFireFX"]
+self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
+position = Vector2(0, -1)
+rotation = -1.57079
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_63e31")
+texture = ExtResource("10_cv6ew")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.8
+script = ExtResource("5_ep48q")
+repeat_oneshot = true
+
+[node name="RecoilHeavy" type="AnimationPlayer" parent="EquipmentTurret/TurretHead/TurretMuzzle/PierceFireFX"]
+root_node = NodePath("../../..")
+libraries = {
+"": SubResource("AnimationLibrary_8volk")
+}
+
+[node name="EntityTracker" type="Area2D" parent="EquipmentTurret" node_paths=PackedStringArray("team")]
+monitoring = false
+monitorable = false
+script = ExtResource("8_bd71c")
+enabled = false
+mode = 2
+team = NodePath("../../Team")
+
+[node name="RangeCollisionShape2D" type="CollisionShape2D" parent="EquipmentTurret/EntityTracker" node_paths=PackedStringArray("range")]
+shape = SubResource("CircleShape2D_ourt5")
+debug_color = Color(0.701961, 0.690196, 0, 0.0705882)
+script = ExtResource("9_iyvek")
+range = NodePath("../../../StatBlockProxy/Range")
+
+[node name="EquipmentActiveShoot" type="Node" parent="." node_paths=PackedStringArray("muzzle", "team")]
+script = ExtResource("12_38ptw")
+bullet_prefab = ExtResource("13_yv2yj")
+muzzle = NodePath("../EquipmentTurret/TurretHead/TurretMuzzle")
+team = NodePath("../Team")
+
+[node name="Team" type="Node" parent="."]
+script = ExtResource("12_ftm3c")
+
+[connection signal="on_shoot" from="EquipmentTurret" to="EquipmentTurret/TurretHead/TurretMuzzle/FireFX" method="play"]
+[connection signal="on_shoot" from="EquipmentActiveShoot" to="EquipmentTurret/TurretHead/TurretMuzzle/PierceFireFX" method="play"]

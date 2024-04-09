@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://82pjs8dvcp4j"
-path="res://.godot/imported/diamond_shot.png-71168f10e04e14030c60d1078edfb4ca.ctex"
+uid="uid://bhgsrmytyr48b"
+path="res://.godot/imported/bow_pierce_bullet.png-62df666e7eddece2c5a16052640c6bf3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/segments/diamond_shot.png"
-dest_files=["res://.godot/imported/diamond_shot.png-71168f10e04e14030c60d1078edfb4ca.ctex"]
+source_file="res://assets/art/equipment/bow_pierce_bullet.png"
+dest_files=["res://.godot/imported/bow_pierce_bullet.png-62df666e7eddece2c5a16052640c6bf3.ctex"]
 
 [params]
 

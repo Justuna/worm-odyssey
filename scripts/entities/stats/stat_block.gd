@@ -1,6 +1,6 @@
 @icon("res://assets/art/editor_icons/icon_packed_data_container.svg")
-extends Node
 class_name StatBlock
+extends Node
 
 
 # [Stat.Type]: Stat
@@ -12,6 +12,15 @@ func _ready():
 	for child in get_children():
 		if child is Stat:
 			stats_dict[child.type] = child
+
+
+func get_or_add_stat(type: Stat.Type) -> Stat:
+	var stat = get_stat(type)
+	if not stat:
+		stat = Stat.new()
+		stats_dict[type] = stat
+		add_child(stat)
+	return stat
 
 
 func get_stat(type: Stat.Type) -> Stat:
@@ -31,3 +40,9 @@ func set_stat_amount(type: Stat.Type, amount: int) -> bool:
 		stats_dict[type] = amount
 		return true
 	return false
+
+
+func clear_modifiers():
+	for type in stats_dict.keys():
+		var stat = stats_dict[type] as Stat
+		stat.clear_modifiers()

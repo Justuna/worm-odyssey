@@ -1,0 +1,169 @@
+[gd_scene load_steps=20 format=3 uid="uid://0p0tmff3x8mf"]
+
+[ext_resource type="Script" path="res://prefabs/projectiles/projectile.gd" id="1_boeii"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="2_40o7a"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_pi5xe"]
+[ext_resource type="Texture2D" uid="uid://bhgsrmytyr48b" path="res://assets/art/equipment/bow_pierce_bullet.png" id="4_ufbxi"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detector.gd" id="5_fiij7"]
+[ext_resource type="Script" path="res://scripts/entities/hit_dealers/hit_once.gd" id="6_u6b5a"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="7_yfwox"]
+[ext_resource type="Texture2D" uid="uid://1h26xngwhymm" path="res://assets/art/fx/64_star_fx.png" id="8_4tpe3"]
+[ext_resource type="Script" path="res://scripts/projectiles/forward_projectile.gd" id="8_q22s0"]
+[ext_resource type="Script" path="res://scripts/entities/death.gd" id="9_571fl"]
+[ext_resource type="Script" path="res://scripts/entities/fx.gd" id="10_2j2wc"]
+[ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="12_hnb27"]
+[ext_resource type="Texture2D" uid="uid://etk48cpefs0d" path="res://assets/art/fx/96_star_fx.png" id="13_3rtwc"]
+
+[sub_resource type="Curve" id="Curve_qrlkw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fccvu"]
+curve = SubResource("Curve_qrlkw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_i3o2b"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 12.4
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+damping_min = 150.0
+damping_max = 150.0
+scale_min = 0.75
+scale_max = 0.75
+scale_curve = SubResource("CurveTexture_fccvu")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nt4xy"]
+radius = 47.0
+height = 146.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_i615h"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 12.4
+spread = 180.0
+flatness = 0.9
+initial_velocity_min = 200.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 0, 0)
+damping_min = 150.0
+damping_max = 150.0
+scale_min = 1.5
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_fccvu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6bw6e"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 12.4
+spread = 180.0
+initial_velocity_min = 150.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+damping_min = 150.0
+damping_max = 150.0
+scale_min = 0.75
+scale_max = 0.75
+scale_curve = SubResource("CurveTexture_fccvu")
+
+[node name="BowPierceBullet" type="Node2D"]
+z_index = 5
+script = ExtResource("1_boeii")
+rotate_to_direction = true
+
+[node name="StatBlock" type="Node" parent="."]
+script = ExtResource("2_40o7a")
+
+[node name="Speed" type="Node" parent="StatBlock"]
+script = ExtResource("3_pi5xe")
+base_amount = 100
+
+[node name="Damage" type="Node" parent="StatBlock"]
+script = ExtResource("3_pi5xe")
+type = 5
+base_amount = 20
+
+[node name="Trail" type="GPUParticles2D" parent="."]
+self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
+position = Vector2(0, 20)
+scale = Vector2(1, 1)
+amount = 6
+process_material = SubResource("ParticleProcessMaterial_i3o2b")
+texture = ExtResource("8_4tpe3")
+lifetime = 0.5
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 11)
+scale = Vector2(2, 2)
+texture = ExtResource("4_ufbxi")
+
+[node name="HitBox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
+script = ExtResource("5_fiij7")
+entity = NodePath("..")
+mode = 2
+type = 1
+team = NodePath("../Team")
+track_wall = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("CapsuleShape2D_nt4xy")
+
+[node name="HitOnce" type="Node" parent="HitBox" node_paths=PackedStringArray("hitbox", "amount_stat")]
+script = ExtResource("6_u6b5a")
+hitbox = NodePath("..")
+amount_stat = NodePath("../../StatBlock/Damage")
+
+[node name="PierceFX" type="Node2D" parent="HitBox"]
+z_index = 10
+script = ExtResource("10_2j2wc")
+unparent_on_play = true
+use_lifetime = true
+lifetime = 1.0
+
+[node name="Particles" type="GPUParticles2D" parent="HitBox/PierceFX"]
+self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
+rotation = -0.0229226
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_i615h")
+texture = ExtResource("8_4tpe3")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.8
+script = ExtResource("12_hnb27")
+repeat_oneshot = true
+
+[node name="Team" type="Node" parent="."]
+script = ExtResource("7_yfwox")
+
+[node name="ForwardProjectile" type="Node" parent="." node_paths=PackedStringArray("speed_stat")]
+script = ExtResource("8_q22s0")
+speed_stat = NodePath("../StatBlock/Speed")
+
+[node name="Death" type="Node2D" parent="."]
+script = ExtResource("9_571fl")
+use_lifetime = true
+lifetime = 5.0
+
+[node name="FX" type="Node2D" parent="Death"]
+z_index = 10
+position = Vector2(0, -25)
+script = ExtResource("10_2j2wc")
+unparent_on_play = true
+use_lifetime = true
+lifetime = 1.0
+
+[node name="Particles" type="GPUParticles2D" parent="Death/FX"]
+self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
+rotation = -0.0229226
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_6bw6e")
+texture = ExtResource("13_3rtwc")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.8
+script = ExtResource("12_hnb27")
+
+[connection signal="wall_entered" from="HitBox" to="Death" method="die" unbinds=1]
+[connection signal="hit_dealt" from="HitBox/HitOnce" to="HitBox/PierceFX" method="play" unbinds=1]

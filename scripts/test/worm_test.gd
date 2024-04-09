@@ -20,7 +20,7 @@ func _ready():
 	var spawn_rect = spawn_area.get_rect()
 	for i in range(spawned_equipment_count):
 		var rand_point = Vector2(randf_range(spawn_rect.position.x, spawn_rect.end.x), randf_range(spawn_rect.position.y, spawn_rect.end.y))
-		var rand_type = randi_range(0, Equipment.Type.keys().size() - 1) as Equipment.Type
+		var rand_type = equipment_library.equipment_types.pick_random()
 		var dropped_inst = equipment_library.spawn_dropped_equipment(rand_type)
 		add_child(dropped_inst)
 		dropped_inst.global_position = rand_point
@@ -31,8 +31,9 @@ func _process(delta):
 
 
 func _draw():
-	draw_rect(spawn_area.get_rect(), Color.RED, false)
-	draw_rect(spawn_area.get_rect(), Color(Color.RED, 0.2), true)
+	if Engine.is_editor_hint():
+		draw_rect(spawn_area.get_rect(), Color.RED, false)
+		draw_rect(spawn_area.get_rect(), Color(Color.RED, 0.2), true)
 
 
 func _input(event):

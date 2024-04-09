@@ -54,7 +54,7 @@ point_count = 2
 [sub_resource type="CurveTexture" id="CurveTexture_yl8ty"]
 curve = SubResource("Curve_ufdhq")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_105cy"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sdfrd"]
 particle_flag_disable_z = true
 spread = 180.0
 initial_velocity_min = 150.0
@@ -69,7 +69,7 @@ point_count = 2
 [sub_resource type="CurveTexture" id="CurveTexture_ai4v8"]
 curve = SubResource("Curve_a3q0q")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yfs8q"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2murx"]
 particle_flag_disable_z = true
 spread = 180.0
 initial_velocity_min = 150.0
@@ -163,6 +163,7 @@ offset = Vector2(10, 32)
 shape = SubResource("CircleShape2D_u53qh")
 
 [node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
+monitoring = false
 script = ExtResource("10_478pc")
 entity = NodePath("..")
 mode = 2
@@ -203,10 +204,10 @@ pattern_sprites = [NodePath("../Visual/WingsClosed/ClosedPatternHalf"), NodePath
 team = NodePath("../Team")
 
 [node name="EntityTracker" type="Area2D" parent="LanternFlyAI" node_paths=PackedStringArray("team")]
+monitorable = false
 script = ExtResource("20_hlbki")
 mode = 2
 team = NodePath("../../Team")
-track_nearest_entity = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LanternFlyAI/EntityTracker"]
 shape = SubResource("CircleShape2D_dl1ub")
@@ -229,7 +230,7 @@ script = ExtResource("24_i70t5")
 self_modulate = Color(1, 0, 0, 1)
 emitting = false
 amount = 4
-process_material = SubResource("ParticleProcessMaterial_105cy")
+process_material = SubResource("ParticleProcessMaterial_sdfrd")
 texture = ExtResource("24_p163j")
 lifetime = 0.4
 one_shot = true
@@ -237,9 +238,8 @@ explosiveness = 0.8
 script = ExtResource("26_u27xi")
 repeat_oneshot = true
 
-[node name="Death" type="Node2D" parent="." node_paths=PackedStringArray("entity")]
+[node name="Death" type="Node2D" parent="."]
 script = ExtResource("27_igu6w")
-entity = NodePath("..")
 
 [node name="FX" type="Node2D" parent="Death"]
 z_index = 10
@@ -252,7 +252,7 @@ lifetime = 1.0
 self_modulate = Color(1, 0, 0, 1)
 emitting = false
 amount = 4
-process_material = SubResource("ParticleProcessMaterial_yfs8q")
+process_material = SubResource("ParticleProcessMaterial_2murx")
 texture = ExtResource("28_icooi")
 lifetime = 0.4
 one_shot = true

@@ -30,6 +30,12 @@ var _eject_button_pressed: bool
 var _rotate_pressed: bool
 var _single_rotate_pressed: bool
 
+var _x_active_pressed: bool
+var _y_active_pressed: bool
+var _a_active_pressed: bool
+var _b_active_pressed: bool
+
+
 func _ready():
 	_movement_deadzone_sqr = movement_deadzone * movement_deadzone 
 
@@ -74,9 +80,9 @@ func _process(delta):
 				elif b_pressed:
 					worm_configurer.set_segment_binding(WormSegment.Binding.B_BUTTON)
 				elif x_pressed:
-					worm_configurer.set_segment_binding(WormSegment.Binding.Y_BUTTON)
-				elif y_pressed:
 					worm_configurer.set_segment_binding(WormSegment.Binding.X_BUTTON)
+				elif y_pressed:
+					worm_configurer.set_segment_binding(WormSegment.Binding.Y_BUTTON)
 				_binding_button_pressed = true
 		elif _binding_button_pressed:
 			_binding_button_pressed = false
@@ -122,6 +128,30 @@ func _process(delta):
 				camera_controller.camera_zoom *= (1 + zoom_factor * zoom_amount)
 			else:
 				camera_controller.camera_zoom /= (1 + zoom_factor * abs(zoom_amount))
+		if Input.is_joy_button_pressed(device_id, JOY_BUTTON_X):
+			if not _x_active_pressed:
+				_x_active_pressed = true
+				_worm_controller.use_active(WormSegment.Binding.X_BUTTON)
+		elif _x_active_pressed:
+			_x_active_pressed = false
+		if Input.is_joy_button_pressed(device_id, JOY_BUTTON_Y):
+			if not _y_active_pressed:
+				_y_active_pressed = true
+				_worm_controller.use_active(WormSegment.Binding.Y_BUTTON)
+		elif _y_active_pressed:
+			_y_active_pressed = false
+		if Input.is_joy_button_pressed(device_id, JOY_BUTTON_A):
+			if not _a_active_pressed:
+				_a_active_pressed = true
+				_worm_controller.use_active(WormSegment.Binding.A_BUTTON)
+		elif _a_active_pressed:
+			_a_active_pressed = false
+		if Input.is_joy_button_pressed(device_id, JOY_BUTTON_B):
+			if not _b_active_pressed:
+				_b_active_pressed = true
+				_worm_controller.use_active(WormSegment.Binding.B_BUTTON)
+		elif _b_active_pressed:
+			_b_active_pressed = false
 	if Input.is_joy_button_pressed(device_id, JOY_BUTTON_LEFT_SHOULDER):
 		if not _config_mode_pressed:
 			_config_mode_pressed = true

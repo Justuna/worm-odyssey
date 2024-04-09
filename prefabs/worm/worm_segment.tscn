@@ -34,7 +34,7 @@ shader_parameter/overlay_color = Color(1, 1, 1, 1)
 shader_parameter/overlay_amount = 0.0
 shader_parameter/overlay_enabled = true
 shader_parameter/overlay_2_color = Color(1, 1, 1, 1)
-shader_parameter/overlay_2_amount = 0.6
+shader_parameter/overlay_2_amount = 0.0
 shader_parameter/overlay_2_enabled = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ijc37"]
@@ -62,7 +62,7 @@ initial_velocity_max = 200.0
 gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_ge0bh")
 
-[node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group", "equipment_container", "health", "team", "health_indicator", "health_indicator_container")]
+[node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group", "equipment_container", "health", "team", "stat_block", "health_indicator", "health_indicator_container", "active_cooldown_indicator", "active_cooldown_indicator_container")]
 script = ExtResource("1_44kv3")
 canvas_group = NodePath("CanvasGroup")
 equipment_container = NodePath("CanvasGroup/EquipmentContainer")
@@ -72,9 +72,12 @@ b_color = Color(0.937255, 0.305882, 0.160784, 1)
 a_color = Color(0.490196, 0.717647, 0, 1)
 health = NodePath("Health")
 team = NodePath("Team")
+stat_block = NodePath("StatBlock")
 health_indicator = NodePath("HealthIndicatorContainer/HealthIndicator")
 health_indicator_container = NodePath("HealthIndicatorContainer")
 damage_gradient = SubResource("Gradient_4p2et")
+active_cooldown_indicator = NodePath("ActiveCooldownIndicatorContainer/ActiveCooldownIndicator")
+active_cooldown_indicator_container = NodePath("ActiveCooldownIndicatorContainer")
 
 [node name="StatBlock" type="Node" parent="."]
 script = ExtResource("10_nyqvj")
@@ -88,6 +91,25 @@ base_amount = 100
 script = ExtResource("11_cgg08")
 type = 2
 base_amount = 40
+
+[node name="Reload" type="Node" parent="StatBlock"]
+script = ExtResource("11_cgg08")
+type = 4
+base_amount = 50
+
+[node name="Damage" type="Node" parent="StatBlock"]
+script = ExtResource("11_cgg08")
+type = 5
+base_amount = 50
+
+[node name="Range" type="Node" parent="StatBlock"]
+script = ExtResource("11_cgg08")
+type = 13
+base_amount = 50
+
+[node name="EffectHolder" type="Node" parent="."]
+script = ExtResource("5_bsu82")
+effect_library = ExtResource("6_4o5w6")
 
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
 material = SubResource("ShaderMaterial_u7npg")
@@ -104,6 +126,17 @@ texture = ExtResource("3_rg1sj")
 script = ExtResource("11_isjfl")
 health = NodePath("../../Health")
 fill_parameter = "overlay_amount"
+
+[node name="ActiveCooldownIndicatorContainer" type="Sprite2D" parent="."]
+self_modulate = Color(0, 0, 0, 1)
+position = Vector2(32, -32)
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("7_pgmi6")
+
+[node name="ActiveCooldownIndicator" type="Sprite2D" parent="ActiveCooldownIndicatorContainer"]
+self_modulate = Color(0.133333, 0.658824, 0.862745, 1)
+material = SubResource("ShaderMaterial_ijc37")
+texture = ExtResource("6_2vnd3")
 
 [node name="HealthIndicatorContainer" type="Sprite2D" parent="."]
 self_modulate = Color(0, 0, 0, 1)
@@ -124,16 +157,16 @@ script = ExtResource("6_5650k")
 health = NodePath("..")
 regen_stat = NodePath("../../StatBlock/Regen")
 
-[node name="HitDetector" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
 script = ExtResource("7_i4yxk")
 entity = NodePath("..")
 mode = 2
 team = NodePath("../Team")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_x3mp7")
 
-[node name="HitTaker" type="Node" parent="HitDetector" node_paths=PackedStringArray("health", "hurtbox")]
+[node name="HitTaker" type="Node" parent="Hurtbox" node_paths=PackedStringArray("health", "hurtbox")]
 script = ExtResource("5_iqw05")
 health = NodePath("../../Health")
 hurtbox = NodePath("..")
@@ -141,19 +174,14 @@ hurtbox = NodePath("..")
 [node name="HitTaker" type="Node" parent="." node_paths=PackedStringArray("health", "hurtbox")]
 script = ExtResource("5_iqw05")
 health = NodePath("../Health")
-hurtbox = NodePath("../HitDetector")
-
-[node name="EffectHolder" type="Node" parent="."]
-script = ExtResource("5_bsu82")
-effect_library = ExtResource("6_4o5w6")
+hurtbox = NodePath("../Hurtbox")
 
 [node name="Team" type="Node" parent="."]
 script = ExtResource("12_bxh31")
 
-[node name="DeathFX" type="Node2D" parent="." node_paths=PackedStringArray("entity")]
+[node name="DeathFX" type="Node2D" parent="."]
 z_index = 10
 script = ExtResource("17_7hgfs")
-entity = NodePath("..")
 unparent_on_play = true
 use_lifetime = true
 lifetime = 1.0

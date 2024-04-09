@@ -48,9 +48,12 @@ var _is_moving: bool
 		_update_binding_visuals()
 @export var health: Health
 @export var team: Team
+@export var stat_block: StatBlock
 @export var health_indicator: Sprite2D
 @export var health_indicator_container: Node2D
 @export var damage_gradient: Gradient
+@export var active_cooldown_indicator: Sprite2D
+@export var active_cooldown_indicator_container: Node2D
 
 var _binding: Binding
 @onready var BINDING_TO_COLOR: Dictionary = {
@@ -68,9 +71,20 @@ func _ready():
 	_update_is_moving_visuals()
 	canvas_group.material = canvas_group.material.duplicate()
 	health_indicator.material = health_indicator.material.duplicate()
+	active_cooldown_indicator.material = active_cooldown_indicator.material.duplicate()
 	health.on_death.connect(_on_death)
 	health.on_health_changed.connect(_on_health_changed.unbind(1))
 	health_indicator_container.visible = false
+	(canvas_group.material as ShaderMaterial).set_shader_parameter("overlay_2_amount", 0.6)
+	active_cooldown_indicator_container.visible = false
+
+
+func _process(delta):
+	if equipment:
+		active_cooldown_indicator_container.visible = equipment.is_active_on_cooldown
+		if active_cooldown_indicator_container.visible:
+			var percent = 1.0 - equipment.cooldown_timer / equipment.cooldown
+			(active_cooldown_indicator.material as ShaderMaterial).set_shader_parameter("fill_amount", percent)
 
 
 func construct(_worm: Node2D, _team: String):
@@ -113,7 +127,6 @@ func add_equipment(_equipment: Equipment, direction: Equipment.Direction) -> Equ
 		equipment.position = Vector2.ZERO
 		equipment.rotation = 0
 		equipment.construct(worm, self, direction)
-		equipment.equipment_added.emit()
 		_update_binding_visuals()
 	return old_equipment
 
@@ -122,7 +135,7 @@ func remove_equipment() -> Equipment:
 	if equipment:
 		equipment_container.remove_child(equipment)
 		var old_equipment = equipment
-		equipment.equipment_removed.emit()
+		equipment.destruct()
 		equipment = null
 		_update_binding_visuals()
 		return old_equipment
@@ -131,7 +144,8 @@ func remove_equipment() -> Equipment:
 
 
 func use_active():
-	equipment.use_active()
+	if equipment:
+		equipment.use_active()
 
 
 func _update_binding_visuals():

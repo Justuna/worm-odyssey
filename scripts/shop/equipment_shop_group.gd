@@ -11,8 +11,7 @@ var _pickups: Array[EquipmentPickup]
 
 func _restock():
 	for slot in slots:
-		var type = randi() % Equipment.Type.size() 
-		var equipment = catalog.spawn_equipment(type as Equipment.Type)
+		var equipment = catalog.spawn_equipment(catalog.equipment_types.pick_random())
 		var pickup = pickup_prefab.instantiate().get_node_or_null("EquipmentPickup") as EquipmentPickup
 
 		pickup.construct(equipment, disguised)

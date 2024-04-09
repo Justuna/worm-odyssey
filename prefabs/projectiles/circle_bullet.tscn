@@ -14,7 +14,7 @@
 [ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="12_pwfr5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2nwya"]
-radius = 28.0
+radius = 23.0217
 
 [sub_resource type="Curve" id="Curve_qrlkw"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
@@ -23,12 +23,18 @@ point_count = 2
 [sub_resource type="CurveTexture" id="CurveTexture_fccvu"]
 curve = SubResource("Curve_qrlkw")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_upplt"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yo0u0"]
 particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 12.4
 spread = 180.0
 initial_velocity_min = 150.0
 initial_velocity_max = 200.0
 gravity = Vector3(0, 0, 0)
+damping_min = 150.0
+damping_max = 150.0
+scale_min = 0.75
+scale_max = 0.75
 scale_curve = SubResource("CurveTexture_fccvu")
 
 [node name="CircleBullet" type="Node2D"]
@@ -54,6 +60,7 @@ texture = ExtResource("4_uw4xu")
 script = ExtResource("5_jkoj3")
 entity = NodePath("..")
 mode = 2
+type = 1
 team = NodePath("../Team")
 track_wall = true
 
@@ -72,16 +79,14 @@ script = ExtResource("7_4qopn")
 script = ExtResource("8_xndhy")
 speed_stat = NodePath("../StatBlock/Speed")
 
-[node name="Death" type="Node2D" parent="." node_paths=PackedStringArray("entity")]
+[node name="Death" type="Node2D" parent="."]
 script = ExtResource("9_frdnw")
 use_lifetime = true
 lifetime = 10.0
-entity = NodePath("..")
 
-[node name="FX" type="Node2D" parent="Death" node_paths=PackedStringArray("entity")]
+[node name="FX" type="Node2D" parent="Death"]
 z_index = 10
 script = ExtResource("10_neiv4")
-entity = NodePath("../..")
 unparent_on_play = true
 use_lifetime = true
 lifetime = 1.0
@@ -90,7 +95,7 @@ lifetime = 1.0
 self_modulate = Color(1, 0, 0, 1)
 emitting = false
 amount = 4
-process_material = SubResource("ParticleProcessMaterial_upplt")
+process_material = SubResource("ParticleProcessMaterial_yo0u0")
 texture = ExtResource("11_3hi1l")
 lifetime = 0.4
 one_shot = true
