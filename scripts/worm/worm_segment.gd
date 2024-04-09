@@ -111,7 +111,6 @@ func add_equipment(_equipment: Equipment, direction: Equipment.Direction) -> Equ
 			equipment.reparent(equipment_container)
 		else:
 			equipment_container.add_child(equipment)
-		stat_block.sync_modifiers_stat_block = equipment.stat_block
 		equipment.position = Vector2.ZERO
 		equipment.rotation = 0
 		equipment.construct(worm, self, direction)
@@ -123,7 +122,6 @@ func remove_equipment() -> Equipment:
 	if equipment:
 		equipment_container.remove_child(equipment)
 		var old_equipment = equipment
-		stat_block.sync_modifiers_stat_block = null
 		equipment.destruct()
 		equipment = null
 		_update_binding_visuals()

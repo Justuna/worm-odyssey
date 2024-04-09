@@ -38,22 +38,6 @@ var modifiers: Array[StatModifier] :
 		arr.assign(_modifiers_dict.keys())
 		return arr
 
-## Stat to sync this current Stat's modifiers to.  
-var synced_stat: Stat :
-	get:
-		return _synced_stat
-	set(value):
-		if _synced_stat:
-			# Desync our existing modifiers
-			for modifier: StatModifier in modifiers:
-				_synced_stat.remove_modifier(modifier)
-		_synced_stat = value
-		if _synced_stat:
-			# Sync our existing modifiers over
-			for modifier: StatModifier in modifiers:
-				_synced_stat.add_modifier(modifier)
-var _synced_stat: Stat
-
 # [StatModifier]: null
 var _modifiers_dict: Dictionary
 var _prev_max_health: int
@@ -71,8 +55,6 @@ func add_modifier(modifier: StatModifier):
 	_modifiers_dict[modifier] = null
 	modifier.updated.connect(_update_amount)
 	_update_amount()
-	if synced_stat:
-		synced_stat.add_modifier(modifier)
 
 
 func remove_modifier(modifier: StatModifier):
@@ -80,8 +62,6 @@ func remove_modifier(modifier: StatModifier):
 		_modifiers_dict.erase(modifier)
 		modifier.updated.disconnect(_update_amount)
 		_update_amount()
-		if synced_stat:
-			synced_stat.remove_modifier(modifier)
 
 
 func clear_modifiers():

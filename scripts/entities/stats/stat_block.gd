@@ -5,25 +5,6 @@ class_name StatBlock
 
 # [Stat.Type]: Stat
 var stats_dict: Dictionary
-## Syncs the modifiers in this stat
-## block to the sync_modifiers_stat_block
-var sync_modifiers_stat_block: StatBlock :
-	get:
-		return _sync_modifiers_stat_block
-	set(value):
-		if _sync_modifiers_stat_block:
-			# Desync with old stat block
-			for stat_type in stats_dict:
-				var stat = stats_dict[stat_type] as Stat
-				stat.synced_stat = null
-		_sync_modifiers_stat_block = value
-		if _sync_modifiers_stat_block:
-			# Sync with new stat block
-			for stat_type in stats_dict:
-				var stat = stats_dict[stat_type] as Stat
-				var synced_stat = _sync_modifiers_stat_block.get_stat(stat_type)
-				stat.synced_stat = synced_stat
-var _sync_modifiers_stat_block: StatBlock
 
 
 func _ready():
