@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dp6ibxtg4brre"]
+[gd_scene load_steps=17 format=3 uid="uid://dp6ibxtg4brre"]
 
 [ext_resource type="Script" path="res://prefabs/projectiles/projectile.gd" id="1_3xcda"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="2_mf0kw"]
@@ -9,9 +9,27 @@
 [ext_resource type="Script" path="res://scripts/entities/team.gd" id="7_4qopn"]
 [ext_resource type="Script" path="res://scripts/projectiles/forward_projectile.gd" id="8_xndhy"]
 [ext_resource type="Script" path="res://scripts/entities/death.gd" id="9_frdnw"]
+[ext_resource type="Script" path="res://scripts/entities/fx.gd" id="10_neiv4"]
+[ext_resource type="Texture2D" uid="uid://c1hecckiex8v8" path="res://assets/art/fx/64_circle_fx.png" id="11_3hi1l"]
+[ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="12_pwfr5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2nwya"]
 radius = 28.0
+
+[sub_resource type="Curve" id="Curve_qrlkw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fccvu"]
+curve = SubResource("Curve_qrlkw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_upplt"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 150.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_fccvu")
 
 [node name="CircleBullet" type="Node2D"]
 z_index = 5
@@ -54,11 +72,30 @@ script = ExtResource("7_4qopn")
 script = ExtResource("8_xndhy")
 speed_stat = NodePath("../StatBlock/Speed")
 
-[node name="Death" type="Node" parent="." node_paths=PackedStringArray("entity")]
+[node name="Death" type="Node2D" parent="." node_paths=PackedStringArray("entity")]
 script = ExtResource("9_frdnw")
 use_lifetime = true
 lifetime = 10.0
 entity = NodePath("..")
+
+[node name="FX" type="Node2D" parent="Death" node_paths=PackedStringArray("entity")]
+z_index = 10
+script = ExtResource("10_neiv4")
+entity = NodePath("../..")
+unparent_on_play = true
+use_lifetime = true
+lifetime = 1.0
+
+[node name="Particles" type="GPUParticles2D" parent="Death/FX"]
+self_modulate = Color(1, 0, 0, 1)
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_upplt")
+texture = ExtResource("11_3hi1l")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.8
+script = ExtResource("12_pwfr5")
 
 [connection signal="wall_entered" from="HitBox" to="Death" method="die" unbinds=1]
 [connection signal="hit_dealt" from="HitBox/HitOnce" to="Death" method="die" unbinds=1]

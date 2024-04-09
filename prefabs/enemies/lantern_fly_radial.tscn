@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://dy25apkouufyw"]
+
+[ext_resource type="PackedScene" uid="uid://4yl4bjq6n3j0" path="res://prefabs/enemies/lantern_fly_star.tscn" id="1_kcum4"]
+[ext_resource type="Texture2D" uid="uid://dgwf2e0n5fg55" path="res://assets/art/enemies/lantern_fly/lantern_fly_circle.png" id="2_pg656"]
+
+[node name="LanternFlyRadial" instance=ExtResource("1_kcum4")]
+
+[node name="ClosedPatternHalf" parent="Visual/WingsClosed" index="0"]
+texture = ExtResource("2_pg656")
+
+[node name="ClosedPatternHalf2" parent="Visual/WingsClosed" index="1"]
+texture = ExtResource("2_pg656")
+
+[node name="LeftOpenPattern" parent="Visual/WingsOpen/LeftOuter/LeftInner" index="0"]
+texture = ExtResource("2_pg656")
+
+[node name="RightOpenPattern" parent="Visual/WingsOpen/RightOuter/RightInner" index="0"]
+texture = ExtResource("2_pg656")
+
+[node name="LanternFlyAI" parent="." index="6"]
+bullet_pattern = 1

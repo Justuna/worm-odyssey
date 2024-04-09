@@ -13,6 +13,8 @@ var equipment_prefabs_dict: Dictionary :
 			_equipment_prefabs_dict = {}
 			for equipment_prefab in equipment_prefabs:
 				var inst = equipment_prefab.instantiate() as Equipment
+				if inst.equipment_type in _equipment_prefabs_dict:
+					printerr("Equipment Library: Equipment with type %s already exists, is there a duplicate type?" % inst.equipment_type)
 				_equipment_prefabs_dict[inst.equipment_type] = equipment_prefab
 				inst.queue_free()
 		return _equipment_prefabs_dict

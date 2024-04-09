@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://df0c367funl53"]
+[gd_scene load_steps=27 format=3 uid="uid://df0c367funl53"]
 
 [ext_resource type="Script" path="res://scripts/worm/worm_segment.gd" id="1_44kv3"]
 [ext_resource type="Texture2D" uid="uid://cqsjwv7i833mh" path="res://assets/art/segments/strap.png" id="3_rg1sj"]
@@ -16,6 +16,9 @@
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="11_cgg08"]
 [ext_resource type="Script" path="res://scripts/enemies/hit_flash.gd" id="11_isjfl"]
 [ext_resource type="Script" path="res://scripts/entities/team.gd" id="12_bxh31"]
+[ext_resource type="Script" path="res://scripts/entities/fx.gd" id="17_7hgfs"]
+[ext_resource type="Texture2D" uid="uid://p62o42eelno8" path="res://assets/art/fx/96_circle_fx.png" id="18_r3ojj"]
+[ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="19_4nexv"]
 
 [sub_resource type="Gradient" id="Gradient_4p2et"]
 offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
@@ -43,6 +46,21 @@ shader_parameter/flip_cutoff = false
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x3mp7"]
 radius = 20.0
+
+[sub_resource type="Curve" id="Curve_er1vo"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ge0bh"]
+curve = SubResource("Curve_er1vo")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jqm4l"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 150.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_ge0bh")
 
 [node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group", "equipment_container", "health", "team", "health_indicator", "health_indicator_container")]
 script = ExtResource("1_44kv3")
@@ -131,3 +149,24 @@ effect_library = ExtResource("6_4o5w6")
 
 [node name="Team" type="Node" parent="."]
 script = ExtResource("12_bxh31")
+
+[node name="DeathFX" type="Node2D" parent="." node_paths=PackedStringArray("entity")]
+z_index = 10
+script = ExtResource("17_7hgfs")
+entity = NodePath("..")
+unparent_on_play = true
+use_lifetime = true
+lifetime = 1.0
+
+[node name="Particles" type="GPUParticles2D" parent="DeathFX"]
+self_modulate = Color(0.819608, 0.666667, 0.654902, 1)
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_jqm4l")
+texture = ExtResource("18_r3ojj")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.8
+script = ExtResource("19_4nexv")
+
+[connection signal="on_death" from="Health" to="DeathFX" method="play"]

@@ -1,3 +1,4 @@
+@tool
 ## Lantern Fly AI
 ## Bug that periodically wanders and flies.
 ## Releases bullet patterns when flying.
@@ -7,6 +8,8 @@
 class_name LanternFlyAI
 extends Node2D
 
+
+signal on_shoot
 
 const SPEED_FACTOR: float = 4
 const FLY_DURATION: float = 5
@@ -25,13 +28,26 @@ enum Pattern {
 	LINE,
 }
 
-@export var enemy_detector: EntityTracker
 @export var speed: Stat
 @export var wander_walk_interval: Vector2 = Vector2(2, 4)
 @export var wander_wait_interval: Vector2 = Vector2(0.5, 2)
+@export var bullet_pattern: Pattern :
+	get:
+		return _bullet_pattern
+	set(value):
+		_bullet_pattern = value
+		_update_bullet_pattern_visuals()
+var _bullet_pattern: Pattern
+
+@export_group("Dependencies")
+@export var enemy_detector: EntityTracker
 @export var animation_player: AnimationPlayer
 @export var bullet_prefab: PackedScene
-@export var bullet_pattern: Pattern
+@export var star_pattern_texture: Texture2D
+@export var radial_pattern_texture: Texture2D
+@export var shotgun_pattern_texture: Texture2D
+@export var line_pattern_texture: Texture2D
+@export var pattern_sprites: Array[Sprite2D]
 @export var team: Team
 
 @onready var body: CharacterBody2D = get_parent() as CharacterBody2D
@@ -52,10 +68,24 @@ var _wait_timer: float
 
 
 func _ready():
+	_update_bullet_pattern_visuals()
 	if Engine.is_editor_hint():
 		set_process(false)
 		return
 	enemy_detector.team = get_parent().get_node("Team")
+
+
+func _update_bullet_pattern_visuals():
+	for sprite: Sprite2D in pattern_sprites:
+		match bullet_pattern:
+			Pattern.STAR:
+				sprite.texture = star_pattern_texture
+			Pattern.RADIAL:
+				sprite.texture = radial_pattern_texture
+			Pattern.SHOTGUN:
+				sprite.texture = shotgun_pattern_texture
+			Pattern.LINE:
+				sprite.texture = line_pattern_texture
 
 
 func _process(delta):
@@ -65,7 +95,7 @@ func _process(delta):
 			body.velocity = speed.amount * 3 * (_fly_target_position - global_position).normalized()
 			body.move_and_slide()
 			var dist_sqr_to_target_pos = global_position.distance_squared_to(_fly_target_position)
-			if Pattern.LINE:
+			if bullet_pattern == Pattern.LINE:
 				# Continually spawn bullets in the line
 				_fly_shoot_timer -= delta
 				if _fly_shoot_timer <= 0:
@@ -148,14 +178,15 @@ func _shoot_pattern():
 			var count = 5
 			var arc_length = deg_to_rad(60)
 			var per_bullet_deg = arc_length / count
-			var deg_offset = deg_to_rad(90)
+			var deg_offset = deg_to_rad(-90)
 			for i in range(count):
 				var projectile = bullet_prefab.instantiate() as Projectile
 				world.add_child(projectile)
-				projectile.construct(global_position, Vector2.from_angle(i * per_bullet_deg - arc_length / 2.0) + deg_offset, team.team)
+				projectile.construct(global_position, Vector2.from_angle(global_rotation + i * per_bullet_deg - arc_length / 2.0  + deg_offset), team.team)
 		Pattern.LINE:
 			var projectile = bullet_prefab.instantiate() as Projectile
 			world.add_child(projectile)
 			projectile.construct(global_position, Vector2.ONE, team.team)
 			var stat_block = projectile.stat_block as StatBlock
 			stat_block.get_stat(Stat.Type.SPEED).add_modifier(_line_pattern_speed_modifier)
+	on_shoot.emit()

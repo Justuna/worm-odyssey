@@ -1,0 +1,263 @@
+[gd_scene load_steps=39 format=3 uid="uid://4yl4bjq6n3j0"]
+
+[ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="1_38uq8"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="2_o5u62"]
+[ext_resource type="Shader" path="res://assets/shaders/canvas_group_overlay.gdshader" id="3_43yhf"]
+[ext_resource type="Script" path="res://scripts/enemies/hit_flash.gd" id="4_cabj2"]
+[ext_resource type="Texture2D" uid="uid://e0sfdob3w0wq" path="res://assets/art/enemies/lantern_fly/lantern_fly_body.png" id="5_ivot6"]
+[ext_resource type="Texture2D" uid="uid://dkihl8n28o6s1" path="res://assets/art/enemies/lantern_fly/lantern_fly_wings.png" id="6_6twdh"]
+[ext_resource type="Texture2D" uid="uid://c6r3lo4ndox6o" path="res://assets/art/enemies/lantern_fly/lantern_fly_star.png" id="7_75apn"]
+[ext_resource type="Texture2D" uid="uid://cwigth6ydun8x" path="res://assets/art/enemies/lantern_fly/lantern_fly_inner_wing_open.png" id="8_6w24u"]
+[ext_resource type="Texture2D" uid="uid://ca0rcat51nijn" path="res://assets/art/enemies/lantern_fly/lantern_fly_wing_open.png" id="9_s3sbx"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detector.gd" id="10_478pc"]
+[ext_resource type="Script" path="res://scripts/entities/hit_taker.gd" id="11_cvu5y"]
+[ext_resource type="Script" path="res://scripts/entities/health.gd" id="12_7oycr"]
+[ext_resource type="Script" path="res://scripts/entities/passive_regen.gd" id="13_347c5"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="14_sphgf"]
+[ext_resource type="Script" path="res://scripts/ai/lantern_fly_ai.gd" id="15_3smov"]
+[ext_resource type="PackedScene" uid="uid://dp6ibxtg4brre" path="res://prefabs/projectiles/circle_bullet.tscn" id="16_yu15h"]
+[ext_resource type="Texture2D" uid="uid://dgwf2e0n5fg55" path="res://assets/art/enemies/lantern_fly/lantern_fly_circle.png" id="17_rlkbr"]
+[ext_resource type="Texture2D" uid="uid://ckk477uehw55g" path="res://assets/art/enemies/lantern_fly/lantern_fly_shotgun.png" id="18_o3ivy"]
+[ext_resource type="Texture2D" uid="uid://dmfbbgcc0cfst" path="res://assets/art/enemies/lantern_fly/lantern_fly_line.png" id="19_dtapg"]
+[ext_resource type="Script" path="res://scripts/entities/entity_tracker.gd" id="20_hlbki"]
+[ext_resource type="Script" path="res://scripts/effects/effect_holder.gd" id="21_7iipp"]
+[ext_resource type="Resource" uid="uid://x0nym0cu3uxm" path="res://libraries/effect_library.tres" id="22_86dk2"]
+[ext_resource type="AnimationLibrary" uid="uid://drc40t2iv6jme" path="res://assets/animations/lantern_fly.tres" id="23_m2xyw"]
+[ext_resource type="Script" path="res://scripts/entities/fx.gd" id="24_i70t5"]
+[ext_resource type="Texture2D" uid="uid://c1hecckiex8v8" path="res://assets/art/fx/64_circle_fx.png" id="24_p163j"]
+[ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="26_u27xi"]
+[ext_resource type="Script" path="res://scripts/entities/death.gd" id="27_igu6w"]
+[ext_resource type="Texture2D" uid="uid://p62o42eelno8" path="res://assets/art/fx/96_circle_fx.png" id="28_icooi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qynvl"]
+shader = ExtResource("3_43yhf")
+shader_parameter/overlay_color = Color(0, 0, 0, 0)
+shader_parameter/overlay_amount = null
+shader_parameter/overlay_enabled = false
+shader_parameter/overlay_2_color = Color(1, 1, 1, 1)
+shader_parameter/overlay_2_amount = 0.0
+shader_parameter/overlay_2_enabled = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u53qh"]
+radius = 33.2415
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kdnrq"]
+radius = 64.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dl1ub"]
+radius = 1280.0
+
+[sub_resource type="Curve" id="Curve_ufdhq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_yl8ty"]
+curve = SubResource("Curve_ufdhq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_105cy"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 150.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_yl8ty")
+
+[sub_resource type="Curve" id="Curve_a3q0q"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ai4v8"]
+curve = SubResource("Curve_a3q0q")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yfs8q"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 150.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_ai4v8")
+
+[node name="LanternFlyStar" type="CharacterBody2D"]
+collision_layer = 2
+motion_mode = 1
+
+[node name="StatBlock" type="Node" parent="."]
+script = ExtResource("1_38uq8")
+
+[node name="MaxHealth" type="Node" parent="StatBlock"]
+script = ExtResource("2_o5u62")
+type = 1
+base_amount = 50
+
+[node name="Regen" type="Node" parent="StatBlock"]
+script = ExtResource("2_o5u62")
+type = 2
+base_amount = 20
+
+[node name="Damage" type="Node" parent="StatBlock"]
+script = ExtResource("2_o5u62")
+type = 5
+base_amount = 20
+
+[node name="Speed" type="Node" parent="StatBlock"]
+script = ExtResource("2_o5u62")
+base_amount = 70
+
+[node name="Visual" type="CanvasGroup" parent="."]
+material = SubResource("ShaderMaterial_qynvl")
+
+[node name="HitFlash" type="Node" parent="Visual" node_paths=PackedStringArray("health")]
+script = ExtResource("4_cabj2")
+health = NodePath("../../Health")
+
+[node name="Body" type="Sprite2D" parent="Visual"]
+texture = ExtResource("5_ivot6")
+
+[node name="WingsClosed" type="Sprite2D" parent="Visual"]
+texture = ExtResource("6_6twdh")
+
+[node name="ClosedPatternHalf" type="Sprite2D" parent="Visual/WingsClosed"]
+texture = ExtResource("7_75apn")
+
+[node name="ClosedPatternHalf2" type="Sprite2D" parent="Visual/WingsClosed"]
+scale = Vector2(-1, 1)
+texture = ExtResource("7_75apn")
+
+[node name="WingsOpen" type="Node2D" parent="Visual"]
+visible = false
+
+[node name="Node2D" type="Node2D" parent="Visual/WingsOpen"]
+visible = false
+position = Vector2(-12, -30)
+
+[node name="LeftOuter" type="Sprite2D" parent="Visual/WingsOpen"]
+position = Vector2(-12, -30)
+texture = ExtResource("8_6w24u")
+offset = Vector2(12, 30)
+
+[node name="LeftInner" type="Sprite2D" parent="Visual/WingsOpen/LeftOuter"]
+texture = ExtResource("9_s3sbx")
+offset = Vector2(12, 30)
+
+[node name="LeftOpenPattern" type="Sprite2D" parent="Visual/WingsOpen/LeftOuter/LeftInner"]
+rotation = 0.785398
+texture = ExtResource("7_75apn")
+offset = Vector2(10, 32)
+
+[node name="RightOuter" type="Sprite2D" parent="Visual/WingsOpen"]
+position = Vector2(12, -30)
+scale = Vector2(-1, 1)
+texture = ExtResource("8_6w24u")
+offset = Vector2(12, 30)
+
+[node name="RightInner" type="Sprite2D" parent="Visual/WingsOpen/RightOuter"]
+texture = ExtResource("9_s3sbx")
+offset = Vector2(12, 30)
+
+[node name="RightOpenPattern" type="Sprite2D" parent="Visual/WingsOpen/RightOuter/RightInner"]
+rotation = 0.785398
+texture = ExtResource("7_75apn")
+offset = Vector2(10, 32)
+
+[node name="WallCollider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_u53qh")
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
+script = ExtResource("10_478pc")
+entity = NodePath("..")
+mode = 2
+team = NodePath("../Team")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_kdnrq")
+
+[node name="HitTaker" type="Node" parent="Hurtbox" node_paths=PackedStringArray("health", "hurtbox")]
+script = ExtResource("11_cvu5y")
+health = NodePath("../../Health")
+hurtbox = NodePath("..")
+
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("max_health")]
+script = ExtResource("12_7oycr")
+max_health = NodePath("../StatBlock/MaxHealth")
+
+[node name="PassiveRegen" type="Node" parent="Health" node_paths=PackedStringArray("health", "regen_stat")]
+script = ExtResource("13_347c5")
+health = NodePath("..")
+regen_stat = NodePath("../../StatBlock/Regen")
+
+[node name="Team" type="Node" parent="."]
+script = ExtResource("14_sphgf")
+team = "Enemy"
+
+[node name="LanternFlyAI" type="Node2D" parent="." node_paths=PackedStringArray("speed", "enemy_detector", "animation_player", "pattern_sprites", "team")]
+script = ExtResource("15_3smov")
+speed = NodePath("../StatBlock/Speed")
+enemy_detector = NodePath("EntityTracker")
+animation_player = NodePath("../AnimationPlayer")
+bullet_prefab = ExtResource("16_yu15h")
+star_pattern_texture = ExtResource("7_75apn")
+radial_pattern_texture = ExtResource("17_rlkbr")
+shotgun_pattern_texture = ExtResource("18_o3ivy")
+line_pattern_texture = ExtResource("19_dtapg")
+pattern_sprites = [NodePath("../Visual/WingsClosed/ClosedPatternHalf"), NodePath("../Visual/WingsClosed/ClosedPatternHalf2"), NodePath("../Visual/WingsOpen/LeftOuter/LeftInner/LeftOpenPattern"), NodePath("../Visual/WingsOpen/RightOuter/RightInner/RightOpenPattern")]
+team = NodePath("../Team")
+
+[node name="EntityTracker" type="Area2D" parent="LanternFlyAI" node_paths=PackedStringArray("team")]
+script = ExtResource("20_hlbki")
+mode = 2
+team = NodePath("../../Team")
+track_nearest_entity = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LanternFlyAI/EntityTracker"]
+shape = SubResource("CircleShape2D_dl1ub")
+debug_color = Color(0, 0.701961, 0.305882, 0.0941176)
+
+[node name="EffectHolder" type="Node" parent="."]
+script = ExtResource("21_7iipp")
+effect_library = ExtResource("22_86dk2")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"lantern_fly": ExtResource("23_m2xyw")
+}
+
+[node name="ShootFX" type="Node2D" parent="."]
+z_index = 10
+script = ExtResource("24_i70t5")
+
+[node name="Particles" type="GPUParticles2D" parent="ShootFX"]
+self_modulate = Color(1, 0, 0, 1)
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_105cy")
+texture = ExtResource("24_p163j")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.8
+script = ExtResource("26_u27xi")
+repeat_oneshot = true
+
+[node name="Death" type="Node2D" parent="." node_paths=PackedStringArray("entity")]
+script = ExtResource("27_igu6w")
+entity = NodePath("..")
+
+[node name="FX" type="Node2D" parent="Death"]
+z_index = 10
+script = ExtResource("24_i70t5")
+unparent_on_play = true
+use_lifetime = true
+lifetime = 1.0
+
+[node name="Particles" type="GPUParticles2D" parent="Death/FX"]
+self_modulate = Color(1, 0, 0, 1)
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_yfs8q")
+texture = ExtResource("28_icooi")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.8
+script = ExtResource("26_u27xi")
+
+[connection signal="on_death" from="Health" to="Death" method="die"]
+[connection signal="on_shoot" from="LanternFlyAI" to="ShootFX" method="play"]
