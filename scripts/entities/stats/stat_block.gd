@@ -1,6 +1,6 @@
 @icon("res://assets/art/editor_icons/icon_packed_data_container.svg")
-extends Node
 class_name StatBlock
+extends Node
 
 
 # [Stat.Type]: Stat

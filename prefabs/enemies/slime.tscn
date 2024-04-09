@@ -15,7 +15,7 @@
 [ext_resource type="Script" path="res://scripts/entities/passive_regen.gd" id="11_0a3j3"]
 [ext_resource type="Script" path="res://scripts/effects/effect_holder.gd" id="12_4dsbr"]
 [ext_resource type="Resource" uid="uid://x0nym0cu3uxm" path="res://libraries/effect_library.tres" id="13_s6epj"]
-[ext_resource type="AnimationLibrary" uid="uid://xpohjy813mq" path="res://assets/animations/entity.tres" id="14_ablhh"]
+[ext_resource type="AnimationLibrary" uid="uid://wyecdaasafnv" path="res://assets/animations/entity.tres" id="14_ablhh"]
 [ext_resource type="Script" path="res://scripts/entities/death.gd" id="17_8nfpe"]
 [ext_resource type="Script" path="res://scripts/entities/fx.gd" id="18_61adu"]
 [ext_resource type="Texture2D" uid="uid://p62o42eelno8" path="res://assets/art/fx/96_circle_fx.png" id="19_qasvs"]
@@ -49,7 +49,7 @@ point_count = 2
 [sub_resource type="CurveTexture" id="CurveTexture_8hrb1"]
 curve = SubResource("Curve_d5rrh")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pr036"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_s4x6s"]
 particle_flag_disable_z = true
 spread = 180.0
 initial_velocity_min = 150.0
@@ -67,7 +67,7 @@ script = ExtResource("9_8ns0o")
 [node name="MaxHealth" type="Node" parent="StatBlock"]
 script = ExtResource("10_7n2k5")
 type = 1
-base_amount = 50
+base_amount = 20
 
 [node name="Regen" type="Node" parent="StatBlock"]
 script = ExtResource("10_7n2k5")
@@ -100,6 +100,7 @@ shape = SubResource("CircleShape2D_u53qh")
 
 [node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
 position = Vector2(0, -13)
+monitoring = false
 script = ExtResource("2_jqabg")
 entity = NodePath("..")
 mode = 2
@@ -114,9 +115,11 @@ health = NodePath("../../Health")
 hurtbox = NodePath("..")
 
 [node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
+monitorable = false
 script = ExtResource("2_jqabg")
 entity = NodePath("..")
 mode = 2
+type = 1
 team = NodePath("../Team")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
@@ -151,10 +154,10 @@ speed = NodePath("../StatBlock/Speed")
 animation_player = NodePath("../AnimationPlayer")
 
 [node name="EntityTracker" type="Area2D" parent="ChaseAI" node_paths=PackedStringArray("team")]
+monitorable = false
 script = ExtResource("6_vfs0d")
 mode = 2
 team = NodePath("../../Team")
-track_nearest_entity = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseAI/EntityTracker"]
 shape = SubResource("CircleShape2D_dl1ub")
@@ -172,10 +175,9 @@ libraries = {
 [node name="Death" type="Node2D" parent="."]
 script = ExtResource("17_8nfpe")
 
-[node name="FX" type="Node2D" parent="Death" node_paths=PackedStringArray("entity")]
+[node name="FX" type="Node2D" parent="Death"]
 z_index = 10
 script = ExtResource("18_61adu")
-entity = NodePath("../..")
 unparent_on_play = true
 use_lifetime = true
 lifetime = 1.0
@@ -184,7 +186,7 @@ lifetime = 1.0
 self_modulate = Color(1, 0, 0, 1)
 emitting = false
 amount = 4
-process_material = SubResource("ParticleProcessMaterial_pr036")
+process_material = SubResource("ParticleProcessMaterial_s4x6s")
 texture = ExtResource("19_qasvs")
 lifetime = 0.4
 one_shot = true

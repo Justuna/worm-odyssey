@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://c4wlin680myme"]
+[gd_scene load_steps=18 format=3 uid="uid://c4wlin680myme"]
 
+[ext_resource type="Script" path="res://scripts/entities/world.gd" id="1_0jnsu"]
 [ext_resource type="Script" path="res://scripts/test/worm_test.gd" id="1_e11fb"]
 [ext_resource type="PackedScene" uid="uid://m3fds71c0yiy" path="res://prefabs/worm/worm.tscn" id="1_wvqpy"]
 [ext_resource type="Resource" uid="uid://dxe2vo0p5hajv" path="res://libraries/equipment_library.tres" id="2_6jmem"]
 [ext_resource type="Texture2D" uid="uid://dh68bsojeg13w" path="res://icon.svg" id="2_cl5xy"]
-[ext_resource type="Resource" path="res://libraries/enemy_library.tres" id="2_ojog1"]
+[ext_resource type="Resource" uid="uid://dqtlknmqynp57" path="res://libraries/enemy_library.tres" id="2_ojog1"]
 [ext_resource type="Script" path="res://scripts/shop/equipment_shop_group.gd" id="2_wufd4"]
 [ext_resource type="Script" path="res://scripts/worm/controller_worm_input.gd" id="3_8ovgw"]
 [ext_resource type="Script" path="res://scripts/worm/worm_configurer.gd" id="3_addbt"]
@@ -26,7 +27,10 @@ size = Vector2(1024, 1024)
 
 [node name="WormTest" type="Node2D"]
 
-[node name="BG" type="Control" parent="."]
+[node name="World" type="Node2D" parent="."]
+script = ExtResource("1_0jnsu")
+
+[node name="BG" type="Control" parent="World"]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -41,7 +45,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="ColorRect" type="ColorRect" parent="BG"]
+[node name="ColorRect" type="ColorRect" parent="World/BG"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,31 +54,31 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.458824, 0.321569, 0.25098, 1)
 
-[node name="Level" type="Node2D" parent="."]
+[node name="Level" type="Node2D" parent="World"]
 z_index = 10
 
-[node name="Wall" type="StaticBody2D" parent="Level" groups=["Wall"]]
+[node name="Wall" type="StaticBody2D" parent="World/Level" groups=["Wall"]]
 position = Vector2(-101, 12)
 
-[node name="Sprite2D" type="Sprite2D" parent="Level/Wall"]
+[node name="Sprite2D" type="Sprite2D" parent="World/Level/Wall"]
 texture = ExtResource("2_cl5xy")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Wall"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Level/Wall"]
 shape = SubResource("RectangleShape2D_1fcaq")
 
-[node name="Wall2" type="StaticBody2D" parent="Level" groups=["Wall"]]
+[node name="Wall2" type="StaticBody2D" parent="World/Level" groups=["Wall"]]
 position = Vector2(281, 218)
 rotation = 0.886361
 
-[node name="Sprite2D" type="Sprite2D" parent="Level/Wall2"]
+[node name="Sprite2D" type="Sprite2D" parent="World/Level/Wall2"]
 texture = ExtResource("2_cl5xy")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Wall2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Level/Wall2"]
 shape = SubResource("RectangleShape2D_1fcaq")
 
-[node name="EquipmentShop" type="Node2D" parent="Level"]
+[node name="EquipmentShop" type="Node2D" parent="World/Level"]
 
-[node name="RegularShopGroup" type="Node2D" parent="Level/EquipmentShop" node_paths=PackedStringArray("worm", "slots")]
+[node name="RegularShopGroup" type="Node2D" parent="World/Level/EquipmentShop" node_paths=PackedStringArray("worm", "slots")]
 script = ExtResource("2_wufd4")
 catalog = ExtResource("2_6jmem")
 pickup_prefab = ExtResource("4_w4vki")
@@ -83,16 +87,16 @@ base_cost = 10
 worm = NodePath("../../../PlayerWorm/Worm")
 slots = [NodePath("ShopSlot1"), NodePath("ShopSlot2"), NodePath("ShopSlot3")]
 
-[node name="ShopSlot1" type="Node2D" parent="Level/EquipmentShop/RegularShopGroup"]
+[node name="ShopSlot1" type="Node2D" parent="World/Level/EquipmentShop/RegularShopGroup"]
 position = Vector2(-419, -324)
 
-[node name="ShopSlot2" type="Node2D" parent="Level/EquipmentShop/RegularShopGroup"]
+[node name="ShopSlot2" type="Node2D" parent="World/Level/EquipmentShop/RegularShopGroup"]
 position = Vector2(-306, -324)
 
-[node name="ShopSlot3" type="Node2D" parent="Level/EquipmentShop/RegularShopGroup"]
+[node name="ShopSlot3" type="Node2D" parent="World/Level/EquipmentShop/RegularShopGroup"]
 position = Vector2(-198, -324)
 
-[node name="RandomShopGroup" type="Node2D" parent="Level/EquipmentShop" node_paths=PackedStringArray("worm", "slots")]
+[node name="RandomShopGroup" type="Node2D" parent="World/Level/EquipmentShop" node_paths=PackedStringArray("worm", "slots")]
 position = Vector2(-419, -324)
 script = ExtResource("2_wufd4")
 disguised = true
@@ -103,17 +107,17 @@ base_cost = 5
 worm = NodePath("../../../PlayerWorm/Worm")
 slots = [NodePath("ShopSlot")]
 
-[node name="ShopSlot" type="Node2D" parent="Level/EquipmentShop/RandomShopGroup"]
+[node name="ShopSlot" type="Node2D" parent="World/Level/EquipmentShop/RandomShopGroup"]
 position = Vector2(327, 0)
 
-[node name="PlayerWorm" type="Node2D" parent="."]
+[node name="PlayerWorm" type="Node2D" parent="World"]
 
-[node name="Worm" parent="PlayerWorm" instance=ExtResource("1_wvqpy")]
+[node name="Worm" parent="World/PlayerWorm" instance=ExtResource("1_wvqpy")]
 z_index = 5
 
-[node name="UI" type="CanvasLayer" parent="PlayerWorm"]
+[node name="UI" type="CanvasLayer" parent="World/PlayerWorm"]
 
-[node name="Control" type="Control" parent="PlayerWorm/UI"]
+[node name="Control" type="Control" parent="World/PlayerWorm/UI"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -123,7 +127,7 @@ grow_vertical = 2
 theme = ExtResource("3_g1jxf")
 metadata/_edit_use_anchors_ = true
 
-[node name="ConfigWormUI" type="Control" parent="PlayerWorm/UI/Control"]
+[node name="ConfigWormUI" type="Control" parent="World/PlayerWorm/UI/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -131,7 +135,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PlayerWorm/UI/Control/ConfigWormUI"]
+[node name="MarginContainer" type="MarginContainer" parent="World/PlayerWorm/UI/Control/ConfigWormUI"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -144,7 +148,7 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="ConfigWormControls" type="RichTextLabel" parent="PlayerWorm/UI/Control/ConfigWormUI/MarginContainer"]
+[node name="ConfigWormControls" type="RichTextLabel" parent="World/PlayerWorm/UI/Control/ConfigWormUI/MarginContainer"]
 layout_mode = 2
 theme_type_variation = &"ThickRichTextLabel"
 theme_override_constants/line_separation = 6
@@ -159,11 +163,11 @@ text = "[img=24]res://assets/art/control_icons/xbox_button_color_a.png[/img][img
 fit_content = true
 scroll_active = false
 
-[node name="SetThemeVariation" type="Node" parent="PlayerWorm/UI/Control/ConfigWormUI/MarginContainer/ConfigWormControls"]
+[node name="SetThemeVariation" type="Node" parent="World/PlayerWorm/UI/Control/ConfigWormUI/MarginContainer/ConfigWormControls"]
 script = ExtResource("4_hp2gp")
 theme_variation = "ThickRichTextLabel"
 
-[node name="MarginContainer2" type="MarginContainer" parent="PlayerWorm/UI/Control/ConfigWormUI"]
+[node name="MarginContainer2" type="MarginContainer" parent="World/PlayerWorm/UI/Control/ConfigWormUI"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -177,17 +181,17 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="Label" type="Label" parent="PlayerWorm/UI/Control/ConfigWormUI/MarginContainer2"]
+[node name="Label" type="Label" parent="World/PlayerWorm/UI/Control/ConfigWormUI/MarginContainer2"]
 layout_mode = 2
 theme_type_variation = &"ThickLabel"
 theme_override_font_sizes/font_size = 6
 text = "Config"
 
-[node name="SetThemeVariation" type="Node" parent="PlayerWorm/UI/Control/ConfigWormUI/MarginContainer2/Label"]
+[node name="SetThemeVariation" type="Node" parent="World/PlayerWorm/UI/Control/ConfigWormUI/MarginContainer2/Label"]
 script = ExtResource("4_hp2gp")
 theme_variation = "ThickLabel"
 
-[node name="WormUI" type="Control" parent="PlayerWorm/UI/Control"]
+[node name="WormUI" type="Control" parent="World/PlayerWorm/UI/Control"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -196,7 +200,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PlayerWorm/UI/Control/WormUI"]
+[node name="MarginContainer" type="MarginContainer" parent="World/PlayerWorm/UI/Control/WormUI"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -209,7 +213,7 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="WormControls" type="RichTextLabel" parent="PlayerWorm/UI/Control/WormUI/MarginContainer"]
+[node name="WormControls" type="RichTextLabel" parent="World/PlayerWorm/UI/Control/WormUI/MarginContainer"]
 layout_mode = 2
 theme_type_variation = &"ThickRichTextLabel"
 theme_override_constants/line_separation = 6
@@ -223,18 +227,18 @@ text = "[img=24]res://assets/art/control_icons/xbox_button_color_a.png[/img][img
 fit_content = true
 scroll_active = false
 
-[node name="SetThemeVariation" type="Node" parent="PlayerWorm/UI/Control/WormUI/MarginContainer/WormControls"]
+[node name="SetThemeVariation" type="Node" parent="World/PlayerWorm/UI/Control/WormUI/MarginContainer/WormControls"]
 script = ExtResource("4_hp2gp")
 theme_variation = "ThickRichTextLabel"
 
-[node name="CameraController" type="Camera2D" parent="PlayerWorm"]
+[node name="CameraController" type="Camera2D" parent="World/PlayerWorm"]
 process_mode = 3
 zoom = Vector2(0.5, 0.5)
 position_smoothing_enabled = true
 script = ExtResource("9_8uqem")
 camera_zoom = 0.5
 
-[node name="ControllerWormInput" type="Node" parent="PlayerWorm" node_paths=PackedStringArray("worm", "camera_controller", "worm_configurer")]
+[node name="ControllerWormInput" type="Node" parent="World/PlayerWorm" node_paths=PackedStringArray("worm", "camera_controller", "worm_configurer")]
 process_mode = 3
 script = ExtResource("3_8ovgw")
 move_segment_interval_max = 0.25
@@ -243,7 +247,7 @@ worm = NodePath("../Worm")
 camera_controller = NodePath("../CameraController")
 worm_configurer = NodePath("../WormConfigurer")
 
-[node name="WormConfigurer" type="Node" parent="PlayerWorm" node_paths=PackedStringArray("worm", "config_worm_ui", "worm_ui", "camera")]
+[node name="WormConfigurer" type="Node" parent="World/PlayerWorm" node_paths=PackedStringArray("worm", "config_worm_ui", "worm_ui", "camera")]
 process_mode = 3
 script = ExtResource("3_addbt")
 worm = NodePath("../Worm")
@@ -252,7 +256,7 @@ worm_ui = NodePath("../UI/Control/WormUI")
 camera = NodePath("../CameraController")
 equipment_library = ExtResource("2_6jmem")
 
-[node name="WormTest" type="Node2D" parent="." node_paths=PackedStringArray("worm")]
+[node name="WormTest" type="Node2D" parent="World" node_paths=PackedStringArray("worm")]
 script = ExtResource("1_e11fb")
 spawned_equipment_count = 0
 spawned_enemy_count = 1
@@ -261,11 +265,11 @@ enemy_library = ExtResource("2_ojog1")
 spawn_area = SubResource("RectangleShape2D_6uaxl")
 worm = NodePath("../PlayerWorm/Worm")
 
-[node name="MoneyPickup" parent="." instance=ExtResource("11_45yqs")]
+[node name="MoneyPickup" parent="World" instance=ExtResource("11_45yqs")]
 position = Vector2(-501, 292)
 
-[node name="MoneyPickup2" parent="." instance=ExtResource("11_45yqs")]
+[node name="MoneyPickup2" parent="World" instance=ExtResource("11_45yqs")]
 position = Vector2(-356, 234)
 
-[node name="MoneyPickup3" parent="." instance=ExtResource("11_45yqs")]
+[node name="MoneyPickup3" parent="World" instance=ExtResource("11_45yqs")]
 position = Vector2(-455, 132)

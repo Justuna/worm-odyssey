@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://82pjs8dvcp4j"
-path="res://.godot/imported/bow_bullet.png-a99d28a5aa56430ab55dcfcfcd3ef14f.ctex"
+uid="uid://bhgsrmytyr48b"
+path="res://.godot/imported/bow_pierce_bullet.png-62df666e7eddece2c5a16052640c6bf3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/segments/bow_bullet.png"
-dest_files=["res://.godot/imported/bow_bullet.png-a99d28a5aa56430ab55dcfcfcd3ef14f.ctex"]
+source_file="res://assets/art/equipment/bow_pierce_bullet.png"
+dest_files=["res://.godot/imported/bow_pierce_bullet.png-62df666e7eddece2c5a16052640c6bf3.ctex"]
 
 [params]
 

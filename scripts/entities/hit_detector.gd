@@ -9,14 +9,20 @@ signal wall_exited(body: Node2D)
 signal detector_entered(other_hit_detector: HitDetector)
 signal detector_exited(other_hit_detector: HitDetector)
 
-enum Mode {
+enum TeamMode {
 	ANY,
 	ALLY,
 	ENEMY
 }
 
+enum DetectorType {
+	HURTBOX,
+	HITBOX
+}
+
 @export var entity: Node
-@export var mode: Mode
+@export var mode: TeamMode
+@export var type: DetectorType
 @export var team: Team
 @export var track_wall: bool
 
@@ -44,7 +50,7 @@ func _on_body_exited(body: Node2D):
 
 func _on_enter(area: Area2D):
 	if area is HitDetector:
-		if _can_add(area.entity):
+		if area.type != type and _can_add(area.entity):
 			detectors[area] = null
 			detector_entered.emit(area)
 
@@ -56,13 +62,13 @@ func _on_exit(area: Area2D):
 
 
 func _can_add(other_entity: Node2D) -> bool:
-	if mode == Mode.ANY:
+	if mode == TeamMode.ANY:
 		return true
 	var other_team = other_entity.get_node_or_null("Team") as Team
 	if other_team:
 		match mode:
-			Mode.ALLY:
+			TeamMode.ALLY:
 				return other_team.team == team.team
-			Mode.ENEMY:
+			TeamMode.ENEMY:
 				return other_team.team != team.team
 	return false

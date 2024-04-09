@@ -1,4 +1,4 @@
-# Base class for entities who can damage/heal other entities on contact.
+## Base class for entities who can damage/heal other entities on contact.
 class_name HitType
 extends Node
 

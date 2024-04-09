@@ -155,7 +155,7 @@ var _star_pattern_speed_modifier: StatMultModifier = StatMultModifier.new(1.5)
 var _line_pattern_speed_modifier: StatAbsoluteMultModifier = StatAbsoluteMultModifier.new(0)
 
 func _shoot_pattern():
-	var world = body.get_parent()
+	var world = World.instance
 	match bullet_pattern:
 		Pattern.STAR:
 			for i in range(4):

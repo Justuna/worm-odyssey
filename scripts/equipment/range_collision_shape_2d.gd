@@ -7,6 +7,7 @@ const RANGE_FACTOR: float = 8
 
 
 @export var range: Stat
+@export var range_factor: float = 1
 
 
 func _ready():
@@ -19,10 +20,10 @@ func _ready():
 func _on_range_updated():
 	if shape:
 		if shape is CircleShape2D:
-			shape.radius = range.amount * RANGE_FACTOR
+			shape.radius = range.amount * RANGE_FACTOR * range_factor
 
 
 func _process(delta):
 	if range and shape:
 		if shape is CircleShape2D:
-			shape.radius = range.base_amount * RANGE_FACTOR
+			shape.radius = range.base_amount * RANGE_FACTOR * range_factor

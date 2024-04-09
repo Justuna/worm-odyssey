@@ -19,6 +19,15 @@ enum TargetMode {
 	FARTHEST
 }
 
+@export var enabled: bool = true :
+	get:
+		return _enabled
+	set(value):
+		var old_value = _enabled
+		_enabled = value
+		if old_value != value:
+			_update_enabled()
+var _enabled: bool = true
 @export var mode: Mode
 @export var target_mode: TargetMode = TargetMode.CLOSEST
 @export var team: Team
@@ -37,6 +46,17 @@ var _prev_target_entity: Node2D
 func _ready():
 	area_entered.connect(_on_area_entered)
 	area_exited.connect(_on_area_exited)
+	_update_enabled()
+
+
+func _update_enabled():
+	if is_inside_tree():
+		monitoring = _enabled
+		set_process(_enabled)
+		if not _enabled:
+			# If we are disabling ourselves, then clean everything up
+			_target_entity = null
+			entities.clear()
 
 
 func _process(delta):

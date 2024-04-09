@@ -5,12 +5,12 @@ extends Node2D
 
 signal on_play
 
-@export var entity: Node2D
 @export var particles: Array[GPUParticles2D] = []
 @export var advanced_particles: Array[AdvancedGPUParticles2D] = []
 @export var audio_players: Array[AudioStreamPlayer] = []
 @export var audio_players_2D: Array[AudioStreamPlayer2D] = []
 @export var animation_players: Array[AnimationPlayer] = []
+@export var animation_name: String = "default"
 
 ## Looks in children nodes to populate particles, audio_players, and other node arrys.
 @export var use_children: bool = true
@@ -54,7 +54,7 @@ func play():
 	_lifetime_timer = lifetime
 	_is_playing = true
 	if unparent_on_play:
-		reparent(entity.get_parent())
+		reparent(World.instance)
 	for advanced_particle in advanced_particles:
 		advanced_particle.play()
 	for particle in particles:
@@ -62,7 +62,7 @@ func play():
 	for audio_player in audio_players:
 		audio_player.play()
 	for animation_player in animation_players:
-		animation_player.play()
+		animation_player.play(animation_name)
 	on_play.emit()
 
 
