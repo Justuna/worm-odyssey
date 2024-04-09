@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://672bqlw1v4gm"]
+
+[ext_resource type="PackedScene" uid="uid://dp6ibxtg4brre" path="res://prefabs/projectiles/circle_bullet.tscn" id="1_md8un"]
+[ext_resource type="Texture2D" uid="uid://82pjs8dvcp4j" path="res://assets/art/segments/bow_bullet.png" id="2_ybb5d"]
+
+[node name="BowBullet" instance=ExtResource("1_md8un")]
+
+[node name="Speed" parent="StatBlock" index="0"]
+base_amount = 50
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_ybb5d")
+
+[node name="Particles" parent="Death/FX" index="0"]
+self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
+rotation = -0.0229226

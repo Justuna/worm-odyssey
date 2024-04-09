@@ -118,7 +118,7 @@ func _process(delta):
 			_wait_timer -= delta
 			if _wait_timer <= 0:
 				_switch_state(State.WANDER_WALK)
-				if enemy_detector.nearest_entity:
+				if enemy_detector.target_entity:
 					_switch_state(State.FLY)
 	
 	var real_velocity = body.get_real_velocity()
@@ -139,7 +139,7 @@ func _switch_state(_state: State):
 			if bullet_pattern == Pattern.LINE:
 				min_range = 4
 				max_range = 8
-			_fly_target_position = enemy_detector.nearest_entity.global_position + RandUtils.rand_circle_vec2(64 * min_range, 64 * max_range)
+			_fly_target_position = enemy_detector.target_entity.global_position + RandUtils.rand_circle_vec2(64 * min_range, 64 * max_range)
 			_fly_half_way_dist_sqr = global_position.distance_squared_to(_fly_target_position) / 4.0
 			animation_player.play("lantern_fly/fly")
 		State.WANDER_WALK:

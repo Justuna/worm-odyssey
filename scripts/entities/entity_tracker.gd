@@ -5,24 +5,33 @@ extends Area2D
 signal on_entity_detected(entity: Node2D)
 signal on_entity_undetected(entity: Node2D)
 
+signal target_entity_changed
+
 enum Mode {
 	ANY,
 	ALLY,
 	ENEMY
 }
 
+enum TargetMode {
+	ANY,
+	CLOSEST,
+	FARTHEST
+}
+
 @export var mode: Mode
+@export var target_mode: TargetMode = TargetMode.CLOSEST
 @export var team: Team
-@export var track_nearest_entity: bool
 
 # [Node2D]: null
 var entities: Dictionary
-var nearest_entity: Node2D :
+var target_entity: Node2D :
 	get:
-		if not is_instance_valid(_nearest_entity):
-			_nearest_entity = null
-		return _nearest_entity
-var _nearest_entity: Node2D
+		if not is_instance_valid(_target_entity):
+			_target_entity = null
+		return _target_entity
+var _target_entity: Node2D
+var _prev_target_entity: Node2D
 
 
 func _ready():
@@ -31,21 +40,29 @@ func _ready():
 
 
 func _process(delta):
-	if track_nearest_entity:
-		if entities.size() > 0:
+	if entities.size() > 0:
+		if target_mode == TargetMode.ANY:
+			if not target_entity:
+				_target_entity = entities.keys()[0]
+		else:
 			var entities = entities.keys()
-			_nearest_entity = entities[0] as Node2D
-			var nearest_entity_dist = global_position.distance_squared_to(nearest_entity.global_position)
+			_target_entity = entities[0] as Node2D
+			var target_entity_dist = global_position.distance_squared_to(target_entity.global_position)
 			for entity: Node2D in entities:
 				if not is_instance_valid(entity):
 					entities.erase(entity)
 					continue
 				var curr_dist = global_position.distance_squared_to(entity.global_position)
-				if curr_dist < nearest_entity_dist:
-					_nearest_entity = entity
-					nearest_entity_dist = curr_dist
-		elif nearest_entity:
-			_nearest_entity = null
+				if (target_mode == TargetMode.CLOSEST and curr_dist < target_entity_dist) or (target_mode == TargetMode.FARTHEST and curr_dist > target_entity_dist):
+					_target_entity = entity
+					target_entity_dist = curr_dist
+	else:
+		if target_entity:
+			_target_entity = null
+	
+	if _target_entity != _prev_target_entity:
+		_prev_target_entity = _target_entity
+		target_entity_changed.emit()
 
 
 func _can_add(other_team: Team) -> bool:
@@ -72,3 +89,5 @@ func _on_area_exited(area: Area2D):
 		if body in entities:
 			entities.erase(body)
 			on_entity_undetected.emit(body)
+			if body == target_entity:
+				target_entity = null

@@ -169,9 +169,8 @@ libraries = {
 "entity": ExtResource("14_ablhh")
 }
 
-[node name="Death" type="Node2D" parent="." node_paths=PackedStringArray("entity")]
+[node name="Death" type="Node2D" parent="."]
 script = ExtResource("17_8nfpe")
-entity = NodePath("")
 
 [node name="FX" type="Node2D" parent="Death" node_paths=PackedStringArray("entity")]
 z_index = 10

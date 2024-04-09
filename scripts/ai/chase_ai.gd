@@ -41,16 +41,16 @@ func _ready():
 
 
 func _process(delta):
-	if enemy_detector.nearest_entity:
+	if enemy_detector.target_entity:
 		if state != State.CHASE:
 			_switch_state(State.CHASE)
 	
 	match state:
 		State.CHASE:
-			if not enemy_detector.nearest_entity:
+			if not enemy_detector.target_entity:
 				_switch_state(State.WANDER_WALK)
 				return
-			body.velocity = speed.amount * ((enemy_detector.nearest_entity.global_position + _chase_jitter) - global_position).normalized()
+			body.velocity = speed.amount * ((enemy_detector.target_entity.global_position + _chase_jitter) - global_position).normalized()
 			body.move_and_slide()
 		State.WANDER_WALK:
 			_wander_walk_timer -= delta

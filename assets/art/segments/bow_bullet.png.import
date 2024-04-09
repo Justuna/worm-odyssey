@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://82pjs8dvcp4j"
-path="res://.godot/imported/diamond_shot.png-71168f10e04e14030c60d1078edfb4ca.ctex"
+path="res://.godot/imported/bow_bullet.png-a99d28a5aa56430ab55dcfcfcd3ef14f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/segments/diamond_shot.png"
-dest_files=["res://.godot/imported/diamond_shot.png-71168f10e04e14030c60d1078edfb4ca.ctex"]
+source_file="res://assets/art/segments/bow_bullet.png"
+dest_files=["res://.godot/imported/bow_bullet.png-a99d28a5aa56430ab55dcfcfcd3ef14f.ctex"]
 
 [params]
 
