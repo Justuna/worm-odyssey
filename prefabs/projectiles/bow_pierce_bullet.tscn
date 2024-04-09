@@ -86,7 +86,6 @@ base_amount = 20
 [node name="Trail" type="GPUParticles2D" parent="."]
 self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
 position = Vector2(0, 20)
-scale = Vector2(1, 1)
 amount = 6
 process_material = SubResource("ParticleProcessMaterial_i3o2b")
 texture = ExtResource("8_4tpe3")

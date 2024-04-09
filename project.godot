@@ -30,7 +30,7 @@ project/assembly_name="Worm Odyssey"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/rmsmartshape/plugin.cfg")
 
 [layer_names]
 
