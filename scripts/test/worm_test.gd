@@ -31,8 +31,9 @@ func _process(delta):
 
 
 func _draw():
-	draw_rect(spawn_area.get_rect(), Color.RED, false)
-	draw_rect(spawn_area.get_rect(), Color(Color.RED, 0.2), true)
+	if Engine.is_editor_hint():
+		draw_rect(spawn_area.get_rect(), Color.RED, false)
+		draw_rect(spawn_area.get_rect(), Color(Color.RED, 0.2), true)
 
 
 func _input(event):
