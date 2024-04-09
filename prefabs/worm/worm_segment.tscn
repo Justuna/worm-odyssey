@@ -62,7 +62,7 @@ initial_velocity_max = 200.0
 gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_ge0bh")
 
-[node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group", "equipment_container", "health", "team", "health_indicator", "health_indicator_container")]
+[node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group", "equipment_container", "health", "team", "stat_block", "health_indicator", "health_indicator_container")]
 script = ExtResource("1_44kv3")
 canvas_group = NodePath("CanvasGroup")
 equipment_container = NodePath("CanvasGroup/EquipmentContainer")
@@ -72,6 +72,7 @@ b_color = Color(0.937255, 0.305882, 0.160784, 1)
 a_color = Color(0.490196, 0.717647, 0, 1)
 health = NodePath("Health")
 team = NodePath("Team")
+stat_block = NodePath("StatBlock")
 health_indicator = NodePath("HealthIndicatorContainer/HealthIndicator")
 health_indicator_container = NodePath("HealthIndicatorContainer")
 damage_gradient = SubResource("Gradient_4p2et")
@@ -88,6 +89,10 @@ base_amount = 100
 script = ExtResource("11_cgg08")
 type = 2
 base_amount = 40
+
+[node name="EffectHolder" type="Node" parent="."]
+script = ExtResource("5_bsu82")
+effect_library = ExtResource("6_4o5w6")
 
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
 material = SubResource("ShaderMaterial_u7npg")
@@ -142,10 +147,6 @@ hurtbox = NodePath("..")
 script = ExtResource("5_iqw05")
 health = NodePath("../Health")
 hurtbox = NodePath("../HitDetector")
-
-[node name="EffectHolder" type="Node" parent="."]
-script = ExtResource("5_bsu82")
-effect_library = ExtResource("6_4o5w6")
 
 [node name="Team" type="Node" parent="."]
 script = ExtResource("12_bxh31")

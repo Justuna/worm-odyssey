@@ -1,8 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://bjr3gnlplvacv"]
+[gd_scene load_steps=17 format=3 uid="uid://bplmeut6jbu2y"]
 
 [ext_resource type="Script" path="res://scripts/equipment/equipment.gd" id="1_yruca"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="2_1qy01"]
-[ext_resource type="Texture2D" uid="uid://b00b8obwj0107" path="res://assets/art/segments/bow_turret.png" id="3_75p34"]
+[ext_resource type="Texture2D" uid="uid://b00b8obwj0107" path="res://assets/art/equipment/bow_turret.png" id="3_75p34"]
 [ext_resource type="Script" path="res://scripts/equipment/equipment_turret.gd" id="3_mrvex"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_qbvke"]
 [ext_resource type="Script" path="res://scripts/entities/fx.gd" id="3_sm037"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://672bqlw1v4gm" path="res://prefabs/projectiles/bow_bullet.tscn" id="7_r0jqd"]
 [ext_resource type="Script" path="res://scripts/entities/entity_tracker.gd" id="8_bd71c"]
 [ext_resource type="Script" path="res://scripts/equipment/range_collision_shape_2d.gd" id="9_iyvek"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="12_ftm3c"]
 
 [sub_resource type="Curve" id="Curve_jjilh"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
@@ -30,11 +31,11 @@ damping_max = 300.0
 scale_curve = SubResource("CurveTexture_8hrb1")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ourt5"]
-radius = 448.0
+radius = 640.0
 
 [node name="Bow" type="Node2D" node_paths=PackedStringArray("rotated_part")]
 script = ExtResource("1_yruca")
-rotated_part = NodePath("TurretHead")
+rotated_part = NodePath("Turret/TurretHead")
 
 [node name="StatBlock" type="Node" parent="."]
 script = ExtResource("2_1qy01")
@@ -49,16 +50,30 @@ script = ExtResource("3_qbvke")
 type = 5
 base_amount = 50
 
-[node name="TurretHead" type="Sprite2D" parent="."]
+[node name="Range" type="Node" parent="StatBlock"]
+script = ExtResource("3_qbvke")
+type = 13
+base_amount = 80
+
+[node name="Turret" type="Node2D" parent="." node_paths=PackedStringArray("turret_head", "turret_muzzle", "entity_tracker", "team")]
+script = ExtResource("3_mrvex")
+enabled = true
+turret_head = NodePath("TurretHead")
+turret_muzzle = NodePath("TurretHead/TurretMuzzle")
+entity_tracker = NodePath("EntityTracker")
+bullet_prefab = ExtResource("7_r0jqd")
+team = NodePath("../Team")
+
+[node name="TurretHead" type="Sprite2D" parent="Turret"]
 texture = ExtResource("3_75p34")
 
-[node name="TurretMuzzle" type="Node2D" parent="TurretHead"]
+[node name="TurretMuzzle" type="Node2D" parent="Turret/TurretHead"]
 position = Vector2(0, -28)
 
-[node name="FireFX" type="Node2D" parent="TurretHead/TurretMuzzle"]
+[node name="FireFX" type="Node2D" parent="Turret/TurretHead/TurretMuzzle"]
 script = ExtResource("3_sm037")
 
-[node name="Particles" type="GPUParticles2D" parent="TurretHead/TurretMuzzle/FireFX"]
+[node name="Particles" type="GPUParticles2D" parent="Turret/TurretHead/TurretMuzzle/FireFX"]
 self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
 position = Vector2(0, -1)
 rotation = -1.57079
@@ -71,16 +86,16 @@ one_shot = true
 explosiveness = 0.8
 script = ExtResource("5_ep48q")
 
-[node name="Turret" type="Node2D" parent="." node_paths=PackedStringArray("turret_head", "turret_muzzle")]
-script = ExtResource("3_mrvex")
-turret_head = NodePath("../TurretHead")
-turret_muzzle = NodePath("../TurretHead/TurretMuzzle")
-bullet_prefab = ExtResource("7_r0jqd")
-
-[node name="EntityTracker" type="Area2D" parent="."]
+[node name="EntityTracker" type="Area2D" parent="Turret" node_paths=PackedStringArray("team")]
 script = ExtResource("8_bd71c")
+mode = 2
+team = NodePath("../../Team")
 
-[node name="RangeCollisionShape2D" type="CollisionShape2D" parent="EntityTracker"]
+[node name="RangeCollisionShape2D" type="CollisionShape2D" parent="Turret/EntityTracker" node_paths=PackedStringArray("range")]
 shape = SubResource("CircleShape2D_ourt5")
 debug_color = Color(0.701961, 0.690196, 0, 0.0705882)
 script = ExtResource("9_iyvek")
+range = NodePath("../../../StatBlock/Range")
+
+[node name="Team" type="Node" parent="."]
+script = ExtResource("12_ftm3c")

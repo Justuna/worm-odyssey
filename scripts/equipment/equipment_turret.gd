@@ -50,6 +50,7 @@ func _target_changed():
 func _tween_turret(amount: float, turret_head_start_rot: float):
 	if not entity_tracker.target_entity:
 		_tween.kill()
+		_is_tweening = false
 	else:
 		turret_head.global_rotation = lerp_angle(turret_head_start_rot, turret_head.get_angle_to(entity_tracker.target_entity.global_position), amount)
 

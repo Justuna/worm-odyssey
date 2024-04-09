@@ -3,7 +3,7 @@ class_name RangeCollisionShape2D
 extends CollisionShape2D
 
 
-const RANGE_FACTOR: float = 0.5
+const RANGE_FACTOR: float = 8
 
 
 @export var range: Stat

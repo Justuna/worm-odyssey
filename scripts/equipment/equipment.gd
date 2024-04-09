@@ -48,13 +48,24 @@ var orientable: bool
 @export_group("Dependencies")
 @export var rotated_part: Node2D
 
+@onready var team: Team = get_node("Team")
+@onready var stat_block: StatBlock = get_node("StatBlock")
+
 var _direction: Direction
 var _cooldown_timer: float
+
 
 func construct(_worm: Node2D, _segment: WormSegment, _direction: Direction):
 	worm = _worm
 	segment = _segment
 	direction = _direction
+	team.team = _segment.team.team
+	equipment_added.emit()
+
+
+func destruct():
+	stat_block.clear_modifiers()
+	equipment_removed.emit()
 
 
 func use_active() -> bool:
@@ -72,7 +83,6 @@ func _process(delta):
 		_cooldown_timer = max(_cooldown_timer - delta, 0)
 		if _cooldown_timer == 0:
 			cooldown_ended.emit()
-
 
 
 static func rotate_left(direction: Direction) -> Direction:

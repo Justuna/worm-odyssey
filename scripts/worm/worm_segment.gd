@@ -48,6 +48,7 @@ var _is_moving: bool
 		_update_binding_visuals()
 @export var health: Health
 @export var team: Team
+@export var stat_block: StatBlock
 @export var health_indicator: Sprite2D
 @export var health_indicator_container: Node2D
 @export var damage_gradient: Gradient
@@ -110,10 +111,10 @@ func add_equipment(_equipment: Equipment, direction: Equipment.Direction) -> Equ
 			equipment.reparent(equipment_container)
 		else:
 			equipment_container.add_child(equipment)
+		stat_block.sync_modifiers_stat_block = equipment.stat_block
 		equipment.position = Vector2.ZERO
 		equipment.rotation = 0
 		equipment.construct(worm, self, direction)
-		equipment.equipment_added.emit()
 		_update_binding_visuals()
 	return old_equipment
 
@@ -122,7 +123,8 @@ func remove_equipment() -> Equipment:
 	if equipment:
 		equipment_container.remove_child(equipment)
 		var old_equipment = equipment
-		equipment.equipment_removed.emit()
+		stat_block.sync_modifiers_stat_block = null
+		equipment.destruct()
 		equipment = null
 		_update_binding_visuals()
 		return old_equipment

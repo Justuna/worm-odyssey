@@ -5,9 +5,7 @@ class_name Projectile
 @export var direction: Vector2
 @export var rotate_to_direction: bool
 
-var stat_block: StatBlock :
-	get:
-		return get_node("StatBlock")
+@onready var stat_block: StatBlock = get_node("StatBlock")
 
 
 func construct(_position: Vector2, _direction: Vector2, _team: String):

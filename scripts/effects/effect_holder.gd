@@ -35,5 +35,12 @@ func remove_effect(effect_type: Effect.Type):
 		effect._on_stack_changed()
 		effect.stack_amount -= 1
 		if effect.stack_amount == 0:
-			effects[effect.type] = null
+			effects.erase(effect.type)
 			effect._on_remove()
+
+
+func clear_effects():
+	for effect_type in effects.keys():
+		var effect = effects[effect_type]
+		effects.erase(effect_type)
+		effect._on_remove()
