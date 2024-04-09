@@ -1,15 +1,18 @@
-[gd_scene load_steps=14 format=3 uid="uid://c4wlin680myme"]
+[gd_scene load_steps=17 format=3 uid="uid://c4wlin680myme"]
 
 [ext_resource type="Script" path="res://scripts/test/worm_test.gd" id="1_e11fb"]
 [ext_resource type="PackedScene" uid="uid://m3fds71c0yiy" path="res://prefabs/worm/worm.tscn" id="1_wvqpy"]
 [ext_resource type="Resource" uid="uid://dxe2vo0p5hajv" path="res://libraries/equipment_library.tres" id="2_6jmem"]
 [ext_resource type="Texture2D" uid="uid://dh68bsojeg13w" path="res://icon.svg" id="2_cl5xy"]
-[ext_resource type="Resource" uid="uid://dqtlknmqynp57" path="res://libraries/enemy_library.tres" id="2_ojog1"]
+[ext_resource type="Resource" path="res://libraries/enemy_library.tres" id="2_ojog1"]
+[ext_resource type="Script" path="res://scripts/shop/equipment_shop_group.gd" id="2_wufd4"]
 [ext_resource type="Script" path="res://scripts/worm/controller_worm_input.gd" id="3_8ovgw"]
 [ext_resource type="Script" path="res://scripts/worm/worm_configurer.gd" id="3_addbt"]
 [ext_resource type="Theme" uid="uid://hl7m0movyn5i" path="res://assets/themes/theme.tres" id="3_g1jxf"]
 [ext_resource type="Script" path="res://scripts/ui/set_theme_variation.gd" id="4_hp2gp"]
+[ext_resource type="PackedScene" uid="uid://dgqx3we05fwxx" path="res://prefabs/pickups/equipment_pickup.tscn" id="4_w4vki"]
 [ext_resource type="Script" path="res://scripts/worm/camera_controller.gd" id="9_8uqem"]
+[ext_resource type="PackedScene" uid="uid://dmma7ldnvvwku" path="res://prefabs/pickups/money_pickup.tscn" id="11_45yqs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1fcaq"]
 size = Vector2(128, 126)
@@ -68,6 +71,40 @@ texture = ExtResource("2_cl5xy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Wall2"]
 shape = SubResource("RectangleShape2D_1fcaq")
+
+[node name="EquipmentShop" type="Node2D" parent="Level"]
+
+[node name="RegularShopGroup" type="Node2D" parent="Level/EquipmentShop" node_paths=PackedStringArray("worm", "slots")]
+script = ExtResource("2_wufd4")
+catalog = ExtResource("2_6jmem")
+pickup_prefab = ExtResource("4_w4vki")
+restock_time = 5.0
+base_cost = 10
+worm = NodePath("../../../PlayerWorm/Worm")
+slots = [NodePath("ShopSlot1"), NodePath("ShopSlot2"), NodePath("ShopSlot3")]
+
+[node name="ShopSlot1" type="Node2D" parent="Level/EquipmentShop/RegularShopGroup"]
+position = Vector2(-419, -324)
+
+[node name="ShopSlot2" type="Node2D" parent="Level/EquipmentShop/RegularShopGroup"]
+position = Vector2(-306, -324)
+
+[node name="ShopSlot3" type="Node2D" parent="Level/EquipmentShop/RegularShopGroup"]
+position = Vector2(-198, -324)
+
+[node name="RandomShopGroup" type="Node2D" parent="Level/EquipmentShop" node_paths=PackedStringArray("worm", "slots")]
+position = Vector2(-419, -324)
+script = ExtResource("2_wufd4")
+disguised = true
+catalog = ExtResource("2_6jmem")
+pickup_prefab = ExtResource("4_w4vki")
+restock_time = 5.0
+base_cost = 5
+worm = NodePath("../../../PlayerWorm/Worm")
+slots = [NodePath("ShopSlot")]
+
+[node name="ShopSlot" type="Node2D" parent="Level/EquipmentShop/RandomShopGroup"]
+position = Vector2(327, 0)
 
 [node name="PlayerWorm" type="Node2D" parent="."]
 
@@ -217,8 +254,18 @@ equipment_library = ExtResource("2_6jmem")
 
 [node name="WormTest" type="Node2D" parent="." node_paths=PackedStringArray("worm")]
 script = ExtResource("1_e11fb")
+spawned_equipment_count = 0
 spawned_enemy_count = 1
 equipment_library = ExtResource("2_6jmem")
 enemy_library = ExtResource("2_ojog1")
 spawn_area = SubResource("RectangleShape2D_6uaxl")
 worm = NodePath("../PlayerWorm/Worm")
+
+[node name="MoneyPickup" parent="." instance=ExtResource("11_45yqs")]
+position = Vector2(-501, 292)
+
+[node name="MoneyPickup2" parent="." instance=ExtResource("11_45yqs")]
+position = Vector2(-356, 234)
+
+[node name="MoneyPickup3" parent="." instance=ExtResource("11_45yqs")]
+position = Vector2(-455, 132)

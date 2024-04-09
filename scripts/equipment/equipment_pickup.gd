@@ -5,7 +5,7 @@ extends Pickup
 var _equipment: Equipment
 
 
-func construct(equipment: Equipment, disguised = true):
+func construct(equipment: Equipment, disguised = false):
 	_equipment = equipment
 	visuals_container.add_child(_equipment)
 	_equipment.position = Vector2.ZERO
@@ -28,5 +28,5 @@ func _on_interact(interactor: Interactor):
 	if worm_controller:
 		if worm_controller.try_add_equipment(_equipment):
 			# TODO: Add pickup FX
-			queue_free()
+			root.queue_free()
 

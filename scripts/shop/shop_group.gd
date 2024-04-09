@@ -7,20 +7,22 @@ extends Node2D
 @export var base_cost: int
 
 @export_category("Dependencies")
-@export var worm_bank: WormBank
+@export var worm: Node
 @export var slots: Array[Node2D]
 
 var current_cost: int
 
 var _restock_timer: float
+var _bank: Bank
 
 
 func _ready():
 	current_cost = base_cost
+	_bank = worm.get_node_or_null("Bank")
 
 	_restock()
 
-	worm_bank.money_changed.connect(_can_purchase)
+	_bank.balance_changed.connect(_can_purchase)
 
 
 func _process(delta):
@@ -31,6 +33,7 @@ func _process(delta):
 
 
 func _can_purchase(balance: int):
+	print("Seeing if available")
 	if balance >= current_cost:
 		_make_available()
 	else:
@@ -38,12 +41,12 @@ func _can_purchase(balance: int):
 
 
 func _make_available():
-	pass
+	print("Can afford this shop")
 
 
 func _make_unavailable():
-	pass
+	print("Cannot afford this shop")
 
 
 func _restock():
-	_can_purchase(worm_bank.money)
+	_can_purchase(_bank.balance)

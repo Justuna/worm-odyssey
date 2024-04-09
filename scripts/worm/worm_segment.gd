@@ -121,11 +121,13 @@ func add_equipment(_equipment: Equipment, direction: Equipment.Direction) -> Equ
 func remove_equipment() -> Equipment:
 	if equipment:
 		equipment_container.remove_child(equipment)
-	var old_equipment = equipment
-	equipment.equipment_removed.emit()
-	equipment = null
-	_update_binding_visuals()
-	return old_equipment
+		var old_equipment = equipment
+		equipment.equipment_removed.emit()
+		equipment = null
+		_update_binding_visuals()
+		return old_equipment
+	else:
+		return null
 
 
 func use_active():

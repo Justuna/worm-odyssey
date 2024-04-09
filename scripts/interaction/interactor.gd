@@ -13,7 +13,7 @@ var nearby_interactables: Array[Interactable] :
 		var result: Array[Interactable] = []
 		result.assign(_nearby_interactables.keys())
 
-		result.filter(func(interactable): return interactable.available)
+		result = result.filter(func(interactable): return interactable.available)
 
 		return result
 
@@ -76,23 +76,23 @@ func _calc_interactable_dist(interactable: Interactable) -> float:
 
 
 func _select_closest_interactable():
-	var nearby_interactables = self.nearby_interactables
-	var closest_interactable = null
-	if nearby_interactables.size() > 0:
-		closest_interactable = nearby_interactables[0]
-		var closest_dist = _calc_interactable_dist(nearby_interactables[0])
-		for interactable in nearby_interactables:
+	var nearby = nearby_interactables
+	var closest = null
+	if nearby.size() > 0:
+		closest = nearby[0]
+		var closest_dist = _calc_interactable_dist(nearby[0])
+		for interactable in nearby:
 			var curr_dist = _calc_interactable_dist(interactable)
 			_nearby_interactables[interactable] = "%.3f" % [curr_dist]
 			if curr_dist < closest_dist:
-				closest_interactable = interactable
+				closest = interactable
 				closest_dist = curr_dist
-	if closest_interactable != self.closest_interactable:
-		if self.closest_interactable:
-			self.closest_interactable.selected = false
-		self.closest_interactable = closest_interactable
-		if self.closest_interactable:
-			self.closest_interactable.selected = true
+	if closest != closest_interactable:
+		if closest_interactable:
+			closest_interactable.selected = false
+		closest_interactable = closest
+		if closest_interactable:
+			closest_interactable.selected = true
 
 
 func _process(delta):
