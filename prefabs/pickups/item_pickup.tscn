@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/items/item_pickup.gd" id="1_t0wkt"]
 [ext_resource type="Shader" path="res://assets/shaders/outline.gdshader" id="2_6vdwh"]
-[ext_resource type="Texture2D" uid="uid://nuxtx7us6rqo" path="res://assets/art/segment_slot.png" id="3_y0dfe"]
+[ext_resource type="Texture2D" uid="uid://bfktxj71wq6k3" path="res://assets/art/equipment/lootbox.png" id="3_t3xsf"]
 [ext_resource type="Script" path="res://scripts/interaction/interactable.gd" id="4_mchmu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_me05m"]
@@ -37,7 +37,7 @@ material = SubResource("ShaderMaterial_rfy8k")
 
 [node name="Disguise" type="Sprite2D" parent="Visuals"]
 visible = false
-texture = ExtResource("3_y0dfe")
+texture = ExtResource("3_t3xsf")
 
 [node name="Interactable" type="Node2D" parent="." node_paths=PackedStringArray("visuals")]
 script = ExtResource("4_mchmu")

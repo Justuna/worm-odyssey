@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/shop/money_pickup.gd" id="1_71db8"]
 [ext_resource type="Script" path="res://scripts/interaction/auto_interactable.gd" id="2_swx71"]
 [ext_resource type="Shader" path="res://assets/shaders/outline.gdshader" id="3_2ioqa"]
-[ext_resource type="Texture2D" uid="uid://i4ccqqajya4y" path="res://assets/art/items/goldpile.png" id="3_fniv0"]
+[ext_resource type="Texture2D" uid="uid://iebecrctif65" path="res://assets/art/items/money_new.png" id="4_u4q72"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6wwd8"]
 radius = 32.0
@@ -38,4 +38,4 @@ material = SubResource("ShaderMaterial_woqb7")
 
 [node name="Sprite" type="Sprite2D" parent="Visuals"]
 position = Vector2(0, -10)
-texture = ExtResource("3_fniv0")
+texture = ExtResource("4_u4q72")
