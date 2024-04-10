@@ -1,20 +1,19 @@
-[gd_scene load_steps=26 format=3 uid="uid://bplmeut6jbu2y"]
+[gd_scene load_steps=25 format=3 uid="uid://8hyifksoti7y"]
 
-[ext_resource type="Script" path="res://scripts/equipment/equipment.gd" id="1_yruca"]
-[ext_resource type="Script" path="res://scripts/entities/stats/stat_block_proxy.gd" id="2_8mffn"]
-[ext_resource type="Texture2D" uid="uid://b00b8obwj0107" path="res://assets/art/equipment/bow_turret.png" id="3_75p34"]
-[ext_resource type="Script" path="res://scripts/equipment/equipment_turret.gd" id="3_mrvex"]
-[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_qbvke"]
-[ext_resource type="Script" path="res://scripts/entities/fx.gd" id="3_sm037"]
-[ext_resource type="Texture2D" uid="uid://blj683acjnbdy" path="res://assets/art/fx/32_circle_fx.png" id="4_omfbw"]
-[ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="5_ep48q"]
-[ext_resource type="PackedScene" uid="uid://672bqlw1v4gm" path="res://prefabs/projectiles/bow_bullet.tscn" id="7_r0jqd"]
-[ext_resource type="Script" path="res://scripts/entities/entity_tracker.gd" id="8_bd71c"]
-[ext_resource type="Script" path="res://scripts/equipment/range_collision_shape_2d.gd" id="9_iyvek"]
-[ext_resource type="Texture2D" uid="uid://1h26xngwhymm" path="res://assets/art/fx/64_star_fx.png" id="10_cv6ew"]
-[ext_resource type="Script" path="res://scripts/equipment/shoot_types/shoot_once.gd" id="12_38ptw"]
-[ext_resource type="Script" path="res://scripts/entities/team.gd" id="12_ftm3c"]
-[ext_resource type="PackedScene" uid="uid://0p0tmff3x8mf" path="res://prefabs/projectiles/bow_pierce_bullet.tscn" id="13_yv2yj"]
+[ext_resource type="Script" path="res://scripts/equipment/equipment.gd" id="1_655l7"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat_block_proxy.gd" id="2_yfsxc"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_updf1"]
+[ext_resource type="Script" path="res://scripts/equipment/equipment_turret.gd" id="4_je6wx"]
+[ext_resource type="Texture2D" uid="uid://b00b8obwj0107" path="res://assets/art/equipment/bow_turret.png" id="6_t40fo"]
+[ext_resource type="Script" path="res://scripts/entities/fx.gd" id="7_e6uo1"]
+[ext_resource type="Texture2D" uid="uid://blj683acjnbdy" path="res://assets/art/fx/32_circle_fx.png" id="8_jqkk8"]
+[ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="9_qkioa"]
+[ext_resource type="Texture2D" uid="uid://1h26xngwhymm" path="res://assets/art/fx/64_star_fx.png" id="10_6od0i"]
+[ext_resource type="Script" path="res://scripts/entities/entity_tracker.gd" id="11_d2y01"]
+[ext_resource type="Script" path="res://scripts/equipment/range_collision_shape_2d.gd" id="12_apden"]
+[ext_resource type="Script" path="res://scripts/equipment/shoot_types/shoot_shotgun.gd" id="12_xukil"]
+[ext_resource type="PackedScene" uid="uid://bkh8dcxupvjuh" path="res://prefabs/projectiles/blunderbuss_bullet.tscn" id="13_r1btm"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="15_iiwvx"]
 
 [sub_resource type="Curve" id="Curve_jjilh"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
@@ -108,31 +107,31 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_ourt5"]
 radius = 400.0
 
-[node name="Bow" type="Node2D" node_paths=PackedStringArray("rotated_part")]
-script = ExtResource("1_yruca")
-cooldown = 5.0
+[node name="Blunderbuss" type="Node2D" node_paths=PackedStringArray("rotated_part")]
+script = ExtResource("1_655l7")
+cooldown = 8.0
 rotated_part = NodePath("EquipmentTurret/TurretHead")
 
 [node name="StatBlockProxy" type="Node" parent="."]
-script = ExtResource("2_8mffn")
+script = ExtResource("2_yfsxc")
 
 [node name="Reload" type="Node" parent="StatBlockProxy"]
-script = ExtResource("3_qbvke")
+script = ExtResource("3_updf1")
 type = 4
 base_amount = 50
 
 [node name="Damage" type="Node" parent="StatBlockProxy"]
-script = ExtResource("3_qbvke")
+script = ExtResource("3_updf1")
 type = 5
 base_amount = 50
 
 [node name="Range" type="Node" parent="StatBlockProxy"]
-script = ExtResource("3_qbvke")
+script = ExtResource("3_updf1")
 type = 13
 base_amount = 50
 
 [node name="EquipmentTurret" type="Node2D" parent="." node_paths=PackedStringArray("turret_head", "turret_muzzle", "entity_tracker", "team")]
-script = ExtResource("3_mrvex")
+script = ExtResource("4_je6wx")
 turret_head = NodePath("TurretHead")
 turret_muzzle = NodePath("TurretHead/TurretMuzzle")
 entity_tracker = NodePath("EntityTracker")
@@ -141,14 +140,15 @@ team = NodePath("../Team")
 [node name="TurretHead" type="Node2D" parent="EquipmentTurret"]
 
 [node name="Sprite2D" type="Sprite2D" parent="EquipmentTurret/TurretHead"]
-texture = ExtResource("3_75p34")
+self_modulate = Color(0.298039, 0.137255, 0.0941176, 1)
+texture = ExtResource("6_t40fo")
 
 [node name="TurretMuzzle" type="Node2D" parent="EquipmentTurret/TurretHead"]
 position = Vector2(0, -28)
 
 [node name="FireFX" type="Node2D" parent="EquipmentTurret/TurretHead/TurretMuzzle"]
 z_index = 1
-script = ExtResource("3_sm037")
+script = ExtResource("7_e6uo1")
 animation_name = "recoil_light"
 
 [node name="Particles" type="GPUParticles2D" parent="EquipmentTurret/TurretHead/TurretMuzzle/FireFX"]
@@ -158,11 +158,11 @@ rotation = -1.57079
 emitting = false
 amount = 4
 process_material = SubResource("ParticleProcessMaterial_63e31")
-texture = ExtResource("4_omfbw")
+texture = ExtResource("8_jqkk8")
 lifetime = 0.4
 one_shot = true
 explosiveness = 0.8
-script = ExtResource("5_ep48q")
+script = ExtResource("9_qkioa")
 repeat_oneshot = true
 
 [node name="RecoilLight" type="AnimationPlayer" parent="EquipmentTurret/TurretHead/TurretMuzzle/FireFX"]
@@ -173,7 +173,7 @@ libraries = {
 
 [node name="PierceFireFX" type="Node2D" parent="EquipmentTurret/TurretHead/TurretMuzzle"]
 z_index = 1
-script = ExtResource("3_sm037")
+script = ExtResource("7_e6uo1")
 animation_name = "recoil_heavy"
 
 [node name="Particles" type="GPUParticles2D" parent="EquipmentTurret/TurretHead/TurretMuzzle/PierceFireFX"]
@@ -183,11 +183,11 @@ rotation = -1.57079
 emitting = false
 amount = 4
 process_material = SubResource("ParticleProcessMaterial_63e31")
-texture = ExtResource("10_cv6ew")
+texture = ExtResource("10_6od0i")
 lifetime = 0.4
 one_shot = true
 explosiveness = 0.8
-script = ExtResource("5_ep48q")
+script = ExtResource("9_qkioa")
 repeat_oneshot = true
 
 [node name="RecoilHeavy" type="AnimationPlayer" parent="EquipmentTurret/TurretHead/TurretMuzzle/PierceFireFX"]
@@ -199,7 +199,7 @@ libraries = {
 [node name="EntityTracker" type="Area2D" parent="EquipmentTurret" node_paths=PackedStringArray("team")]
 monitoring = false
 monitorable = false
-script = ExtResource("8_bd71c")
+script = ExtResource("11_d2y01")
 enabled = false
 mode = 2
 team = NodePath("../../Team")
@@ -207,23 +207,31 @@ team = NodePath("../../Team")
 [node name="RangeCollisionShape2D" type="CollisionShape2D" parent="EquipmentTurret/EntityTracker" node_paths=PackedStringArray("range")]
 shape = SubResource("CircleShape2D_ourt5")
 debug_color = Color(0.701961, 0.690196, 0, 0.0705882)
-script = ExtResource("9_iyvek")
+script = ExtResource("12_apden")
 range = NodePath("../../../StatBlockProxy/Range")
 
 [node name="PassiveShootOnce" type="Node" parent="." node_paths=PackedStringArray("muzzle", "team")]
-script = ExtResource("12_38ptw")
-bullet_prefab = ExtResource("7_r0jqd")
+script = ExtResource("12_xukil")
+random_offset = 5.0
+bullet_number = 5
+angle = 60.0
+bullet_prefab = ExtResource("13_r1btm")
 muzzle = NodePath("../EquipmentTurret/TurretHead/TurretMuzzle")
 team = NodePath("../Team")
 
 [node name="ActiveShootOnce" type="Node" parent="." node_paths=PackedStringArray("muzzle", "team")]
-script = ExtResource("12_38ptw")
-bullet_prefab = ExtResource("13_yv2yj")
+script = ExtResource("12_xukil")
+random_offset = 5.0
+fire_round = 2
+fire_interval = 0.2
+bullet_number = 7
+angle = 60.0
+bullet_prefab = ExtResource("13_r1btm")
 muzzle = NodePath("../EquipmentTurret/TurretHead/TurretMuzzle")
 team = NodePath("../Team")
 
 [node name="Team" type="Node" parent="."]
-script = ExtResource("12_ftm3c")
+script = ExtResource("15_iiwvx")
 
 [connection signal="active_used" from="." to="ActiveShootOnce" method="shoot"]
 [connection signal="on_shoot" from="EquipmentTurret" to="EquipmentTurret/TurretHead/TurretMuzzle/FireFX" method="play"]
