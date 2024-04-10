@@ -212,6 +212,7 @@ range = NodePath("../../../StatBlockProxy/Range")
 
 [node name="PassiveShootOnce" type="Node" parent="." node_paths=PackedStringArray("muzzle", "team")]
 script = ExtResource("12_xukil")
+random_offset = 5.0
 bullet_number = 5
 angle = 60.0
 bullet_prefab = ExtResource("13_r1btm")
@@ -220,6 +221,7 @@ team = NodePath("../Team")
 
 [node name="ActiveShootOnce" type="Node" parent="." node_paths=PackedStringArray("muzzle", "team")]
 script = ExtResource("12_xukil")
+random_offset = 5.0
 fire_round = 2
 fire_interval = 0.2
 bullet_number = 7
