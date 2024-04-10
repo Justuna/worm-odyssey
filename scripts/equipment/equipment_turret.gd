@@ -8,7 +8,6 @@ signal on_shoot
 @export var turret_head: Node2D
 @export var turret_muzzle: Node2D
 @export var entity_tracker: EntityTracker
-@export var bullet_prefab: PackedScene
 @export var fire_interval: float = 1
 @export var lock_in_duration: float = 0.5
 @export var angle_offset: float = 90
@@ -30,6 +29,8 @@ func _ready():
 func _on_equipped_changed():
 	set_process(equipment.is_equipped)
 	entity_tracker.enabled = equipment.is_equipped
+	if not equipment.is_equipped and _tween.is_running():
+		_tween.kill()
 
 
 func _process(delta):
@@ -43,9 +44,6 @@ func _process(delta):
 
 
 func shoot():
-	var bullet = bullet_prefab.instantiate() as Projectile
-	World.instance.add_child(bullet)
-	bullet.construct(turret_muzzle.global_position, Node2DUtils.local_to_global_dir(turret_muzzle, Vector2.UP), team.team)
 	on_shoot.emit()
 
 

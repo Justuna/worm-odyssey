@@ -2,6 +2,7 @@ extends Node2D
 class_name WormController
 
 
+signal on_damage
 signal on_death
 
 @export var direction: Vector2
@@ -169,7 +170,12 @@ func _add_segment():
 	segments_container.move_child(segment_inst, 0)
 	segments.append(segment_inst)
 
+	segment_inst.health.on_damage.connect(_on_damage.unbind(1))
 	segment_inst.on_death.connect(_remove_segment.bind(segment_inst))
+
+
+func _on_damage():
+	on_damage.emit()
 
 
 func _remove_segment(segment: WormSegment):

@@ -38,6 +38,12 @@ var _b_active_pressed: bool
 
 func _ready():
 	_movement_deadzone_sqr = movement_deadzone * movement_deadzone 
+	_worm_controller.on_damage.connect(_on_damage)
+
+
+func _on_damage():
+	if Input.get_connected_joypads().size() > 0:
+		Input.start_joy_vibration(device_id, 0.5, 0.9, 0.25)
 
 
 func _process(delta):

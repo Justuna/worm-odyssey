@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://scripts/entities/entity_tracker.gd" id="8_bd71c"]
 [ext_resource type="Script" path="res://scripts/equipment/range_collision_shape_2d.gd" id="9_iyvek"]
 [ext_resource type="Texture2D" uid="uid://1h26xngwhymm" path="res://assets/art/fx/64_star_fx.png" id="10_cv6ew"]
-[ext_resource type="Script" path="res://scripts/equipment/equipment_active_shoot.gd" id="12_38ptw"]
+[ext_resource type="Script" path="res://scripts/equipment/shoot_types/shoot_once.gd" id="12_38ptw"]
 [ext_resource type="Script" path="res://scripts/entities/team.gd" id="12_ftm3c"]
 [ext_resource type="PackedScene" uid="uid://0p0tmff3x8mf" path="res://prefabs/projectiles/bow_pierce_bullet.tscn" id="13_yv2yj"]
 
@@ -136,7 +136,6 @@ script = ExtResource("3_mrvex")
 turret_head = NodePath("TurretHead")
 turret_muzzle = NodePath("TurretHead/TurretMuzzle")
 entity_tracker = NodePath("EntityTracker")
-bullet_prefab = ExtResource("7_r0jqd")
 team = NodePath("../Team")
 
 [node name="TurretHead" type="Node2D" parent="EquipmentTurret"]
@@ -211,7 +210,13 @@ debug_color = Color(0.701961, 0.690196, 0, 0.0705882)
 script = ExtResource("9_iyvek")
 range = NodePath("../../../StatBlockProxy/Range")
 
-[node name="EquipmentActiveShoot" type="Node" parent="." node_paths=PackedStringArray("muzzle", "team")]
+[node name="PassiveShootOnce" type="Node" parent="." node_paths=PackedStringArray("muzzle", "team")]
+script = ExtResource("12_38ptw")
+bullet_prefab = ExtResource("7_r0jqd")
+muzzle = NodePath("../EquipmentTurret/TurretHead/TurretMuzzle")
+team = NodePath("../Team")
+
+[node name="ActiveShootOnce" type="Node" parent="." node_paths=PackedStringArray("muzzle", "team")]
 script = ExtResource("12_38ptw")
 bullet_prefab = ExtResource("13_yv2yj")
 muzzle = NodePath("../EquipmentTurret/TurretHead/TurretMuzzle")
@@ -220,5 +225,7 @@ team = NodePath("../Team")
 [node name="Team" type="Node" parent="."]
 script = ExtResource("12_ftm3c")
 
+[connection signal="active_used" from="." to="ActiveShootOnce" method="shoot"]
 [connection signal="on_shoot" from="EquipmentTurret" to="EquipmentTurret/TurretHead/TurretMuzzle/FireFX" method="play"]
-[connection signal="on_shoot" from="EquipmentActiveShoot" to="EquipmentTurret/TurretHead/TurretMuzzle/PierceFireFX" method="play"]
+[connection signal="on_shoot" from="EquipmentTurret" to="PassiveShootOnce" method="shoot"]
+[connection signal="on_shoot" from="ActiveShootOnce" to="EquipmentTurret/TurretHead/TurretMuzzle/PierceFireFX" method="play"]
