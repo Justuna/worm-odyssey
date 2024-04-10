@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkh8dcxupvjuh"]
+
+[ext_resource type="PackedScene" uid="uid://dp6ibxtg4brre" path="res://prefabs/projectiles/circle_bullet.tscn" id="1_3kf24"]
+
+[node name="BlunderbussBullet" instance=ExtResource("1_3kf24")]
+
+[node name="Speed" parent="StatBlock" index="0"]
+base_amount = 125
+
+[node name="Damage" parent="StatBlock" index="1"]
+base_amount = 5
+
+[node name="Sprite2D" parent="." index="1"]
+self_modulate = Color(0.0666667, 0.0627451, 0.0627451, 1)
