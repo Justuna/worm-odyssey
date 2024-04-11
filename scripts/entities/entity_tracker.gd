@@ -82,6 +82,10 @@ func _process(delta):
 		target_entity_changed.emit()
 
 
+func set_enabled(_enabled: bool):
+	enabled = _enabled
+
+
 func _can_add(other_team: Team) -> bool:
 	match mode:
 		Mode.ALLY:

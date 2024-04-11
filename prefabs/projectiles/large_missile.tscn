@@ -1,7 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://dk8hihv2xvjs5"]
+[gd_scene load_steps=7 format=3 uid="uid://dk8hihv2xvjs5"]
 
 [ext_resource type="PackedScene" uid="uid://c8kosebxby1ve" path="res://prefabs/projectiles/missile.tscn" id="1_6caq4"]
 [ext_resource type="Texture2D" uid="uid://c1hecckiex8v8" path="res://assets/art/fx/64_circle_fx.png" id="2_jctxc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1v07c"]
+radius = 41.0
+height = 158.0
+
+[sub_resource type="Curve" id="Curve_qrlkw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_tq5dr"]
+curve = SubResource("Curve_qrlkw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ww36s"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 12.4
+spread = 180.0
+initial_velocity_min = 250.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 0, 0)
+damping_min = 50.0
+damping_max = 50.0
+scale_min = 3.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_tq5dr")
 
 [node name="LargeMissile" instance=ExtResource("1_6caq4")]
 
@@ -12,3 +37,9 @@ lifetime = 1.0
 
 [node name="Sprite2D" parent="." index="2"]
 scale = Vector2(2.5, 2.5)
+
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+shape = SubResource("CapsuleShape2D_1v07c")
+
+[node name="Particles" parent="Death/FX" index="0"]
+process_material = SubResource("ParticleProcessMaterial_ww36s")
