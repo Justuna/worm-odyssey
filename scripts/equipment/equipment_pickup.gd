@@ -27,6 +27,6 @@ func _on_interact(interactor: Interactor):
 
 	if worm_controller:
 		if worm_controller.try_add_equipment(_equipment):
-			# TODO: Add pickup FX
+			picked_up.emit()
 			root.queue_free()
 

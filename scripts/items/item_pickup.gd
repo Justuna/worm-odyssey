@@ -22,4 +22,5 @@ func _on_interact(interactor: Interactor):
 	var item_holder = interactor.get_parent().get_node_or_null("ItemHolder") as ItemHolder
 	if item_holder:
 		item_holder.add_item(_item.type)
+		picked_up.emit()
 		root.queue_free()

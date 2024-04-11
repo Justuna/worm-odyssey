@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=3 uid="uid://c4wlin680myme"]
+[gd_scene load_steps=82 format=3 uid="uid://c4wlin680myme"]
 
 [ext_resource type="Script" path="res://scripts/entities/world.gd" id="1_0jnsu"]
 [ext_resource type="Script" path="res://scripts/test/worm_test.gd" id="1_e11fb"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" path="res://addons/rmsmartshape/normal_range.gd" id="21_a078h"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/materials/edge_material_metadata.gd" id="22_5m7le"]
 [ext_resource type="Texture2D" uid="uid://0vk3gnddj34t" path="res://assets/art/level/dirt_tile_2.png" id="23_vxpht"]
+[ext_resource type="Script" path="res://scripts/test/equipment_library_spawner.gd" id="25_il7e6"]
 [ext_resource type="PackedScene" uid="uid://b1eonkmekkhvi" path="res://prefabs/enemies/dummy.tscn" id="26_axsjc"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_7khxy"]
@@ -750,6 +751,11 @@ worm = NodePath("../../../PlayerWorm/Worm")
 slots = [NodePath("ShopSlot")]
 
 [node name="ShopSlot" type="Node2D" parent="World/DefaultStuff/EquipmentShop/RandomShopGroup"]
+
+[node name="EquipmentLibrarySpwaner" type="Node2D" parent="World/DefaultStuff"]
+position = Vector2(511, 71)
+script = ExtResource("25_il7e6")
+library = ExtResource("2_6jmem")
 
 [node name="MoneyPickup" parent="World/DefaultStuff" instance=ExtResource("11_45yqs")]
 position = Vector2(-410, -100)

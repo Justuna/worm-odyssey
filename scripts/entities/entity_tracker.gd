@@ -92,7 +92,6 @@ func _can_add(other_team: Team) -> bool:
 
 
 func _on_area_entered(area: Area2D):
-	print("Tracker area entered")
 	if area is HitDetector and area.get_node_or_null("HitTaker") is HitTaker:
 		var body = area.entity
 		var other_team = body.get_node_or_null("Team") as Team
