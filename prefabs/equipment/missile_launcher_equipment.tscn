@@ -1,19 +1,20 @@
-[gd_scene load_steps=25 format=3 uid="uid://8hyifksoti7y"]
+[gd_scene load_steps=26 format=3 uid="uid://bf71hwhnlk23m"]
 
-[ext_resource type="Script" path="res://scripts/equipment/equipment.gd" id="1_655l7"]
-[ext_resource type="Script" path="res://scripts/entities/stats/stat_block_proxy.gd" id="2_yfsxc"]
-[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_updf1"]
-[ext_resource type="Script" path="res://scripts/equipment/equipment_turret.gd" id="4_je6wx"]
-[ext_resource type="Texture2D" uid="uid://cw81rforwlx7n" path="res://assets/art/equipment/blunderbuss_weapon.png" id="5_p2rs6"]
-[ext_resource type="Script" path="res://scripts/entities/fx.gd" id="7_e6uo1"]
-[ext_resource type="Texture2D" uid="uid://blj683acjnbdy" path="res://assets/art/fx/32_circle_fx.png" id="8_jqkk8"]
-[ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="9_qkioa"]
-[ext_resource type="Texture2D" uid="uid://1h26xngwhymm" path="res://assets/art/fx/64_star_fx.png" id="10_6od0i"]
-[ext_resource type="Script" path="res://scripts/entities/entity_tracker.gd" id="11_d2y01"]
-[ext_resource type="Script" path="res://scripts/equipment/range_collision_shape_2d.gd" id="12_apden"]
-[ext_resource type="Script" path="res://scripts/equipment/shoot_types/shoot_shotgun.gd" id="12_xukil"]
-[ext_resource type="PackedScene" uid="uid://bkh8dcxupvjuh" path="res://prefabs/projectiles/blunderbuss_bullet.tscn" id="13_r1btm"]
-[ext_resource type="Script" path="res://scripts/entities/team.gd" id="15_iiwvx"]
+[ext_resource type="Script" path="res://scripts/equipment/equipment.gd" id="1_fn1ka"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat_block_proxy.gd" id="2_jaoy0"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_ck72q"]
+[ext_resource type="Texture2D" uid="uid://nuxnb888liog" path="res://assets/art/equipment/missile_launcher.png" id="4_sphhu"]
+[ext_resource type="Script" path="res://scripts/equipment/equipment_turret.gd" id="4_y0lf0"]
+[ext_resource type="Script" path="res://scripts/entities/fx.gd" id="6_c2vq8"]
+[ext_resource type="Texture2D" uid="uid://blj683acjnbdy" path="res://assets/art/fx/32_circle_fx.png" id="7_jjpss"]
+[ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="8_jtk16"]
+[ext_resource type="Texture2D" uid="uid://1h26xngwhymm" path="res://assets/art/fx/64_star_fx.png" id="9_kvvfe"]
+[ext_resource type="Script" path="res://scripts/entities/entity_tracker.gd" id="10_dbj3h"]
+[ext_resource type="Script" path="res://scripts/equipment/range_collision_shape_2d.gd" id="11_sf78e"]
+[ext_resource type="Script" path="res://scripts/equipment/shoot_types/shoot_missile.gd" id="12_khl2n"]
+[ext_resource type="PackedScene" uid="uid://c8kosebxby1ve" path="res://prefabs/projectiles/missile.tscn" id="13_70f4j"]
+[ext_resource type="PackedScene" uid="uid://dk8hihv2xvjs5" path="res://prefabs/projectiles/large_missile.tscn" id="14_61wtj"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="15_c180v"]
 
 [sub_resource type="Curve" id="Curve_jjilh"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
@@ -107,31 +108,31 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_ourt5"]
 radius = 400.0
 
-[node name="Blunderbuss" type="Node2D" node_paths=PackedStringArray("rotated_part")]
-script = ExtResource("1_655l7")
-cooldown = 8.0
+[node name="MissileLauncher" type="Node2D" node_paths=PackedStringArray("rotated_part")]
+script = ExtResource("1_fn1ka")
+cooldown = 5.0
 rotated_part = NodePath("EquipmentTurret/TurretHead")
 
 [node name="StatBlockProxy" type="Node" parent="."]
-script = ExtResource("2_yfsxc")
+script = ExtResource("2_jaoy0")
 
 [node name="Reload" type="Node" parent="StatBlockProxy"]
-script = ExtResource("3_updf1")
+script = ExtResource("3_ck72q")
 type = 4
 base_amount = 50
 
 [node name="Damage" type="Node" parent="StatBlockProxy"]
-script = ExtResource("3_updf1")
+script = ExtResource("3_ck72q")
 type = 5
 base_amount = 50
 
 [node name="Range" type="Node" parent="StatBlockProxy"]
-script = ExtResource("3_updf1")
+script = ExtResource("3_ck72q")
 type = 13
 base_amount = 50
 
 [node name="EquipmentTurret" type="Node2D" parent="." node_paths=PackedStringArray("turret_head", "turret_muzzle", "entity_tracker", "team")]
-script = ExtResource("4_je6wx")
+script = ExtResource("4_y0lf0")
 turret_head = NodePath("TurretHead")
 turret_muzzle = NodePath("TurretHead/TurretMuzzle")
 entity_tracker = NodePath("EntityTracker")
@@ -140,29 +141,27 @@ team = NodePath("../Team")
 [node name="TurretHead" type="Node2D" parent="EquipmentTurret"]
 
 [node name="Sprite2D" type="Sprite2D" parent="EquipmentTurret/TurretHead"]
-rotation = -1.5708
-texture = ExtResource("5_p2rs6")
+texture = ExtResource("4_sphhu")
 
 [node name="TurretMuzzle" type="Node2D" parent="EquipmentTurret/TurretHead"]
-position = Vector2(0, -28)
 
 [node name="FireFX" type="Node2D" parent="EquipmentTurret/TurretHead/TurretMuzzle"]
 z_index = 1
-script = ExtResource("7_e6uo1")
+script = ExtResource("6_c2vq8")
 animation_name = "recoil_light"
 
 [node name="Particles" type="GPUParticles2D" parent="EquipmentTurret/TurretHead/TurretMuzzle/FireFX"]
-self_modulate = Color(0.839216, 0.482353, 0.196078, 1)
+self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
 position = Vector2(0, -1)
 rotation = -1.57079
 emitting = false
 amount = 4
 process_material = SubResource("ParticleProcessMaterial_63e31")
-texture = ExtResource("8_jqkk8")
+texture = ExtResource("7_jjpss")
 lifetime = 0.4
 one_shot = true
 explosiveness = 0.8
-script = ExtResource("9_qkioa")
+script = ExtResource("8_jtk16")
 repeat_oneshot = true
 
 [node name="RecoilLight" type="AnimationPlayer" parent="EquipmentTurret/TurretHead/TurretMuzzle/FireFX"]
@@ -171,36 +170,35 @@ libraries = {
 "": SubResource("AnimationLibrary_yh25v")
 }
 
-[node name="ActiveFireFX" type="Node2D" parent="EquipmentTurret/TurretHead/TurretMuzzle"]
+[node name="PierceFireFX" type="Node2D" parent="EquipmentTurret/TurretHead/TurretMuzzle"]
 z_index = 1
-script = ExtResource("7_e6uo1")
+script = ExtResource("6_c2vq8")
 animation_name = "recoil_heavy"
 
-[node name="Particles" type="GPUParticles2D" parent="EquipmentTurret/TurretHead/TurretMuzzle/ActiveFireFX"]
-self_modulate = Color(0.839216, 0.482353, 0.196078, 1)
+[node name="Particles" type="GPUParticles2D" parent="EquipmentTurret/TurretHead/TurretMuzzle/PierceFireFX"]
+self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
 position = Vector2(0, -1)
 rotation = -1.57079
 emitting = false
 amount = 4
 process_material = SubResource("ParticleProcessMaterial_63e31")
-texture = ExtResource("10_6od0i")
+texture = ExtResource("9_kvvfe")
 lifetime = 0.4
 one_shot = true
 explosiveness = 0.8
-script = ExtResource("9_qkioa")
+script = ExtResource("8_jtk16")
 repeat_oneshot = true
 
-[node name="RecoilHeavy" type="AnimationPlayer" parent="EquipmentTurret/TurretHead/TurretMuzzle/ActiveFireFX"]
+[node name="RecoilHeavy" type="AnimationPlayer" parent="EquipmentTurret/TurretHead/TurretMuzzle/PierceFireFX"]
 root_node = NodePath("../../..")
 libraries = {
 "": SubResource("AnimationLibrary_8volk")
 }
 
 [node name="EntityTracker" type="Area2D" parent="EquipmentTurret" node_paths=PackedStringArray("team")]
-visible = false
 monitoring = false
 monitorable = false
-script = ExtResource("11_d2y01")
+script = ExtResource("10_dbj3h")
 enabled = false
 mode = 2
 team = NodePath("../../Team")
@@ -208,33 +206,19 @@ team = NodePath("../../Team")
 [node name="RangeCollisionShape2D" type="CollisionShape2D" parent="EquipmentTurret/EntityTracker" node_paths=PackedStringArray("range")]
 shape = SubResource("CircleShape2D_ourt5")
 debug_color = Color(0.701961, 0.690196, 0, 0.0705882)
-script = ExtResource("12_apden")
+script = ExtResource("11_sf78e")
 range = NodePath("../../../StatBlockProxy/Range")
 
-[node name="PassiveShootOnce" type="Node" parent="." node_paths=PackedStringArray("muzzle", "team")]
-script = ExtResource("12_xukil")
-random_offset = 5.0
-bullet_number = 5
-angle = 60.0
-bullet_prefab = ExtResource("13_r1btm")
+[node name="ShootMissile" type="Node" parent="." node_paths=PackedStringArray("muzzle", "team")]
+script = ExtResource("12_khl2n")
+missile_prefabs = Array[PackedScene]([ExtResource("13_70f4j"), ExtResource("14_61wtj")])
 muzzle = NodePath("../EquipmentTurret/TurretHead/TurretMuzzle")
 team = NodePath("../Team")
-
-[node name="ActiveShootOnce" type="Node" parent="." node_paths=PackedStringArray("muzzle", "team")]
-script = ExtResource("12_xukil")
-random_offset = 5.0
-fire_round = 2
-fire_interval = 0.2
-bullet_number = 7
-angle = 60.0
-bullet_prefab = ExtResource("13_r1btm")
-muzzle = NodePath("../EquipmentTurret/TurretHead/TurretMuzzle")
-team = NodePath("../Team")
+reload_duration = 0.5
 
 [node name="Team" type="Node" parent="."]
-script = ExtResource("15_iiwvx")
+script = ExtResource("15_c180v")
 
-[connection signal="active_used" from="." to="ActiveShootOnce" method="shoot"]
+[connection signal="active_used" from="." to="ShootMissile" method="spawn_and_shoot_missile" binds= [1]]
 [connection signal="on_shoot" from="EquipmentTurret" to="EquipmentTurret/TurretHead/TurretMuzzle/FireFX" method="play"]
-[connection signal="on_shoot" from="EquipmentTurret" to="PassiveShootOnce" method="shoot"]
-[connection signal="on_shoot" from="ActiveShootOnce" to="EquipmentTurret/TurretHead/TurretMuzzle/ActiveFireFX" method="play"]
+[connection signal="on_shoot" from="EquipmentTurret" to="ShootMissile" method="shoot"]

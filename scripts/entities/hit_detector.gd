@@ -20,6 +20,14 @@ enum DetectorType {
 	HITBOX
 }
 
+@export var enabled: bool = true :
+	get:
+		return _enabled
+	set(value):
+		_enabled = value
+		monitoring = value
+		monitorable = value
+var _enabled: bool = true
 @export var entity: Node
 @export var mode: TeamMode
 @export var type: DetectorType
@@ -33,9 +41,14 @@ var detectors: Dictionary
 func _ready():
 	area_entered.connect(_on_enter)
 	area_exited.connect(_on_exit)
+	enabled = enabled
 	if track_wall:
 		body_entered.connect(_on_body_entered)
 		body_exited.connect(_on_body_exited)
+
+
+func set_enabled(_enabled: bool):
+	enabled = true
 
 
 func _on_body_entered(body: Node2D):

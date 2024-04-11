@@ -23,10 +23,15 @@ enum TargetMode {
 	get:
 		return _enabled
 	set(value):
-		var old_value = _enabled
 		_enabled = value
-		if old_value != value:
-			_update_enabled()
+		if _is_readied:
+			monitoring = _enabled
+			monitorable = _enabled
+			set_process(_enabled)
+			if not _enabled:
+				# If we are disabling ourselves, then clean everything up
+				_target_entity = null
+				entities.clear()
 var _enabled: bool = true
 @export var mode: Mode
 @export var target_mode: TargetMode = TargetMode.CLOSEST
@@ -42,21 +47,13 @@ var target_entity: Node2D :
 var _target_entity: Node2D
 var _prev_target_entity: Node2D
 
+@onready var _is_readied: bool = true
+
 
 func _ready():
 	area_entered.connect(_on_area_entered)
 	area_exited.connect(_on_area_exited)
-	_update_enabled()
-
-
-func _update_enabled():
-	if is_inside_tree():
-		monitoring = _enabled
-		set_process(_enabled)
-		if not _enabled:
-			# If we are disabling ourselves, then clean everything up
-			_target_entity = null
-			entities.clear()
+	enabled = enabled
 
 
 func _process(delta):
@@ -95,6 +92,7 @@ func _can_add(other_team: Team) -> bool:
 
 
 func _on_area_entered(area: Area2D):
+	print("Tracker area entered")
 	if area is HitDetector and area.get_node_or_null("HitTaker") is HitTaker:
 		var body = area.entity
 		var other_team = body.get_node_or_null("Team") as Team

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bkh8dcxupvjuh"]
+[gd_scene load_steps=3 format=3 uid="uid://bkh8dcxupvjuh"]
 
 [ext_resource type="PackedScene" uid="uid://dp6ibxtg4brre" path="res://prefabs/projectiles/circle_bullet.tscn" id="1_3kf24"]
+[ext_resource type="Texture2D" uid="uid://dbf8k8eqcl3cf" path="res://assets/art/equipment/blunderbuss_projectile.png" id="2_kwnpf"]
 
 [node name="BlunderbussBullet" instance=ExtResource("1_3kf24")]
 
@@ -11,4 +12,8 @@ base_amount = 125
 base_amount = 5
 
 [node name="Sprite2D" parent="." index="1"]
-self_modulate = Color(0.0666667, 0.0627451, 0.0627451, 1)
+position = Vector2(0, 4)
+texture = ExtResource("2_kwnpf")
+
+[node name="Particles" parent="Death/FX" index="0"]
+self_modulate = Color(0.839216, 0.482353, 0.196078, 1)

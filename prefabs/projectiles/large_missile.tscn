@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dk8hihv2xvjs5"]
+
+[ext_resource type="PackedScene" uid="uid://c8kosebxby1ve" path="res://prefabs/projectiles/missile.tscn" id="1_6caq4"]
+[ext_resource type="Texture2D" uid="uid://c1hecckiex8v8" path="res://assets/art/fx/64_circle_fx.png" id="2_jctxc"]
+
+[node name="LargeMissile" instance=ExtResource("1_6caq4")]
+
+[node name="Trail" parent="." index="1"]
+position = Vector2(0, 46)
+texture = ExtResource("2_jctxc")
+lifetime = 1.0
+
+[node name="Sprite2D" parent="." index="2"]
+scale = Vector2(2.5, 2.5)

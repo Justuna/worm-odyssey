@@ -27,9 +27,10 @@ func _ready():
 
 
 func _on_equipped_changed():
+	print("equipment changed: ", equipment.is_equipped)
 	set_process(equipment.is_equipped)
 	entity_tracker.enabled = equipment.is_equipped
-	if not equipment.is_equipped and _tween.is_running():
+	if not equipment.is_equipped and _tween and _tween.is_running():
 		_tween.kill()
 
 

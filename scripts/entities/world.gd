@@ -8,7 +8,7 @@ static var instance: World :
 static var _instance: World
 
 
-func _ready():
+func _enter_tree():
 	if instance:
 		queue_free()
 		return

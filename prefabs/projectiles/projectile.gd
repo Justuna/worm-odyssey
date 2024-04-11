@@ -2,6 +2,8 @@ extends Node2D
 class_name Projectile
 
 
+signal constructed
+
 @export var direction: Vector2
 @export var rotate_to_direction: bool
 @export_range(0, 360) var rotate_angle_offset: float = 90
@@ -15,3 +17,4 @@ func construct(_position: Vector2, _direction: Vector2, _team: String):
 		global_rotation = direction.angle() + deg_to_rad(rotate_angle_offset)
 	global_position = _position
 	(get_node("Team") as Team).team = _team
+	constructed.emit()

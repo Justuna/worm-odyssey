@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://c8kosebxby1ve"]
+
+[ext_resource type="PackedScene" uid="uid://dp6ibxtg4brre" path="res://prefabs/projectiles/circle_bullet.tscn" id="1_ygqua"]
+[ext_resource type="Texture2D" uid="uid://blj683acjnbdy" path="res://assets/art/fx/32_circle_fx.png" id="2_eiqey"]
+[ext_resource type="Texture2D" uid="uid://bll4trxhsfd27" path="res://assets/art/equipment/missile.png" id="2_i2vog"]
+
+[sub_resource type="Curve" id="Curve_kpo58"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fccvu"]
+curve = SubResource("Curve_kpo58")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_feycs"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 12.4
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+damping_min = 150.0
+damping_max = 150.0
+scale_curve = SubResource("CurveTexture_fccvu")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dtamw"]
+radius = 41.0
+height = 158.0
+
+[node name="Missile" instance=ExtResource("1_ygqua")]
+
+[node name="Speed" parent="StatBlock" index="0"]
+base_amount = 100
+
+[node name="Damage" parent="StatBlock" index="1"]
+base_amount = 20
+
+[node name="Trail" type="GPUParticles2D" parent="." index="1"]
+self_modulate = Color(0.615686, 0.658824, 0.698039, 1)
+position = Vector2(0, 20)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_feycs")
+texture = ExtResource("2_eiqey")
+lifetime = 0.5
+
+[node name="Sprite2D" parent="." index="2"]
+texture = ExtResource("2_i2vog")
+
+[node name="HitBox" parent="." index="3"]
+enabled = false
+
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+shape = SubResource("CapsuleShape2D_dtamw")
+
+[node name="ForwardProjectile" parent="." index="5"]
+enabled = false
+
+[node name="Death" parent="." index="6"]
+enabled = false
+
+[node name="Particles" parent="Death/FX" index="0"]
+self_modulate = Color(0.792157, 0.215686, 0.196078, 1)
+
+[connection signal="constructed" from="." to="HitBox" method="set_enabled" binds= [true]]
+[connection signal="constructed" from="." to="ForwardProjectile" method="set_enabled" binds= [true]]
+[connection signal="constructed" from="." to="Death" method="set_enabled" binds= [true]]
+[connection signal="constructed" from="." to="Trail" method="set_emitting" binds= [true]]

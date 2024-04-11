@@ -1,0 +1,183 @@
+[gd_scene load_steps=27 format=3 uid="uid://b1eonkmekkhvi"]
+
+[ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="1_teq2q"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="2_tn6v5"]
+[ext_resource type="Shader" path="res://assets/shaders/overlay.gdshader" id="3_qbri0"]
+[ext_resource type="Texture2D" uid="uid://d0uy1t71kanoh" path="res://assets/art/enemies/dummy.png" id="4_rjbym"]
+[ext_resource type="Script" path="res://scripts/enemies/hit_flash.gd" id="5_fujnk"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detector.gd" id="6_5jb8t"]
+[ext_resource type="Script" path="res://scripts/entities/hit_taker.gd" id="7_jn4er"]
+[ext_resource type="Script" path="res://scripts/entities/hit_dealers/hit_continuously.gd" id="8_5umtc"]
+[ext_resource type="Script" path="res://scripts/entities/health.gd" id="9_1gtit"]
+[ext_resource type="Script" path="res://scripts/entities/passive_regen.gd" id="10_hcvi7"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="11_qmqyo"]
+[ext_resource type="Script" path="res://scripts/entities/rotate_shake.gd" id="12_q41mg"]
+[ext_resource type="Script" path="res://scripts/effects/effect_holder.gd" id="14_sdnlh"]
+[ext_resource type="Resource" uid="uid://x0nym0cu3uxm" path="res://libraries/effect_library.tres" id="15_31lmp"]
+[ext_resource type="AnimationLibrary" uid="uid://wyecdaasafnv" path="res://assets/animations/entity.tres" id="16_rpw0w"]
+[ext_resource type="Script" path="res://scripts/entities/death.gd" id="17_7ckmc"]
+[ext_resource type="Script" path="res://scripts/entities/fx.gd" id="18_q4ssr"]
+[ext_resource type="Texture2D" uid="uid://p62o42eelno8" path="res://assets/art/fx/96_circle_fx.png" id="19_dy6li"]
+[ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="20_3oqg1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qynvl"]
+shader = ExtResource("3_qbri0")
+shader_parameter/overlay_color = Color(0, 0, 0, 0)
+shader_parameter/overlay_amount = null
+shader_parameter/overlay_enabled = false
+shader_parameter/overlay_2_color = Color(1, 1, 1, 1)
+shader_parameter/overlay_2_amount = 0.0
+shader_parameter/overlay_2_enabled = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u53qh"]
+radius = 15.0333
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_os6fb"]
+radius = 35.0
+height = 94.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jodux"]
+radius = 35.0
+height = 94.0
+
+[sub_resource type="Curve" id="Curve_d5rrh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_8hrb1"]
+curve = SubResource("Curve_d5rrh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_s4x6s"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 150.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_8hrb1")
+
+[node name="Dummy" type="CharacterBody2D"]
+collision_layer = 2
+motion_mode = 1
+
+[node name="StatBlock" type="Node" parent="."]
+script = ExtResource("1_teq2q")
+
+[node name="MaxHealth" type="Node" parent="StatBlock"]
+script = ExtResource("2_tn6v5")
+type = 1
+base_amount = 10000000000000
+
+[node name="Regen" type="Node" parent="StatBlock"]
+script = ExtResource("2_tn6v5")
+type = 2
+base_amount = 10000000000000
+
+[node name="Damage" type="Node" parent="StatBlock"]
+script = ExtResource("2_tn6v5")
+type = 5
+base_amount = 1
+
+[node name="Speed" type="Node" parent="StatBlock"]
+script = ExtResource("2_tn6v5")
+
+[node name="VisualHolder" type="Node2D" parent="."]
+position = Vector2(0, 3.31899)
+
+[node name="Visual" type="Sprite2D" parent="VisualHolder"]
+material = SubResource("ShaderMaterial_qynvl")
+position = Vector2(0, -13)
+texture = ExtResource("4_rjbym")
+
+[node name="HitFlash" type="Node" parent="VisualHolder/Visual" node_paths=PackedStringArray("health")]
+script = ExtResource("5_fujnk")
+health = NodePath("../../../Health")
+
+[node name="WallCollider" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_u53qh")
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
+monitoring = false
+script = ExtResource("6_5jb8t")
+entity = NodePath("..")
+mode = 2
+team = NodePath("../Team")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -17)
+shape = SubResource("CapsuleShape2D_os6fb")
+
+[node name="HitTaker" type="Node" parent="Hurtbox" node_paths=PackedStringArray("health", "hurtbox")]
+script = ExtResource("7_jn4er")
+health = NodePath("../../Health")
+hurtbox = NodePath("..")
+
+[node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
+monitorable = false
+script = ExtResource("6_5jb8t")
+entity = NodePath("..")
+mode = 2
+type = 1
+team = NodePath("../Team")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -17)
+shape = SubResource("CapsuleShape2D_jodux")
+debug_color = Color(0.701961, 0, 0, 0.0784314)
+
+[node name="HitContinuously" type="Node" parent="Hitbox" node_paths=PackedStringArray("hitbox", "amount_stat")]
+script = ExtResource("8_5umtc")
+tick_rate = 1.0
+hit_cooldown = 1.0
+max_hits = 1
+hitbox = NodePath("..")
+amount_stat = NodePath("../../StatBlock/Damage")
+
+[node name="Health" type="Node" parent="." node_paths=PackedStringArray("max_health")]
+script = ExtResource("9_1gtit")
+max_health = NodePath("../StatBlock/MaxHealth")
+
+[node name="PassiveRegen" type="Node" parent="Health" node_paths=PackedStringArray("health", "regen_stat")]
+script = ExtResource("10_hcvi7")
+health = NodePath("..")
+regen_stat = NodePath("../../StatBlock/Regen")
+
+[node name="Team" type="Node" parent="."]
+script = ExtResource("11_qmqyo")
+team = "Enemy"
+
+[node name="RotateShake" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("12_q41mg")
+target = NodePath("../VisualHolder")
+
+[node name="EffectHolder" type="Node" parent="."]
+script = ExtResource("14_sdnlh")
+effect_library = ExtResource("15_31lmp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"entity": ExtResource("16_rpw0w")
+}
+
+[node name="Death" type="Node2D" parent="."]
+script = ExtResource("17_7ckmc")
+
+[node name="FX" type="Node2D" parent="Death"]
+z_index = 10
+script = ExtResource("18_q4ssr")
+unparent_on_play = true
+use_lifetime = true
+lifetime = 1.0
+
+[node name="Particles" type="GPUParticles2D" parent="Death/FX"]
+self_modulate = Color(0.843137, 0.615686, 0.333333, 1)
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_s4x6s")
+texture = ExtResource("19_dy6li")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.8
+script = ExtResource("20_3oqg1")
+
+[connection signal="on_damage" from="Health" to="RotateShake" method="shake" unbinds=1]
+[connection signal="on_death" from="Health" to="Death" method="die"]

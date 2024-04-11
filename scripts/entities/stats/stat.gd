@@ -55,6 +55,8 @@ var amount: int
 
 
 func _ready():
+	if Engine.is_editor_hint():
+		return
 	if is_proxy_stat:
 		var proxy = get_parent() as StatBlockProxy
 		proxy.source_stat_block_changed.connect(_on_stat_block_proxy_updated)
