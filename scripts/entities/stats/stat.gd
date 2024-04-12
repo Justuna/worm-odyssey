@@ -1,7 +1,7 @@
 @tool
 @icon("res://assets/art/editor_icons/icon_file_list.svg")
-extends Node
 class_name Stat
+extends Node
 
 
 enum Type {

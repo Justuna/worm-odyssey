@@ -9,6 +9,7 @@ signal constructed
 @export_range(0, 360) var rotate_angle_offset: float = 90
 
 @onready var stat_block: StatBlock = get_node("StatBlock")
+@onready var team: Team = get_node("Team")
 
 
 func construct(_position: Vector2, _direction: Vector2, _team: String):

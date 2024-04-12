@@ -1,7 +1,7 @@
 ## Redirects all calls to a source_stat_block
 ##
 ## Primarily used in equipments
-@icon("res://assets/art/editor_icons/icon_packed_data_container.svg")
+@icon("res://assets/art/editor_icons/icon_packed_data_container_blue.svg")
 class_name StatBlockProxy
 extends StatBlock
 

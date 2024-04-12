@@ -27,10 +27,11 @@ func _on_detector_entered(other_hit_detector: HitDetector):
 
 
 func _deal_hit(hit_taker: HitTaker):
-	if is_healing:
-		hit_taker.route_healing(amount)
-	else:
-		hit_taker.route_damage(amount, can_crit)
+	if amount > 0:
+		if is_healing:
+			hit_taker.route_healing(amount)
+		else:
+			hit_taker.route_damage(amount, can_crit)
 
 	var hit_entity = hit_taker.hurtbox.entity
 	var effect_holder = hit_entity.get_node("EffectHolder")

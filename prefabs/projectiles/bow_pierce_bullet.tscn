@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://0p0tmff3x8mf"]
 
-[ext_resource type="Script" path="res://prefabs/projectiles/projectile.gd" id="1_boeii"]
+[ext_resource type="Script" path="res://scripts/projectiles/projectile.gd" id="1_boeii"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="2_40o7a"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_pi5xe"]
 [ext_resource type="Texture2D" uid="uid://bhgsrmytyr48b" path="res://assets/art/equipment/bow_pierce_bullet.png" id="4_ufbxi"]

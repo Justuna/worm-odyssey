@@ -2,6 +2,8 @@ class_name Death
 extends Node2D
 
 
+signal on_death
+
 @export var enabled: bool = true :
 	get:
 		return _enabled
@@ -45,6 +47,7 @@ func die():
 	if _is_dead:
 		return
 	_is_dead = true
+	on_death.emit()
 	for fx in death_fx:
 		fx.play()
 	get_parent().queue_free()

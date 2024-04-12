@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://dp6ibxtg4brre"]
 
-[ext_resource type="Script" path="res://prefabs/projectiles/projectile.gd" id="1_3xcda"]
+[ext_resource type="Script" path="res://scripts/projectiles/projectile.gd" id="1_3xcda"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="2_mf0kw"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_2hbf6"]
 [ext_resource type="Texture2D" uid="uid://d17x15wqqedto" path="res://assets/art/bullets/bullet_circle.png" id="4_uw4xu"]
@@ -20,7 +20,7 @@ radius = 23.0217
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.06154, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_fccvu"]
+[sub_resource type="CurveTexture" id="CurveTexture_i8cob"]
 curve = SubResource("Curve_qrlkw")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yo0u0"]
@@ -35,7 +35,7 @@ damping_min = 150.0
 damping_max = 150.0
 scale_min = 0.75
 scale_max = 0.75
-scale_curve = SubResource("CurveTexture_fccvu")
+scale_curve = SubResource("CurveTexture_i8cob")
 
 [node name="CircleBullet" type="Node2D"]
 z_index = 5

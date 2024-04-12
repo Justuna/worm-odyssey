@@ -1,0 +1,117 @@
+[gd_scene load_steps=19 format=3 uid="uid://dybm1h5itvr5l"]
+
+[ext_resource type="Script" path="res://scripts/projectiles/explosion_projectile.gd" id="1_q4qu6"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="2_l50xa"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_cr5e8"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detector.gd" id="4_iac3u"]
+[ext_resource type="Script" path="res://scripts/equipment/range_collision_shape_2d.gd" id="5_bhtdr"]
+[ext_resource type="Script" path="res://scripts/entities/hit_dealers/hit_once.gd" id="6_y46kk"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="7_rqqc6"]
+[ext_resource type="Script" path="res://scripts/entities/fx.gd" id="8_7mvqg"]
+[ext_resource type="Texture2D" uid="uid://cfj1a3amojlao" path="res://assets/art/fx/64_circle_fx_anim.png" id="9_ota43"]
+[ext_resource type="Script" path="res://scripts/projectiles/range_particles.gd" id="10_f0muh"]
+[ext_resource type="Script" path="res://scripts/entities/death.gd" id="11_xyayj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8iohy"]
+radius = 160.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_eodwx"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 2
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_velkg"]
+_data = [Vector2(0.267241, 0), 0.0, 2.97436, 0, 0, Vector2(0.909483, 1), 0.166269, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xrvvg"]
+resource_local_to_scene = true
+curve = SubResource("Curve_velkg")
+
+[sub_resource type="Curve" id="Curve_r60wp"]
+max_value = 1.25
+_data = [Vector2(0, 1.25), 0.0, -1.43921, 0, 0, Vector2(0.5, 0.989011), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_66nyt"]
+curve = SubResource("Curve_r60wp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_55f3n"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_min = 5.33333
+scale_max = 5.33333
+scale_curve = SubResource("CurveTexture_66nyt")
+anim_offset_curve = SubResource("CurveTexture_xrvvg")
+
+[node name="SingleExplosion" type="Node2D"]
+script = ExtResource("1_q4qu6")
+explosion_color = Color(1, 1, 1, 1)
+
+[node name="StatBlock" type="Node" parent="."]
+script = ExtResource("2_l50xa")
+
+[node name="Range" type="Node" parent="StatBlock"]
+script = ExtResource("3_cr5e8")
+type = 13
+base_amount = 20
+
+[node name="ExplosiveDamage" type="Node" parent="StatBlock"]
+script = ExtResource("3_cr5e8")
+type = 10
+base_amount = 20
+
+[node name="ExplosionHitbox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
+monitoring = false
+monitorable = false
+script = ExtResource("4_iac3u")
+enabled = false
+entity = NodePath("..")
+mode = 2
+type = 1
+team = NodePath("../Team")
+track_wall = true
+
+[node name="RangeCollisionShape2D" type="CollisionShape2D" parent="ExplosionHitbox" node_paths=PackedStringArray("range")]
+shape = SubResource("CircleShape2D_8iohy")
+debug_color = Color(0.901961, 0.690196, 0.235294, 0.0941176)
+script = ExtResource("5_bhtdr")
+range = NodePath("../../StatBlock/Range")
+
+[node name="HitOnce" type="Node" parent="ExplosionHitbox" node_paths=PackedStringArray("hitbox", "amount_stat")]
+script = ExtResource("6_y46kk")
+hitbox = NodePath("..")
+amount_stat = NodePath("../../StatBlock/ExplosiveDamage")
+
+[node name="Team" type="Node" parent="."]
+script = ExtResource("7_rqqc6")
+
+[node name="ExplodeFX" type="Node2D" parent="."]
+script = ExtResource("8_7mvqg")
+unparent_on_play = true
+use_lifetime = true
+lifetime = 1.2
+
+[node name="ExplosionParticles" type="GPUParticles2D" parent="ExplodeFX" node_paths=PackedStringArray("range")]
+unique_name_in_owner = true
+z_index = 10
+material = SubResource("CanvasItemMaterial_eodwx")
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_55f3n")
+texture = ExtResource("9_ota43")
+lifetime = 0.5
+one_shot = true
+script = ExtResource("10_f0muh")
+range = NodePath("../../StatBlock/Range")
+
+[node name="Death" type="Node2D" parent="."]
+script = ExtResource("11_xyayj")
+enabled = false
+use_lifetime = true
+lifetime = 0.1
+
+[connection signal="constructed" from="." to="ExplodeFX" method="play"]
+[connection signal="constructed" from="." to="ExplosionHitbox" method="set_enabled" binds= [true]]
+[connection signal="constructed" from="." to="Death" method="set_enabled" binds= [true]]

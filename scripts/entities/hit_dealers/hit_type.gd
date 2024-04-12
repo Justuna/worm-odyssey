@@ -13,7 +13,9 @@ signal hit_dealt(node: Node)
 
 var amount: int :
 	get:
-		return round(amount_stat.amount * amount_stat_multiplier)
+		if amount_stat:
+			return round(amount_stat.amount * amount_stat_multiplier)
+		return 0.0
 
 @export var is_healing: bool
 @export var can_crit: bool
