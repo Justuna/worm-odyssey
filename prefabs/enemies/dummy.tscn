@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bhkifc2p6syiq"]
+[gd_scene load_steps=28 format=3 uid="uid://b1eonkmekkhvi"]
 
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="1_teq2q"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="2_tn6v5"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/entities/hit_detection/hit_detector.gd" id="6_5jb8t"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detection/hit_taker.gd" id="7_jn4er"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detection/hit_dealers/hit_continuously.gd" id="8_5umtc"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detection/damage_instance/damage_instance.gd" id="8_dqkh8"]
 [ext_resource type="Script" path="res://scripts/entities/health.gd" id="9_1gtit"]
 [ext_resource type="Script" path="res://scripts/entities/passive_regen.gd" id="10_hcvi7"]
 [ext_resource type="Script" path="res://scripts/entities/team.gd" id="11_qmqyo"]
@@ -111,6 +112,11 @@ script = ExtResource("7_jn4er")
 health = NodePath("../../Health")
 hurtbox = NodePath("..")
 
+[node name="DamageInstance" type="Node" parent="." node_paths=PackedStringArray("base_stat", "team")]
+script = ExtResource("8_dqkh8")
+base_stat = NodePath("../StatBlock/Damage")
+team = NodePath("../Team")
+
 [node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
 monitorable = false
 script = ExtResource("6_5jb8t")
@@ -124,13 +130,13 @@ position = Vector2(0, -17)
 shape = SubResource("CapsuleShape2D_jodux")
 debug_color = Color(0.701961, 0, 0, 0.0784314)
 
-[node name="HitContinuously" type="Node" parent="Hitbox" node_paths=PackedStringArray("hitbox", "amount_stat")]
+[node name="HitContinuously" type="Node" parent="Hitbox" node_paths=PackedStringArray("hitbox", "damage_inst")]
 script = ExtResource("8_5umtc")
 tick_rate = 1.0
 hit_cooldown = 1.0
 max_hits = 1
 hitbox = NodePath("..")
-amount_stat = NodePath("../../StatBlock/Damage")
+damage_inst = NodePath("../../DamageInstance")
 
 [node name="Health" type="Node" parent="." node_paths=PackedStringArray("max_health")]
 script = ExtResource("9_1gtit")
@@ -141,8 +147,9 @@ script = ExtResource("10_hcvi7")
 health = NodePath("..")
 regen_stat = NodePath("../../StatBlock/Regen")
 
-[node name="Team" type="Node" parent="."]
+[node name="Team" type="Node" parent="." node_paths=PackedStringArray("entity_owner")]
 script = ExtResource("11_qmqyo")
+entity_owner = NodePath("..")
 team = "Enemy"
 
 [node name="RotateShake" type="Node" parent="." node_paths=PackedStringArray("target")]

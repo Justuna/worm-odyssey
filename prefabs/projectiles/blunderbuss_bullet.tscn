@@ -11,7 +11,7 @@ base_amount = 125
 [node name="Damage" parent="StatBlock" index="1"]
 base_amount = 5
 
-[node name="Sprite2D" parent="." index="1"]
+[node name="Sprite2D" parent="." index="2"]
 position = Vector2(0, 4)
 texture = ExtResource("2_kwnpf")
 

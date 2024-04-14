@@ -12,10 +12,10 @@ signal constructed
 @onready var team: Team = get_node("Team")
 
 
-func construct(_position: Vector2, _direction: Vector2, _team: String):
+func construct(_position: Vector2, _direction: Vector2, _team: Team):
 	direction = _direction
 	if rotate_to_direction:
 		global_rotation = direction.angle() + deg_to_rad(rotate_angle_offset)
 	global_position = _position
-	(get_node("Team") as Team).team = _team
+	(get_node("Team") as Team).construct(_team.team, _team.get_parent())
 	constructed.emit()

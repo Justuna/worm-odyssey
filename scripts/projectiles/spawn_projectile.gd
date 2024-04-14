@@ -22,9 +22,9 @@ func spawn_projectiles():
 	for node in projectile_nodes:
 		stat_block_injector.inject_stats(node)
 		node.reparent.call_deferred(World.instance, true)
-		node.construct.call_deferred(node.global_position, base_projectile.direction, base_projectile.team.team)
+		node.construct.call_deferred(node.global_position, base_projectile.direction, base_projectile.team)
 	for prefab in projectile_prefabs:
 		var inst = prefab.instantiate() as Projectile
 		World.instance.add_child(inst)
 		stat_block_injector.inject_stats(inst)
-		inst.construct(global_position, base_projectile.direction, base_projectile.team.team)
+		inst.construct(global_position, base_projectile.direction, base_projectile.team)

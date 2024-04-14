@@ -38,6 +38,7 @@ var head_direction: Vector2 :
 @export var worm_tail: Node2D
 @export var worm_segment_prefab: PackedScene
 @export var segments_container: Node2D
+@export var damage_instance_listener: DamageInstanceListener
 
 var _fixed_visual_segment_positions: Array[Vector2]
 var _visual_segment_positions: PackedVector2Array
@@ -172,6 +173,9 @@ func _add_segment():
 
 	segment_inst.health.on_damage.connect(_on_damage.unbind(1))
 	segment_inst.on_death.connect(_remove_segment.bind(segment_inst))
+	var listener = segment_inst.get_node("DamageInstanceListener") as DamageInstanceListener
+	listener.on_damage_pre.connect(damage_instance_listener.notify_pre_damage)
+	listener.on_damage_post.connect(damage_instance_listener.notify_post_damage)
 
 
 func _on_damage():
@@ -180,6 +184,9 @@ func _on_damage():
 
 func _remove_segment(segment: WormSegment):
 	segments.erase(segment)
+	var listener = segment.get_node("DamageInstanceListener") as DamageInstanceListener
+	listener.on_damage_pre.disconnect(damage_instance_listener.notify_pre_damage)
+	listener.on_damage_post.disconnect(damage_instance_listener.notify_post_damage)
 	segment.queue_free()
 	segment_count -= 1
 
