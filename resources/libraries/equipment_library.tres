@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dgqx3we05fwxx" path="res://prefabs/pickups/equipment_pickup.tscn" id="1_xr3rw"]
 [ext_resource type="PackedScene" uid="uid://bplmeut6jbu2y" path="res://prefabs/equipment/bow_equipment.tscn" id="2_5vylb"]
 [ext_resource type="PackedScene" uid="uid://8hyifksoti7y" path="res://prefabs/equipment/blunderbuss_equipment.tscn" id="3_l67lf"]
-[ext_resource type="PackedScene" uid="uid://bf71hwhnlk23m" path="res://prefabs/equipment/missile_launcher_equipment.tscn" id="4_t2j5a"]
+[ext_resource type="PackedScene" uid="uid://fdwr2k405h50" path="res://prefabs/equipment/missile_launcher_equipment.tscn" id="4_t2j5a"]
 
 [resource]
 script = ExtResource("1_nwjns")

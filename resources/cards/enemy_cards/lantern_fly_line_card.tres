@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="EnemyCard" load_steps=3 format=3 uid="uid://dxng6p0c8ryq4"]
 
-[ext_resource type="PackedScene" path="res://prefabs/enemies/lantern_fly_line.tscn" id="1_ak4nl"]
+[ext_resource type="PackedScene" uid="uid://cjdnwt6earyai" path="res://prefabs/enemies/lantern_fly_line.tscn" id="1_ak4nl"]
 [ext_resource type="Script" path="res://scripts/entities/enemies/cards/enemy_card.gd" id="2_mlpqh"]
 
 [resource]
