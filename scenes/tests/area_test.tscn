@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://4e6vo5n8orfq"]
+
+[ext_resource type="Script" path="res://scripts/test/area_test.gd" id="1_qu17u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_34825"]
+radius = 32.0
+
+[node name="Test" type="Node2D"]
+script = ExtResource("1_qu17u")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_34825")
+
+[node name="Area2D2" type="Area2D" parent="."]
+position = Vector2(30, 21)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("CircleShape2D_34825")
+debug_color = Color(0, 0.701961, 0.0117647, 0.419608)
