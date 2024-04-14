@@ -87,8 +87,9 @@ interact_area = NodePath("../WormHead/AutoInteractArea")
 script = ExtResource("7_uru4d")
 interact_area = NodePath("../WormHead/InteractArea")
 
-[node name="Team" type="Node" parent="."]
+[node name="Team" type="Node" parent="." node_paths=PackedStringArray("entity_owner")]
 script = ExtResource("8_t6qpe")
+entity_owner = NodePath("..")
 team = "Player"
 
 [node name="Bank" type="Node" parent="."]

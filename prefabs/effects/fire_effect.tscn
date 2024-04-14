@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://bft27vgxl7hap"]
+
+[ext_resource type="Script" path="res://scripts/effects/fire_effect.gd" id="1_8sboh"]
+[ext_resource type="Texture2D" uid="uid://qftcuk1llvy8" path="res://assets/art/fx/fire.png" id="2_8h8d5"]
+
+[sub_resource type="Curve" id="Curve_8aa6a"]
+_data = [Vector2(0, 0), 0.0, 9.17338, 0, 0, Vector2(0.165354, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.46141, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_bphpj"]
+curve = SubResource("Curve_8aa6a")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yxp5c"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 60.0
+initial_velocity_max = 60.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_bphpj")
+
+[node name="FireEffect" type="Node" node_paths=PackedStringArray("fire_particles")]
+script = ExtResource("1_8sboh")
+fire_particles = NodePath("GPUParticles2D")
+effect_type = 2
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = 10
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_yxp5c")
+texture = ExtResource("2_8h8d5")

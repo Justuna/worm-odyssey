@@ -28,6 +28,8 @@ var amount: int:
 
 func notify_pre_damage(health: Health):
 	if is_instance_valid(team.entity_owner):
+		#print("tree: ")
+		#team.entity_owner.print_tree_pretty()
 		var listener = team.entity_owner.get_node_or_null("DamageInstanceListener") as DamageInstanceListener
 		if listener:
 			listener.notify_pre_damage(self, health)

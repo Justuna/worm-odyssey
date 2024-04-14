@@ -65,13 +65,14 @@ func construct(_worm: Node2D, _segment: WormSegment, _direction: Direction):
 
 
 func destruct():
+	is_equipped = false
+	equipment_removed.emit()
+	equipped_changed.emit()
+	
 	worm = null
 	segment = null
 	direction = Direction.UP
 	team.team = ""
-	is_equipped = false
-	equipment_removed.emit()
-	equipped_changed.emit()
 
 
 func use_active() -> bool:

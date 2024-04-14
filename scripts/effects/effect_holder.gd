@@ -19,13 +19,14 @@ func add_effect(effect_type: Effect.Type):
 		effects[effect_type] = effect
 		effect.effect_holder = self
 		effect._on_add()
+		add_child(effect)
 	effect.stack_amount += 1
 	effect._on_stack()
 	effect._on_stack_changed()
 
 
 func get_effect(effect_type: Effect.Type) -> Effect:
-	return effects[effect_type]
+	return effects.get(effect_type)
 
 
 func remove_effect(effect_type: Effect.Type):
@@ -35,8 +36,9 @@ func remove_effect(effect_type: Effect.Type):
 		effect._on_stack_changed()
 		effect.stack_amount -= 1
 		if effect.stack_amount == 0:
-			effects.erase(effect.type)
+			effects.erase(effect.effect_type)
 			effect._on_remove()
+			effect.queue_free()
 
 
 func clear_effects():
@@ -44,3 +46,4 @@ func clear_effects():
 		var effect = effects[effect_type]
 		effects.erase(effect_type)
 		effect._on_remove()
+		effect.queue_free()

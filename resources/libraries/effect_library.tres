@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="EffectLibrary" load_steps=3 format=3 uid="uid://x0nym0cu3uxm"]
+[gd_resource type="Resource" script_class="EffectLibrary" load_steps=4 format=3 uid="uid://x0nym0cu3uxm"]
 
 [ext_resource type="Script" path="res://scripts/effects/effect_library.gd" id="1_4pikd"]
 [ext_resource type="PackedScene" uid="uid://e360lc4mqmsp" path="res://prefabs/effects/aloe_vera_effect.tscn" id="1_w4cxl"]
+[ext_resource type="PackedScene" uid="uid://bft27vgxl7hap" path="res://prefabs/effects/fire_effect.tscn" id="2_ic8kl"]
 
 [resource]
 script = ExtResource("1_4pikd")
-effect_prefabs = Array[PackedScene]([ExtResource("1_w4cxl")])
+effect_prefabs = Array[PackedScene]([ExtResource("1_w4cxl"), ExtResource("2_ic8kl")])

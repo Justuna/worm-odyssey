@@ -1,11 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://dy77hxliy8w3d"]
+[gd_scene load_steps=7 format=3 uid="uid://dy77hxliy8w3d"]
 
 [ext_resource type="Script" path="res://scripts/equipment/equipment.gd" id="1_n5psm"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat_block_proxy.gd" id="2_kq6h3"]
 [ext_resource type="Texture2D" uid="uid://dad6uean70t1i" path="res://assets/art/equipment/fire_tome.png" id="2_rv3ec"]
+[ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_wuu7b"]
+[ext_resource type="Script" path="res://scripts/entities/team.gd" id="6_2w86c"]
+[ext_resource type="Script" path="res://scripts/equipment/effect_on_damage.gd" id="7_vjo0c"]
 
 [node name="FireTome" type="Node2D" node_paths=PackedStringArray("rotated_part")]
 script = ExtResource("1_n5psm")
 rotated_part = NodePath("Sprite")
 
+[node name="StatBlockProxy" type="Node" parent="."]
+script = ExtResource("2_kq6h3")
+
+[node name="FireDamage" type="Node" parent="StatBlockProxy"]
+script = ExtResource("3_wuu7b")
+type = 6
+base_amount = 20
+
+[node name="Range" type="Node" parent="StatBlockProxy"]
+script = ExtResource("3_wuu7b")
+type = 13
+base_amount = 50
+
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_rv3ec")
+
+[node name="EffectOnDamage" type="Node2D" parent="." node_paths=PackedStringArray("range_stat")]
+script = ExtResource("7_vjo0c")
+range_stat = NodePath("../StatBlockProxy/Range")
+range_stat_multiplier = 1.32
+effects = Array[int]([2])
+
+[node name="Team" type="Node" parent="."]
+script = ExtResource("6_2w86c")

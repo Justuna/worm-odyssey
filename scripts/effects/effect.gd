@@ -4,12 +4,12 @@ class_name Effect
 
 enum Type {
 	ALOE_VERA,
-	DURABLE
+	DURABLE,
+	FIRE
 }
 
-var stackable: bool = true
+@export var effect_type: Type 
 var stack_amount: int = 0
-var effect_type: Type 
 
 # set by EffectHolder
 var effect_holder: EffectHolder

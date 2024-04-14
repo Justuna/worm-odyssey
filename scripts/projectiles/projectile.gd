@@ -17,5 +17,5 @@ func construct(_position: Vector2, _direction: Vector2, _team: Team):
 	if rotate_to_direction:
 		global_rotation = direction.angle() + deg_to_rad(rotate_angle_offset)
 	global_position = _position
-	(get_node("Team") as Team).construct(_team.team, _team.get_parent())
+	(get_node("Team") as Team).construct(_team.team, _team.entity_owner)
 	constructed.emit()
