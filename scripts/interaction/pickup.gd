@@ -10,9 +10,9 @@ signal picked_up
 @export var disguise: Node2D
 @export var root: Node
 
-# pickup_condition(): bool
+# pickup_condition(interactor: Interactor): bool
 var pickup_condition: Callable = _always_true
 
 
-func _always_true() -> bool:
+func _always_true(interactor: Interactor) -> bool:
 	return true

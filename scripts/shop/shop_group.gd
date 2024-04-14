@@ -12,15 +12,11 @@ extends Node2D
 var current_cost: int
 
 var _restock_timer: float
-var _bank: Bank
 
 
 func _ready():
 	current_cost = base_cost
-
 	_restock()
-
-	_bank.balance_changed.connect(_can_purchase)
 
 
 func _process(delta):
@@ -30,8 +26,11 @@ func _process(delta):
 			_restock()
 
 
-func _can_purchase(balance: int) -> bool:
-	return balance <= current_cost
+func _can_purchase(interactor: Interactor) -> bool:
+	var bank = interactor.get_parent().get_node_or_null("Bank") as Bank
+	if bank:
+		return bank.balance >= current_cost
+	return false
 
 
 func _restock():

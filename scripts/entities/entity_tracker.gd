@@ -25,8 +25,7 @@ enum TargetMode {
 	set(value):
 		_enabled = value
 		if _is_readied:
-			monitoring = _enabled
-			monitorable = _enabled
+			_collision_shape.disabled = not enabled
 			set_process(_enabled)
 			if not _enabled:
 				# If we are disabling ourselves, then clean everything up
@@ -36,6 +35,8 @@ var _enabled: bool = true
 @export var mode: Mode
 @export var target_mode: TargetMode = TargetMode.CLOSEST
 @export var team: Team
+
+@onready var _collision_shape: CollisionShape2D = get_child(0)
 
 # [Node2D]: null
 var entities: Dictionary

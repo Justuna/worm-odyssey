@@ -17,25 +17,17 @@ func _restock():
 
 		pickup.construct(item, disguised)
 		pickup.interactable.on_interact.connect(_purchase.bind(pickup))
+		pickup.pickup_condition = _can_purchase
 
 		slot.add_child(pickup.root)
 		_pickups.append(pickup)
 	super._restock()
 
 
-func _make_available():
-	for pickup in _pickups:
-		pickup.interactable.available = true
-
-
-func _make_unavailable():
-	for pickup in _pickups:
-		pickup.interactable.available = false
-
-
 func _purchase(_interactor: Interactor, purchase: ItemPickup):
+	var bank = _interactor.get_parent().get_node("Bank") as Bank
 	_restock_timer = restock_time
-	_bank.balance -= current_cost
+	bank.balance -= current_cost
 
 	for pickup in _pickups:
 		if pickup == purchase:

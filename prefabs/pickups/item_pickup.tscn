@@ -39,7 +39,8 @@ material = SubResource("ShaderMaterial_rfy8k")
 visible = false
 texture = ExtResource("3_t3xsf")
 
-[node name="Interactable" type="Node2D" parent="." node_paths=PackedStringArray("visuals")]
+[node name="Interactable" type="Node2D" parent="." node_paths=PackedStringArray("visuals", "collision_shape")]
 script = ExtResource("4_mchmu")
 visuals = NodePath("../Visuals")
 selected_color = Color(0.890196, 0.698039, 0.121569, 1)
+collision_shape = NodePath("../CollisionShape2D")

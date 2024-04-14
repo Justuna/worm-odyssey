@@ -2,9 +2,7 @@ extends Node2D
 class_name Interactable
 
 
-signal on_available()
 signal on_interact()
-signal on_unavailable()
 
 
 ## Interactable is selected when it's in the range of an Interactor
@@ -20,22 +18,22 @@ signal on_unavailable()
 		_update_selected_visuals()
 @export var visuals: CanvasGroup
 @export var selected_color: Color
+@export var collision_shape: CollisionShape2D
 
-var available: bool :
+var enabled: bool :
 	get:
-		return _available
+		return _enabled
 	set(value):
-		_available = value
-		if _available:
-			on_available.emit()
-		else:
-			on_unavailable.emit()
+		_enabled = value
+		if collision_shape:
+			collision_shape.disabled = not enabled
 
-var _available: bool = true
+var _enabled: bool = true
 var _selected: bool
 
 
 func _ready():
+	enabled = enabled
 	_update_selected_visuals()
 	visuals.material = visuals.material.duplicate()
 

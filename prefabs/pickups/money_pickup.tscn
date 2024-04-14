@@ -33,8 +33,9 @@ interactable = NodePath("../AutoInteractable")
 lifetime = 5.0
 flicker = NodePath("../Flicker")
 
-[node name="AutoInteractable" type="Node2D" parent="."]
+[node name="AutoInteractable" type="Node2D" parent="." node_paths=PackedStringArray("collision_shape")]
 script = ExtResource("2_swx71")
+collision_shape = NodePath("../CollisionShape2D")
 
 [node name="Visuals" type="CanvasGroup" parent="."]
 material = SubResource("ShaderMaterial_woqb7")

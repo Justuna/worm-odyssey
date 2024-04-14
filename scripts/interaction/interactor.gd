@@ -12,9 +12,6 @@ var nearby_interactables: Array[Interactable] :
 	get:
 		var result: Array[Interactable] = []
 		result.assign(_nearby_interactables.keys())
-
-		result = result.filter(func(interactable): return interactable.available)
-
 		return result
 
 # [Area2D]: null
@@ -37,16 +34,12 @@ func _on_area_entered(area: Area2D):
 	var interactable = area.get_node_or_null("Interactable")
 	if interactable:
 		_nearby_interactables[interactable] = null
-		interactable.on_available.connect(_select_closest_interactable)
-		interactable.on_unavailable.connect(_select_closest_interactable)
 		_select_closest_interactable()
 
 
 func _on_area_exited(area: Area2D):
 	var interactable = area.get_node_or_null("Interactable")
 	if interactable:
-		interactable.on_available.disconnect(_select_closest_interactable)
-		interactable.on_unavailable.disconnect(_select_closest_interactable)
 		_nearby_interactables.erase(interactable)
 		_select_closest_interactable()
 
@@ -83,7 +76,8 @@ func _select_closest_interactable():
 		var closest_dist = _calc_interactable_dist(nearby[0])
 		for interactable in nearby:
 			var curr_dist = _calc_interactable_dist(interactable)
-			_nearby_interactables[interactable] = "%.3f" % [curr_dist]
+			if debug:
+				_nearby_interactables[interactable] = "%.3f" % [curr_dist]
 			if curr_dist < closest_dist:
 				closest = interactable
 				closest_dist = curr_dist
@@ -108,7 +102,7 @@ func _draw():
 	if debug:
 		draw_circle(interact_area.global_position, ((interact_area.get_node("CollisionShape2D") as CollisionShape2D).shape as CircleShape2D).radius, Color(Color.BLUE, 0.1))
 		draw_line(interact_area.global_position, interact_area.global_position + interact_area.global_transform.basis_xform(Vector2.RIGHT) * 64, Color.BLUE)
-		for interactable: Interactable in _nearby_interactables.keys():
+		for interactable: Interactable in nearby_interactables:
 			var debug_str = _nearby_interactables[interactable]
 			if debug_str:
 				draw_string(ThemeDB.fallback_font, interactable.global_position + Vector2(0, -40), debug_str)
