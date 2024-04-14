@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=3 uid="uid://c4wlin680myme"]
+[gd_scene load_steps=85 format=3 uid="uid://c4wlin680myme"]
 
 [ext_resource type="Script" path="res://scripts/entities/world.gd" id="1_0jnsu"]
 [ext_resource type="Script" path="res://scripts/test/worm_test.gd" id="1_e11fb"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://b3vpjo7jer1cg" path="res://assets/art/level/dirt_tile_3.png" id="11_s75bl"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/shapes/shape.gd" id="15_aj224"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/vertex_properties.gd" id="16_gd2rg"]
+[ext_resource type="Texture2D" uid="uid://iebecrctif65" path="res://assets/art/items/money_new.png" id="17_amxur"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/shapes/point.gd" id="17_q2g0y"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/shapes/point_array.gd" id="18_j8oma"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/materials/edge_material.gd" id="19_p5q40"]
@@ -24,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://b8swpnqiyu6rf" path="res://assets/art/level/dirt_tile_edge_1.png" id="20_sowcg"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/normal_range.gd" id="21_a078h"]
 [ext_resource type="Script" path="res://addons/rmsmartshape/materials/edge_material_metadata.gd" id="22_5m7le"]
+[ext_resource type="Script" path="res://scripts/worm/worm_bank_display.gd" id="22_us4a6"]
 [ext_resource type="Texture2D" uid="uid://0vk3gnddj34t" path="res://assets/art/level/dirt_tile_2.png" id="23_vxpht"]
 [ext_resource type="Script" path="res://scripts/test/equipment_library_spawner.gd" id="25_il7e6"]
 [ext_resource type="PackedScene" uid="uid://b1eonkmekkhvi" path="res://prefabs/enemies/dummy.tscn" id="26_axsjc"]
@@ -684,6 +686,68 @@ scroll_active = false
 script = ExtResource("4_hp2gp")
 theme_variation = "ThickRichTextLabel"
 
+[node name="GeneralUI" type="Control" parent="World/PlayerWorm/UI/Control"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="World/PlayerWorm/UI/Control/GeneralUI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="World/PlayerWorm/UI/Control/GeneralUI/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Container" type="Control" parent="World/PlayerWorm/UI/Control/GeneralUI/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="World/PlayerWorm/UI/Control/GeneralUI/MarginContainer/HBoxContainer/Container"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("17_amxur")
+expand_mode = 2
+
+[node name="Container2" type="Control" parent="World/PlayerWorm/UI/Control/GeneralUI/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_type_variation = &"ThickLabel"
+
+[node name="MoneyLabel" type="Label" parent="World/PlayerWorm/UI/Control/GeneralUI/MarginContainer/HBoxContainer/Container2"]
+custom_minimum_size = Vector2(100, 0)
+offset_top = 7.0
+offset_right = 100.0
+offset_bottom = 26.0
+pivot_offset = Vector2(0, 9)
+theme_type_variation = &"ThickLabel"
+theme_override_font_sizes/font_size = 6
+text = "1800"
+
+[node name="SetThemeVariation" type="Node" parent="World/PlayerWorm/UI/Control/GeneralUI/MarginContainer/HBoxContainer/Container2/MoneyLabel"]
+script = ExtResource("4_hp2gp")
+theme_variation = "ThickLabel"
+
+[node name="SetThemeVariation" type="Node" parent="World/PlayerWorm/UI/Control/GeneralUI/MarginContainer/HBoxContainer/Container2"]
+script = ExtResource("4_hp2gp")
+theme_variation = "ThickLabel"
+
 [node name="CameraController" type="Camera2D" parent="World/PlayerWorm"]
 process_mode = 3
 zoom = Vector2(0.5, 0.5)
@@ -709,6 +773,11 @@ worm_ui = NodePath("../UI/Control/WormUI")
 camera = NodePath("../CameraController")
 equipment_library = ExtResource("2_6jmem")
 
+[node name="WormBankDisplay" type="Node" parent="World/PlayerWorm" node_paths=PackedStringArray("worm", "balance_label")]
+script = ExtResource("22_us4a6")
+worm = NodePath("../Worm")
+balance_label = NodePath("../UI/Control/GeneralUI/MarginContainer/HBoxContainer/Container2/MoneyLabel")
+
 [node name="WormTest" type="Node2D" parent="World" node_paths=PackedStringArray("worm")]
 script = ExtResource("1_e11fb")
 spawned_equipment_count = 0
@@ -723,13 +792,12 @@ worm = NodePath("../PlayerWorm/Worm")
 [node name="EquipmentShop" type="Node2D" parent="World/DefaultStuff"]
 position = Vector2(-325, -422)
 
-[node name="RegularShopGroup" type="Node2D" parent="World/DefaultStuff/EquipmentShop" node_paths=PackedStringArray("worm", "slots")]
+[node name="RegularShopGroup" type="Node2D" parent="World/DefaultStuff/EquipmentShop" node_paths=PackedStringArray("slots")]
 script = ExtResource("2_wufd4")
 catalog = ExtResource("2_6jmem")
 pickup_prefab = ExtResource("4_w4vki")
 restock_time = 5.0
 base_cost = 10
-worm = NodePath("../../../PlayerWorm/Worm")
 slots = [NodePath("ShopSlot1"), NodePath("ShopSlot2"), NodePath("ShopSlot3")]
 
 [node name="ShopSlot1" type="Node2D" parent="World/DefaultStuff/EquipmentShop/RegularShopGroup"]
@@ -740,7 +808,7 @@ position = Vector2(-113, 0)
 [node name="ShopSlot3" type="Node2D" parent="World/DefaultStuff/EquipmentShop/RegularShopGroup"]
 position = Vector2(108, 0)
 
-[node name="RandomShopGroup" type="Node2D" parent="World/DefaultStuff/EquipmentShop" node_paths=PackedStringArray("worm", "slots")]
+[node name="RandomShopGroup" type="Node2D" parent="World/DefaultStuff/EquipmentShop" node_paths=PackedStringArray("slots")]
 position = Vector2(217, 0)
 script = ExtResource("2_wufd4")
 disguised = true
@@ -748,7 +816,6 @@ catalog = ExtResource("2_6jmem")
 pickup_prefab = ExtResource("4_w4vki")
 restock_time = 5.0
 base_cost = 5
-worm = NodePath("../../../PlayerWorm/Worm")
 slots = [NodePath("ShopSlot")]
 
 [node name="ShopSlot" type="Node2D" parent="World/DefaultStuff/EquipmentShop/RandomShopGroup"]
