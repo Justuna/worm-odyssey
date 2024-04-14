@@ -38,6 +38,10 @@ func take_damage(amount: int):
 	on_damage.emit(final_amount)
 	on_health_changed.emit(-final_amount)
 
+	var pos = (get_parent() as Node2D).position
+	if pos:
+		HitIndicatorSpawner.instance.indicate_hit(final_amount, pos, false)
+
 	if health == 0:
 		is_dead = true
 		on_death.emit()
@@ -51,6 +55,10 @@ func take_healing(amount: int):
 
 	# TODO: Compute the effect of all effects on this entity first
 	var final_amount = amount
+
+	var pos = (get_parent() as Node2D).position
+	if pos:
+		HitIndicatorSpawner.instance.indicate_hit(final_amount, pos, true)
 
 	health = min(health + final_amount, max_health.amount)
 	on_heal.emit(final_amount)

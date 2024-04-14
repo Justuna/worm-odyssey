@@ -7,7 +7,7 @@ extends Node2D
 
 @export_category("Dependencies")
 @export var equipment_library: EquipmentLibrary
-@export var enemy_library: WaveCard
+@export var enemy_library: EnemyLibrary
 @export var spawn_area: RectangleShape2D
 @export var worm: Node2D
 
