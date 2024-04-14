@@ -9,6 +9,15 @@ signal before_place_enemy(enemy: Node)
 signal after_last_wave(leftover_credits: float)
 
 
+@export var enabled: bool = true:
+	get:
+		return _enabled
+	set(value):
+		_enabled = value
+		if is_inside_tree():
+			set_process(value)
+var _enabled: bool = true
+
 @export_category("Spawn Rates")
 @export var base_spawn_rate: float
 @export var wave_spawn_rate: float
@@ -34,6 +43,7 @@ var _current_wave_type: WaveCard
 
 
 func _ready():
+	enabled = enabled
 	_start_buffer_timer = start_buffer_time
 	_wave_count = number_of_waves
 

@@ -14,8 +14,8 @@ var value: float
 
 
 func _ready():
-    value = base_value
+	value = base_value
 
 
 func _physics_process(delta):
-    t += delta
+	t += delta

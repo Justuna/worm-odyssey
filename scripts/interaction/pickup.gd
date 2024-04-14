@@ -2,7 +2,7 @@ class_name Pickup
 extends Node
 
 
-signal picked_up
+signal picked_up(interactor: Interactor)
 
 @export_group("Dependencies")
 @export var interactable: Interactable

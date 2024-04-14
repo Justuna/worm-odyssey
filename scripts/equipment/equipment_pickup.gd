@@ -27,6 +27,6 @@ func _on_interact(interactor: Interactor):
 	if worm_controller:
 		if pickup_condition.call(interactor) and worm_controller.try_add_equipment(_equipment):
 			_equipment.visible = true
-			picked_up.emit()
+			picked_up.emit(interactor)
 			root.queue_free()
 

@@ -1,6 +1,9 @@
 class_name MoneyPickup
 extends Node
 
+
+signal picked_up(interactor: AutoInteractor)
+
 @export var root: Node
 @export var interactable : AutoInteractable
 @export var lifetime: float = 10
@@ -9,7 +12,7 @@ extends Node
 @export var start_flicker: float = 2
 
 var _inited = false
-var _value: int
+var _value: int = 10
 var _timer: float
 
 
@@ -40,3 +43,4 @@ func _on_interact(interactor: AutoInteractor):
 	if bank:
 		bank.balance += _value
 		root.queue_free()
+		picked_up.emit(interactor)

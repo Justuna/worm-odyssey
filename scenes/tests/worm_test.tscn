@@ -806,7 +806,7 @@ script = ExtResource("2_wufd4")
 catalog = ExtResource("2_6jmem")
 pickup_prefab = ExtResource("4_w4vki")
 restock_time = 5.0
-base_cost = 10
+base_cost = 30
 
 [node name="ShopSlot1" type="Node2D" parent="World/DefaultStuff/EquipmentShop/RegularShopGroup"]
 position = Vector2(-113, 0)
@@ -877,6 +877,7 @@ base_value = 25.0
 [node name="PassiveSpawner" type="Node" parent="World" node_paths=PackedStringArray("worm", "credits")]
 script = ExtResource("29_sc2bx")
 worm = NodePath("../PlayerWorm/Worm")
+enabled = false
 base_spawn_rate = 4.9
 wave_spawn_rate = 0.5
 start_with_wave = true

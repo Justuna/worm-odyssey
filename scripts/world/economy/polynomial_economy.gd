@@ -9,9 +9,9 @@ extends Economy
 
 
 func _physics_process(delta):
-    super._physics_process(delta)
-    value += delta * _earn_rate()
+	super._physics_process(delta)
+	value += delta * _earn_rate()
 
 
 func _earn_rate():
-    return coefficient * degree * pow(t, degree - 1)
+	return coefficient * degree * pow(t, degree - 1)

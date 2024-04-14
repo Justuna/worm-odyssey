@@ -5,6 +5,7 @@ extends Node2D
 
 @export var restock_time: float
 @export var base_cost: int
+@export var use_children_as_slots: bool = true
 
 @export_category("Dependencies")
 @export var slots: Array[Node2D]
@@ -16,6 +17,10 @@ var _restock_timer: float
 
 func _ready():
 	current_cost = base_cost
+	if use_children_as_slots:
+		for child in get_children():
+			if child is Node2D and not slots.has(child):
+				slots.append(child)
 	_restock()
 
 
