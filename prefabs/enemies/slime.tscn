@@ -115,9 +115,10 @@ script = ExtResource("7_1hthf")
 health = NodePath("../../Health")
 hurtbox = NodePath("..")
 
-[node name="DamageInstance" type="Node" parent="." node_paths=PackedStringArray("base_stat")]
+[node name="DamageInstance" type="Node" parent="." node_paths=PackedStringArray("base_stat", "team")]
 script = ExtResource("8_7lvxo")
 base_stat = NodePath("../StatBlock/Damage")
+team = NodePath("../Team")
 
 [node name="Hitbox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
 monitorable = false

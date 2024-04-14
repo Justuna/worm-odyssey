@@ -27,15 +27,17 @@ var amount: int:
 
 
 func notify_pre_damage(health: Health):
-	var listener = team.entity_owner.get_node_or_null("DamageInstanceListener") as DamageInstanceListener
-	if listener:
-		listener.notify_pre_damage(self, health)
+	if is_instance_valid(team.entity_owner):
+		var listener = team.entity_owner.get_node_or_null("DamageInstanceListener") as DamageInstanceListener
+		if listener:
+			listener.notify_pre_damage(self, health)
 
 
 func notify_post_damage(health: Health):
-	var listener = team.entity_owner.get_node_or_null("DamageInstanceListener") as DamageInstanceListener
-	if listener:
-		listener.notify_post_damage(self, health)
+	if is_instance_valid(team.entity_owner):
+		var listener = team.entity_owner.get_node_or_null("DamageInstanceListener") as DamageInstanceListener
+		if listener:
+			listener.notify_post_damage(self, health)
 
 
 func reset():
