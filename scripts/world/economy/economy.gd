@@ -13,7 +13,7 @@ var t: float = 0
 var value: float
 
 
-func _ready():
+func _enter_tree():
 	value = base_value
 
 
