@@ -186,8 +186,9 @@ script = ExtResource("13_347c5")
 health = NodePath("..")
 regen_stat = NodePath("../../StatBlock/Regen")
 
-[node name="Team" type="Node" parent="."]
+[node name="Team" type="Node" parent="." node_paths=PackedStringArray("entity_owner")]
 script = ExtResource("14_sphgf")
+entity_owner = NodePath("..")
 team = "Enemy"
 
 [node name="LanternFlyAI" type="Node2D" parent="." node_paths=PackedStringArray("speed", "enemy_detector", "animation_player", "pattern_sprites", "team")]

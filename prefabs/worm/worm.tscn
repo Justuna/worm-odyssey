@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/shop/bank.gd" id="9_658wi"]
 [ext_resource type="Script" path="res://scripts/worm/growth_meter.gd" id="11_af6bv"]
 [ext_resource type="Script" path="res://scripts/world/economy/polynomial_economy.gd" id="12_bvv6h"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detection/damage_instance/damage_instance_listener.gd" id="11_gplwb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ex6gi"]
 radius = 32.0
@@ -65,7 +66,7 @@ position = Vector2(36, 102)
 texture = ExtResource("3_g1otc")
 offset = Vector2(-32, 0)
 
-[node name="WormController" type="Node2D" parent="." node_paths=PackedStringArray("team", "line_2D", "worm_head", "worm_tail", "segments_container")]
+[node name="WormController" type="Node2D" parent="." node_paths=PackedStringArray("team", "line_2D", "worm_head", "worm_tail", "segments_container", "damage_instance_listener")]
 script = ExtResource("1_7wfu0")
 speed = 500.0
 segment_count = 8
@@ -75,6 +76,7 @@ worm_head = NodePath("../WormHead")
 worm_tail = NodePath("../WormTail")
 worm_segment_prefab = ExtResource("2_lv01b")
 segments_container = NodePath("../WormSegments")
+damage_instance_listener = NodePath("../DamageInstanceListener")
 
 [node name="WormSegments" type="Node2D" parent="."]
 
@@ -103,3 +105,5 @@ growth_requirement = 100.0
 
 [node name="PolynomialEconomy" type="Node" parent="GrowthMeter"]
 script = ExtResource("12_bvv6h")
+[node name="DamageInstanceListener" type="Node" parent="."]
+script = ExtResource("11_gplwb")

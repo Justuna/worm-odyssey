@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c8kosebxby1ve"]
+[gd_scene load_steps=23 format=3 uid="uid://c8kosebxby1ve"]
 
 [ext_resource type="Script" path="res://scripts/projectiles/projectile.gd" id="1_oeijf"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="2_68i85"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bll4trxhsfd27" path="res://assets/art/equipment/missile.png" id="2_i2vog"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_xm6do"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detection/hit_detector.gd" id="6_3qjny"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detection/damage_instance/damage_instance.gd" id="6_we5qk"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detection/hit_dealers/hit_once.gd" id="7_mauvn"]
 [ext_resource type="Script" path="res://scripts/entities/team.gd" id="8_st4bd"]
 [ext_resource type="Script" path="res://scripts/projectiles/forward_projectile.gd" id="9_bnax3"]
@@ -57,6 +58,11 @@ script = ExtResource("3_xm6do")
 type = 5
 base_amount = 20
 
+[node name="ExplosiveDamage" type="Node" parent="StatBlock"]
+script = ExtResource("3_xm6do")
+type = 10
+base_amount = 50
+
 [node name="Range" type="Node" parent="StatBlock"]
 script = ExtResource("3_xm6do")
 type = 13
@@ -74,6 +80,12 @@ lifetime = 0.5
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_i2vog")
 
+[node name="DamageInstance" type="Node" parent="." node_paths=PackedStringArray("base_stat", "mult_stats", "team")]
+script = ExtResource("6_we5qk")
+base_stat = NodePath("../StatBlock/Damage")
+mult_stats = [NodePath("../StatBlock/ExplosiveDamage")]
+team = NodePath("../Team")
+
 [node name="HitBox" type="Area2D" parent="." node_paths=PackedStringArray("entity", "team")]
 script = ExtResource("6_3qjny")
 enabled = false
@@ -86,9 +98,10 @@ track_wall = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource("CapsuleShape2D_dtamw")
 
-[node name="HitOnce" type="Node" parent="HitBox" node_paths=PackedStringArray("hitbox")]
+[node name="HitOnce" type="Node" parent="HitBox" node_paths=PackedStringArray("hitbox", "damage_inst")]
 script = ExtResource("7_mauvn")
 hitbox = NodePath("..")
+damage_inst = NodePath("../../DamageInstance")
 
 [node name="Team" type="Node" parent="."]
 script = ExtResource("8_st4bd")

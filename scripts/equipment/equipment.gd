@@ -57,7 +57,7 @@ func construct(_worm: Node2D, _segment: WormSegment, _direction: Direction):
 	worm = _worm
 	segment = _segment
 	direction = _direction
-	team.team = _segment.team.team
+	team.construct_copy(_segment.team)
 	stat_block.source_stat_block = segment.stat_block
 	is_equipped = true
 	equipment_added.emit()

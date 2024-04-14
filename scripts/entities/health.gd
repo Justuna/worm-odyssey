@@ -25,6 +25,18 @@ func _ready():
 	max_health.updated.connect(_on_max_health_updated)
 
 
+func take_damage_inst(damage_inst: DamageInstance):
+	if is_dead:
+		return
+	
+	damage_inst.notify_pre_damage(self)
+	if damage_inst.is_healing:
+		take_healing(damage_inst.amount)
+	else:
+		take_damage(damage_inst.amount)
+	damage_inst.notify_post_damage(self)
+
+
 func take_damage(amount: int):
 	if is_dead:
 		return
@@ -57,7 +69,7 @@ func take_healing(amount: int):
 	var final_amount = amount
 
 	var pos = (get_parent() as Node2D).position
-	if pos:
+	if pos and health < max_health.amount:
 		HitIndicatorSpawner.instance.indicate_hit(final_amount, pos, true)
 
 	health = min(health + final_amount, max_health.amount)

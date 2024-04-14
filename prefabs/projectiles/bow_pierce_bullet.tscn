@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://0p0tmff3x8mf"]
+[gd_scene load_steps=21 format=3 uid="uid://0p0tmff3x8mf"]
 
 [ext_resource type="Script" path="res://scripts/projectiles/projectile.gd" id="1_boeii"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="2_40o7a"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_pi5xe"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detection/damage_instance/damage_instance.gd" id="4_bh831"]
 [ext_resource type="Texture2D" uid="uid://bhgsrmytyr48b" path="res://assets/art/equipment/bow_pierce_bullet.png" id="4_ufbxi"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detection/hit_detector.gd" id="5_fiij7"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detection/hit_dealers/hit_once.gd" id="6_u6b5a"]
@@ -83,6 +84,11 @@ script = ExtResource("3_pi5xe")
 type = 5
 base_amount = 20
 
+[node name="DamageInstance" type="Node" parent="." node_paths=PackedStringArray("base_stat", "team")]
+script = ExtResource("4_bh831")
+base_stat = NodePath("../StatBlock/Damage")
+team = NodePath("../Team")
+
 [node name="Trail" type="GPUParticles2D" parent="."]
 self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
 position = Vector2(0, 20)
@@ -107,10 +113,10 @@ track_wall = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource("CapsuleShape2D_nt4xy")
 
-[node name="HitOnce" type="Node" parent="HitBox" node_paths=PackedStringArray("hitbox", "amount_stat")]
+[node name="HitOnce" type="Node" parent="HitBox" node_paths=PackedStringArray("hitbox", "damage_inst")]
 script = ExtResource("6_u6b5a")
 hitbox = NodePath("..")
-amount_stat = NodePath("../../StatBlock/Damage")
+damage_inst = NodePath("../../DamageInstance")
 
 [node name="PierceFX" type="Node2D" parent="HitBox"]
 z_index = 10

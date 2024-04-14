@@ -76,11 +76,9 @@ func _deal_hit(hit_entity: Node2D):
 			_curr_hits += 1
 	
 	var health = hit_entity.get_node("Health") as Health
-	if amount > 0:
-		if is_healing:
-			health.take_healing(amount)
-		else:
-			health.take_damage(amount)
+	if damage_inst:
+		reset_damage_inst()
+		health.take_damage_inst(damage_inst)
 
 	var effect_holder = hit_entity.get_node("EffectHolder")
 	if effect_holder != null and effect_holder is EffectHolder:

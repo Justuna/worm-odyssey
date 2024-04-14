@@ -8,15 +8,15 @@ signal hit_dealt(node: Node)
 
 @export var hitbox: HitDetector
 
-@export var amount_stat: Stat
-@export var amount_stat_multiplier: float = 1.0
-
-var amount: int :
-	get:
-		if amount_stat:
-			return round(amount_stat.amount * amount_stat_multiplier)
-		return 0.0
+@export var damage_inst: DamageInstance
+@export var damage_inst_multiplier: float = 1.0
 
 @export var is_healing: bool
 @export var can_crit: bool
 @export var effects: Array[Effect.Type]
+
+
+func reset_damage_inst():
+	damage_inst.reset()
+	var amount = damage_inst.amount 
+	damage_inst.additional_amount = max(amount * damage_inst_multiplier - amount, 0)
