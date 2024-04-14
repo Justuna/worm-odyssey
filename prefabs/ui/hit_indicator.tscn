@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://bb37ero7f3n18"]
+
+[ext_resource type="Script" path="res://scripts/ui/hit_indicator.gd" id="1_yn74n"]
+[ext_resource type="FontFile" uid="uid://bqfidmatkdhtk" path="res://assets/fonts/fat_pixel_font.ttf" id="2_f24ik"]
+
+[sub_resource type="Curve" id="Curve_yir7x"]
+_data = [Vector2(0, 1), 0.0, 0.0720065, 0, 0, Vector2(1, 0), -2.92974, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_4b6wy"]
+_data = [Vector2(0, 1), 0.0, -0.0450416, 0, 0, Vector2(1, 0), -3.05673, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_b7xla"]
+font = ExtResource("2_f24ik")
+font_size = 10
+outline_size = 11
+outline_color = Color(0, 0, 0, 1)
+
+[node name="HitIndicator" type="Node2D" node_paths=PackedStringArray("label")]
+z_index = 10
+script = ExtResource("1_yn74n")
+label = NodePath("Label")
+lifetime = 1.0
+base_speed = 20.0
+acceleration = SubResource("Curve_yir7x")
+opacity = SubResource("Curve_4b6wy")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -43.5
+offset_right = 64.0
+offset_bottom = 43.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_b7xla")
+horizontal_alignment = 1
+vertical_alignment = 1

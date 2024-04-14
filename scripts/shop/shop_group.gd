@@ -4,7 +4,7 @@ class_name ShopGroup
 extends Node2D
 
 @export var restock_time: float
-@export var base_cost: int
+@export var price_multiplier: float = 1
 
 @export_category("Dependencies")
 @export var worm: Node
@@ -17,7 +17,6 @@ var _bank: Bank
 
 
 func _ready():
-	current_cost = base_cost
 	_bank = worm.get_node_or_null("Bank")
 
 	_restock()
@@ -51,4 +50,5 @@ func _make_unavailable():
 
 
 func _restock():
+	current_cost = ceil(World.instance.shop_inflation.value) * price_multiplier
 	_can_purchase(_bank.balance)
