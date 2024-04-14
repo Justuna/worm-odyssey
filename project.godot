@@ -28,6 +28,10 @@ window/stretch/aspect="expand"
 
 project/assembly_name="Worm Odyssey"
 
+[editor]
+
+movie_writer/movie_file="D:/Justin/Documents/Projects/Godot/Worm Odyssey/debug.avi"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/rmsmartshape/plugin.cfg")

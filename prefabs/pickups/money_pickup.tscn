@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmma7ldnvvwku"]
+[gd_scene load_steps=8 format=3 uid="uid://dmma7ldnvvwku"]
 
 [ext_resource type="Script" path="res://scripts/shop/money_pickup.gd" id="1_71db8"]
 [ext_resource type="Script" path="res://scripts/interaction/auto_interactable.gd" id="2_swx71"]
 [ext_resource type="Shader" path="res://assets/shaders/outline.gdshader" id="3_2ioqa"]
 [ext_resource type="Texture2D" uid="uid://iebecrctif65" path="res://assets/art/items/money_new.png" id="4_u4q72"]
+[ext_resource type="Script" path="res://scripts/entities/flicker.gd" id="5_02hy2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6wwd8"]
 radius = 32.0
@@ -25,10 +26,12 @@ shader_parameter/overlay_2_enabled = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_6wwd8")
 
-[node name="MoneyPickup" type="Node" parent="." node_paths=PackedStringArray("root", "interactable")]
+[node name="MoneyPickup" type="Node" parent="." node_paths=PackedStringArray("root", "interactable", "flicker")]
 script = ExtResource("1_71db8")
 root = NodePath("..")
 interactable = NodePath("../AutoInteractable")
+lifetime = 5.0
+flicker = NodePath("../Flicker")
 
 [node name="AutoInteractable" type="Node2D" parent="."]
 script = ExtResource("2_swx71")
@@ -39,3 +42,8 @@ material = SubResource("ShaderMaterial_woqb7")
 [node name="Sprite" type="Sprite2D" parent="Visuals"]
 position = Vector2(0, -10)
 texture = ExtResource("4_u4q72")
+
+[node name="Flicker" type="Node" parent="." node_paths=PackedStringArray("visuals")]
+script = ExtResource("5_02hy2")
+visuals = NodePath("../Visuals")
+frequency = 0.15

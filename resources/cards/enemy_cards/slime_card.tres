@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EnemyCard" load_steps=3 format=3 uid="uid://cmlfe1u1jubtm"]
+
+[ext_resource type="PackedScene" uid="uid://bec88jbk7ctt4" path="res://prefabs/enemies/slime.tscn" id="1_3aki3"]
+[ext_resource type="Script" path="res://scripts/entities/enemies/cards/enemy_card.gd" id="1_oxyny"]
+
+[resource]
+script = ExtResource("1_oxyny")
+name = "Slime"
+credit_cost = 5.0
+enemy_prefab = ExtResource("1_3aki3")
+min_preferred_distance = 200.0
+max_preferred_distance = 600.0

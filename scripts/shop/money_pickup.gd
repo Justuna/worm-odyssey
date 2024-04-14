@@ -3,15 +3,35 @@ extends Node
 
 @export var root: Node
 @export var interactable : AutoInteractable
+@export var lifetime: float = 10
 
+@export var flicker: Flicker
+@export var start_flicker: float = 2
+
+var _inited = false
 var _value: int
+var _timer: float
 
-const DEFAULT_VALUE = 5
+
+func init(value: int):
+	_value = value
+	_timer = lifetime
+	_inited = true
 
 
 func _ready():
 	interactable.on_interact.connect(_on_interact)
-	_value = DEFAULT_VALUE
+
+
+func _process(delta):
+	if not _inited:
+		return
+
+	_timer -= delta
+	if _timer <= start_flicker and not flicker.activated:
+		flicker.start()
+	if _timer <= 0:
+		root.queue_free()
 
 
 func _on_interact(interactor: AutoInteractor):

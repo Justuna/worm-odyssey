@@ -1,11 +1,10 @@
-[gd_scene load_steps=85 format=3 uid="uid://c4wlin680myme"]
+[gd_scene load_steps=93 format=3 uid="uid://c4wlin680myme"]
 
-[ext_resource type="Script" path="res://scripts/entities/world.gd" id="1_0jnsu"]
+[ext_resource type="Script" path="res://scripts/world/world.gd" id="1_0jnsu"]
 [ext_resource type="Script" path="res://scripts/test/worm_test.gd" id="1_e11fb"]
 [ext_resource type="PackedScene" uid="uid://m3fds71c0yiy" path="res://prefabs/worm/worm.tscn" id="1_wvqpy"]
-[ext_resource type="Resource" uid="uid://dxe2vo0p5hajv" path="res://libraries/equipment_library.tres" id="2_6jmem"]
+[ext_resource type="Resource" uid="uid://dxe2vo0p5hajv" path="res://resources/libraries/equipment_library.tres" id="2_6jmem"]
 [ext_resource type="Shader" path="res://assets/shaders/floor.gdshader" id="2_ggg3e"]
-[ext_resource type="Resource" uid="uid://dqtlknmqynp57" path="res://libraries/enemy_library.tres" id="2_ojog1"]
 [ext_resource type="Script" path="res://scripts/shop/equipment_shop_group.gd" id="2_wufd4"]
 [ext_resource type="Script" path="res://scripts/worm/controller_worm_input.gd" id="3_8ovgw"]
 [ext_resource type="Script" path="res://scripts/worm/worm_configurer.gd" id="3_addbt"]
@@ -30,6 +29,15 @@
 [ext_resource type="Script" path="res://scripts/test/equipment_library_spawner.gd" id="25_il7e6"]
 [ext_resource type="PackedScene" uid="uid://b1eonkmekkhvi" path="res://prefabs/enemies/dummy.tscn" id="26_axsjc"]
 [ext_resource type="Script" path="res://scripts/entities/move_on_line.gd" id="27_mlok6"]
+[ext_resource type="Script" path="res://scripts/world/economy/polynomial_economy.gd" id="28_g12jf"]
+[ext_resource type="Script" path="res://scripts/entities/enemies/spawners/target_worm_spawner.gd" id="29_sc2bx"]
+[ext_resource type="Resource" uid="uid://hsilpsovqcbf" path="res://resources/cards/wave_cards/lantern_fly_mixed_wave.tres" id="30_a7ihg"]
+[ext_resource type="Resource" uid="uid://cd5qsuvjpjn30" path="res://resources/cards/wave_cards/lantern_fly_only_line_wave.tres" id="31_af38g"]
+[ext_resource type="Resource" uid="uid://dmps1b2evc4ao" path="res://resources/cards/wave_cards/lantern_fly_only_radial_wave.tres" id="32_sp68l"]
+[ext_resource type="Resource" uid="uid://cxggpiyowtytg" path="res://resources/cards/wave_cards/lantern_fly_only_shotgun_wave.tres" id="33_gm1tn"]
+[ext_resource type="Resource" uid="uid://bln3x2581mjbj" path="res://resources/cards/wave_cards/lantern_fly_only_star_wave.tres" id="34_k48y2"]
+[ext_resource type="Resource" uid="uid://bi1l2l34g6h6b" path="res://resources/cards/wave_cards/slime_wave.tres" id="35_ju4jh"]
+[ext_resource type="Script" path="res://scripts/entities/enemies/tracking/loot_table.gd" id="36_toeuv"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_7khxy"]
 noise_type = 4
@@ -71,7 +79,7 @@ shader_parameter/layer_2_threshold = 1.0
 shader_parameter/layer_1_noise = SubResource("NoiseTexture2D_geylk")
 shader_parameter/layer_2_noise = SubResource("NoiseTexture2D_85pxv")
 
-[sub_resource type="Resource" id="Resource_djmn5"]
+[sub_resource type="Resource" id="Resource_4cici"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -82,9 +90,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(-40.9657, -127.473)
 point_in = Vector2(-67.2759, 19.0703)
 point_out = Vector2(67.2759, -19.0703)
-properties = SubResource("Resource_djmn5")
+properties = SubResource("Resource_4cici")
 
-[sub_resource type="Resource" id="Resource_hdjpn"]
+[sub_resource type="Resource" id="Resource_6mwgg"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -95,9 +103,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(-40.9657, -127.473)
 point_in = Vector2(-67.2759, 19.0703)
 point_out = Vector2(67.2759, -19.0703)
-properties = SubResource("Resource_hdjpn")
+properties = SubResource("Resource_6mwgg")
 
-[sub_resource type="Resource" id="Resource_huytg"]
+[sub_resource type="Resource" id="Resource_l2r48"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -108,9 +116,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(168.762, -81.2502)
 point_in = Vector2(-44.4975, -37.6109)
 point_out = Vector2(44.4975, 37.6109)
-properties = SubResource("Resource_huytg")
+properties = SubResource("Resource_l2r48")
 
-[sub_resource type="Resource" id="Resource_33cxa"]
+[sub_resource type="Resource" id="Resource_olsth"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -121,9 +129,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(-191.311, 50.271)
 point_in = Vector2(12.0135, 48.0542)
 point_out = Vector2(-12.0135, -48.0542)
-properties = SubResource("Resource_33cxa")
+properties = SubResource("Resource_olsth")
 
-[sub_resource type="Resource" id="Resource_smlvl"]
+[sub_resource type="Resource" id="Resource_vmfpr"]
 script = ExtResource("16_gd2rg")
 texture_idx = -2
 flip = false
@@ -134,9 +142,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(49.3742, 129.539)
 point_in = Vector2(81.4252, -12.0135)
 point_out = Vector2(-81.4252, 12.0135)
-properties = SubResource("Resource_smlvl")
+properties = SubResource("Resource_vmfpr")
 
-[sub_resource type="Resource" id="Resource_mipls"]
+[sub_resource type="Resource" id="Resource_1fddx"]
 script = ExtResource("16_gd2rg")
 texture_idx = 1
 flip = false
@@ -147,7 +155,7 @@ script = ExtResource("17_q2g0y")
 position = Vector2(55.6291, -131.499)
 point_in = Vector2(0, 0)
 point_out = Vector2(0, 0)
-properties = SubResource("Resource_mipls")
+properties = SubResource("Resource_1fddx")
 
 [sub_resource type="Resource" id="Resource_lt258"]
 script = ExtResource("18_j8oma")
@@ -208,7 +216,7 @@ fill_texture_angle_offset = 0.0
 fill_mesh_offset = 0.0
 render_offset = 0.0
 
-[sub_resource type="Resource" id="Resource_h1e8n"]
+[sub_resource type="Resource" id="Resource_13d0i"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -219,9 +227,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(82.6576, -149.092)
 point_in = Vector2(-87.2985, -28.9839)
 point_out = Vector2(87.2985, 28.9839)
-properties = SubResource("Resource_h1e8n")
+properties = SubResource("Resource_13d0i")
 
-[sub_resource type="Resource" id="Resource_23nlc"]
+[sub_resource type="Resource" id="Resource_ejd28"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -232,9 +240,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(82.6576, -149.092)
 point_in = Vector2(-87.2985, -28.9839)
 point_out = Vector2(87.2985, 28.9839)
-properties = SubResource("Resource_23nlc")
+properties = SubResource("Resource_ejd28")
 
-[sub_resource type="Resource" id="Resource_fwxq2"]
+[sub_resource type="Resource" id="Resource_kcqqq"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -245,9 +253,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(-102.611, -57.0672)
 point_in = Vector2(-30.7013, 73.4162)
 point_out = Vector2(30.7013, -73.4162)
-properties = SubResource("Resource_fwxq2")
+properties = SubResource("Resource_kcqqq")
 
-[sub_resource type="Resource" id="Resource_017ws"]
+[sub_resource type="Resource" id="Resource_ws3ql"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -258,9 +266,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(9.13498, 124.805)
 point_in = Vector2(102.783, 20.0226)
 point_out = Vector2(-102.783, -20.0226)
-properties = SubResource("Resource_017ws")
+properties = SubResource("Resource_ws3ql")
 
-[sub_resource type="Resource" id="Resource_byvsc"]
+[sub_resource type="Resource" id="Resource_qa0c2"]
 script = ExtResource("16_gd2rg")
 texture_idx = 1
 flip = false
@@ -271,7 +279,7 @@ script = ExtResource("17_q2g0y")
 position = Vector2(182.427, 8.79718)
 point_in = Vector2(10.6787, -73.4162)
 point_out = Vector2(-10.6787, 73.4162)
-properties = SubResource("Resource_byvsc")
+properties = SubResource("Resource_qa0c2")
 
 [sub_resource type="Resource" id="Resource_edap5"]
 script = ExtResource("18_j8oma")
@@ -289,7 +297,7 @@ Array[int]([9, 0]): 15
 _next_key = 19
 _material_overrides = {}
 
-[sub_resource type="Resource" id="Resource_ihx2g"]
+[sub_resource type="Resource" id="Resource_0q3o5"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -300,9 +308,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(131.006, -125.17)
 point_in = Vector2(12.1344, 123.952)
 point_out = Vector2(-12.1344, -123.952)
-properties = SubResource("Resource_ihx2g")
+properties = SubResource("Resource_0q3o5")
 
-[sub_resource type="Resource" id="Resource_t2afe"]
+[sub_resource type="Resource" id="Resource_u4qft"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -313,9 +321,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(131.006, -125.17)
 point_in = Vector2(12.1344, 123.952)
 point_out = Vector2(-12.1344, -123.952)
-properties = SubResource("Resource_t2afe")
+properties = SubResource("Resource_u4qft")
 
-[sub_resource type="Resource" id="Resource_iuh4t"]
+[sub_resource type="Resource" id="Resource_os5t6"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -326,9 +334,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(488.522, -97.9039)
 point_in = Vector2(-11.7396, -130.845)
 point_out = Vector2(11.7396, 130.845)
-properties = SubResource("Resource_iuh4t")
+properties = SubResource("Resource_os5t6")
 
-[sub_resource type="Resource" id="Resource_ns2qq"]
+[sub_resource type="Resource" id="Resource_ytnee"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -339,9 +347,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(-287.22, 387.024)
 point_in = Vector2(48.484, 72.3335)
 point_out = Vector2(-48.484, -72.3335)
-properties = SubResource("Resource_ns2qq")
+properties = SubResource("Resource_ytnee")
 
-[sub_resource type="Resource" id="Resource_lblpi"]
+[sub_resource type="Resource" id="Resource_51es2"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -352,9 +360,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(196.191, 409.357)
 point_in = Vector2(141.901, -92.6485)
 point_out = Vector2(-141.901, 92.6485)
-properties = SubResource("Resource_lblpi")
+properties = SubResource("Resource_51es2")
 
-[sub_resource type="Resource" id="Resource_nu4o7"]
+[sub_resource type="Resource" id="Resource_uljdm"]
 script = ExtResource("16_gd2rg")
 texture_idx = 1
 flip = false
@@ -365,9 +373,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(128.163, -454.63)
 point_in = Vector2(-110.246, -19.8541)
 point_out = Vector2(110.247, 19.8541)
-properties = SubResource("Resource_nu4o7")
+properties = SubResource("Resource_uljdm")
 
-[sub_resource type="Resource" id="Resource_rhdc2"]
+[sub_resource type="Resource" id="Resource_agjvm"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -378,9 +386,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(91.4537, 109.528)
 point_in = Vector2(-59.9323, 85.4035)
 point_out = Vector2(59.9323, -85.4035)
-properties = SubResource("Resource_rhdc2")
+properties = SubResource("Resource_agjvm")
 
-[sub_resource type="Resource" id="Resource_as3jw"]
+[sub_resource type="Resource" id="Resource_4wdk8"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -391,9 +399,9 @@ script = ExtResource("17_q2g0y")
 position = Vector2(-18.9667, -361.239)
 point_in = Vector2(2.11902, 80.5192)
 point_out = Vector2(-2.11902, -80.5192)
-properties = SubResource("Resource_as3jw")
+properties = SubResource("Resource_4wdk8")
 
-[sub_resource type="Resource" id="Resource_ryye6"]
+[sub_resource type="Resource" id="Resource_3505y"]
 script = ExtResource("16_gd2rg")
 texture_idx = 0
 flip = false
@@ -404,7 +412,7 @@ script = ExtResource("17_q2g0y")
 position = Vector2(-231.183, 162.818)
 point_in = Vector2(-121, 55)
 point_out = Vector2(121, -55)
-properties = SubResource("Resource_ryye6")
+properties = SubResource("Resource_3505y")
 
 [sub_resource type="Resource" id="Resource_wsmhj"]
 script = ExtResource("18_j8oma")
@@ -435,8 +443,9 @@ size = Vector2(1024, 1024)
 
 [node name="WormTest" type="Node2D"]
 
-[node name="World" type="Node2D" parent="."]
+[node name="World" type="Node2D" parent="." node_paths=PackedStringArray("shop_inflation")]
 script = ExtResource("1_0jnsu")
+shop_inflation = NodePath("ShopEconomy")
 
 [node name="Level" type="Node2D" parent="World"]
 z_index = 20
@@ -732,6 +741,7 @@ theme_type_variation = &"ThickLabel"
 
 [node name="MoneyLabel" type="Label" parent="World/PlayerWorm/UI/Control/GeneralUI/MarginContainer/HBoxContainer/Container2"]
 custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
 offset_top = 7.0
 offset_right = 100.0
 offset_bottom = 26.0
@@ -783,7 +793,6 @@ script = ExtResource("1_e11fb")
 spawned_equipment_count = 0
 spawned_enemy_count = 1
 equipment_library = ExtResource("2_6jmem")
-enemy_library = ExtResource("2_ojog1")
 spawn_area = SubResource("RectangleShape2D_6uaxl")
 worm = NodePath("../PlayerWorm/Worm")
 
@@ -792,13 +801,12 @@ worm = NodePath("../PlayerWorm/Worm")
 [node name="EquipmentShop" type="Node2D" parent="World/DefaultStuff"]
 position = Vector2(-325, -422)
 
-[node name="RegularShopGroup" type="Node2D" parent="World/DefaultStuff/EquipmentShop" node_paths=PackedStringArray("slots")]
+[node name="RegularShopGroup" type="Node2D" parent="World/DefaultStuff/EquipmentShop"]
 script = ExtResource("2_wufd4")
 catalog = ExtResource("2_6jmem")
 pickup_prefab = ExtResource("4_w4vki")
 restock_time = 5.0
 base_cost = 10
-slots = [NodePath("ShopSlot1"), NodePath("ShopSlot2"), NodePath("ShopSlot3")]
 
 [node name="ShopSlot1" type="Node2D" parent="World/DefaultStuff/EquipmentShop/RegularShopGroup"]
 position = Vector2(-113, 0)
@@ -808,7 +816,7 @@ position = Vector2(-113, 0)
 [node name="ShopSlot3" type="Node2D" parent="World/DefaultStuff/EquipmentShop/RegularShopGroup"]
 position = Vector2(108, 0)
 
-[node name="RandomShopGroup" type="Node2D" parent="World/DefaultStuff/EquipmentShop" node_paths=PackedStringArray("slots")]
+[node name="RandomShopGroup" type="Node2D" parent="World/DefaultStuff/EquipmentShop"]
 position = Vector2(217, 0)
 script = ExtResource("2_wufd4")
 disguised = true
@@ -816,7 +824,6 @@ catalog = ExtResource("2_6jmem")
 pickup_prefab = ExtResource("4_w4vki")
 restock_time = 5.0
 base_cost = 5
-slots = [NodePath("ShopSlot")]
 
 [node name="ShopSlot" type="Node2D" parent="World/DefaultStuff/EquipmentShop/RandomShopGroup"]
 
@@ -861,3 +868,37 @@ position = Vector2(-339, 364)
 
 [node name="Dummy5" parent="World/DefaultStuff" instance=ExtResource("26_axsjc")]
 position = Vector2(-238, 363)
+
+[node name="ShopEconomy" type="Node" parent="World"]
+script = ExtResource("28_g12jf")
+coefficient = 0.5
+base_value = 25.0
+
+[node name="PassiveSpawner" type="Node" parent="World" node_paths=PackedStringArray("worm", "credits")]
+script = ExtResource("29_sc2bx")
+worm = NodePath("../PlayerWorm/Worm")
+base_spawn_rate = 4.9
+wave_spawn_rate = 0.5
+start_with_wave = true
+time_between_waves = 20.0
+wave_duration = 5.0
+wave_cards = Array[Resource("res://scripts/entities/enemies/cards/wave_card.gd")]([ExtResource("30_a7ihg"), ExtResource("31_af38g"), ExtResource("32_sp68l"), ExtResource("33_gm1tn"), ExtResource("34_k48y2"), ExtResource("35_ju4jh")])
+credits = NodePath("CreditGenerator")
+
+[node name="CreditGenerator" type="Node" parent="World/PassiveSpawner"]
+script = ExtResource("28_g12jf")
+coefficient = 2.0
+degree = 1.25
+base_value = 10.0
+
+[node name="LootTable" type="Node" parent="World" node_paths=PackedStringArray("money_drop_inflation", "spawners")]
+script = ExtResource("36_toeuv")
+money_drop_inflation = NodePath("LootEconomy")
+money_drop_prefab = ExtResource("11_45yqs")
+spawners = [NodePath("../PassiveSpawner")]
+
+[node name="LootEconomy" type="Node" parent="World/LootTable"]
+script = ExtResource("28_g12jf")
+coefficient = 0.3
+degree = 1.1
+base_value = 5.0
