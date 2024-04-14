@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="EnemyCard" load_steps=3 format=3 uid="uid://c834c7aw8icb4"]
 
 [ext_resource type="Script" path="res://scripts/entities/enemies/cards/enemy_card.gd" id="1_lpvqp"]
-[ext_resource type="PackedScene" path="res://prefabs/enemies/lantern_fly_shotgun.tscn" id="1_wk5o5"]
+[ext_resource type="PackedScene" uid="uid://dmtbaqu7mqn12" path="res://prefabs/enemies/lantern_fly_shotgun.tscn" id="1_wk5o5"]
 
 [resource]
 script = ExtResource("1_lpvqp")

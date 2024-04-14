@@ -443,7 +443,7 @@ point_count = 2
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6uaxl"]
 size = Vector2(1024, 1024)
 
-[node name="WormTest" type="Node2D"]
+[node name="WormTest2" type="Node2D"]
 
 [node name="World" type="Node2D" parent="." node_paths=PackedStringArray("shop_inflation")]
 script = ExtResource("1_0jnsu")
@@ -806,7 +806,13 @@ position = Vector2(-325, -422)
 [node name="DoubleEquipmentShop" parent="World/DefaultStuff/Shops" instance=ExtResource("24_rmosl")]
 position = Vector2(45, -37)
 
+[node name="DoubleEquipmentShop2" parent="World/DefaultStuff/Shops" node_paths=PackedStringArray("slots", "cost_label") instance=ExtResource("24_rmosl")]
+position = Vector2(616, -42)
+slots = [NodePath("../DoubleEquipmentShop/BG/ShopSlot1"), NodePath("../DoubleEquipmentShop/BG/ShopSlot2")]
+cost_label = NodePath("../DoubleEquipmentShop/Control/Label")
+
 [node name="TripleEquipmentShop" parent="World/DefaultStuff/Shops" instance=ExtResource("25_h555q")]
+visible = false
 position = Vector2(256, -41)
 
 [node name="EquipmentLibrarySpwaner" type="Node2D" parent="World/DefaultStuff"]
@@ -859,6 +865,7 @@ base_value = 25.0
 [node name="PassiveSpawner" type="Node" parent="World" node_paths=PackedStringArray("worm", "credits")]
 script = ExtResource("29_sc2bx")
 worm = NodePath("../PlayerWorm/Worm")
+enabled = false
 base_spawn_rate = 4.9
 wave_spawn_rate = 0.5
 start_with_wave = true

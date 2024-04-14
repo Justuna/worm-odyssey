@@ -5,7 +5,8 @@ extends Node
 @export var money_drop_inflation: Economy
 @export var money_drop_prefab: PackedScene
 @export var spawners: Array[Spawner]
-# In future, maybe a table of items with drop chances
+@export var drop_table: Array[LootChance]
+@export var jitter: Vector2
 
 func _ready():
 	for spawner in spawners:
@@ -20,5 +21,14 @@ func _attach_loot_tracker(enemy: Node):
 
 	var loot_tracker = LootTracker.new()
 	loot_tracker.loot.push_back(money_drop)
+	loot_tracker.jitter = jitter
+	
+	for drop_chance in drop_table:
+		var f = randf_range(0, 1)
+		if f <= drop_chance.chance():
+			print("Adding loot...")
+			var drop = drop_chance.drop.instantiate()
+			print("Spawned with %s" % drop.name)
+			loot_tracker.loot.push_back(drop)
 
 	enemy.add_child(loot_tracker)

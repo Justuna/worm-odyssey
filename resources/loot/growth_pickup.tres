@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="LootChance" load_steps=3 format=3 uid="uid://dbktb2domk7i2"]
+
+[ext_resource type="Script" path="res://scripts/entities/enemies/tracking/loot_chance.gd" id="1_6fxfn"]
+[ext_resource type="PackedScene" uid="uid://dutawc5ncm5g1" path="res://prefabs/pickups/growth_pickup.tscn" id="1_qk6qg"]
+
+[resource]
+script = ExtResource("1_6fxfn")
+drop = ExtResource("1_qk6qg")
+base_chance = 0.2

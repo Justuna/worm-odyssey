@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://m3fds71c0yiy"]
+[gd_scene load_steps=17 format=3 uid="uid://m3fds71c0yiy"]
 
 [ext_resource type="Texture2D" uid="uid://ble783o2t5wng" path="res://assets/art/worms/worm_3/worm_body_3.png" id="1_2pkf7"]
 [ext_resource type="Script" path="res://scripts/worm/worm_controller.gd" id="1_7wfu0"]
@@ -10,7 +10,9 @@
 [ext_resource type="Script" path="res://scripts/interaction/interactor.gd" id="7_uru4d"]
 [ext_resource type="Script" path="res://scripts/entities/team.gd" id="8_t6qpe"]
 [ext_resource type="Script" path="res://scripts/shop/bank.gd" id="9_658wi"]
+[ext_resource type="Script" path="res://scripts/worm/growth_meter.gd" id="11_af6bv"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detection/damage_instance/damage_instance_listener.gd" id="11_gplwb"]
+[ext_resource type="Script" path="res://scripts/world/economy/polynomial_economy.gd" id="12_bvv6h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ex6gi"]
 radius = 32.0
@@ -95,6 +97,15 @@ team = "Player"
 [node name="Bank" type="Node" parent="."]
 script = ExtResource("9_658wi")
 starting_balance = 25
+
+[node name="GrowthMeter" type="Node" parent="." node_paths=PackedStringArray("worm_controller", "growth_meter")]
+script = ExtResource("11_af6bv")
+worm_controller = NodePath("../WormController")
+growth_meter = NodePath("PolynomialEconomy")
+growth_requirement = 100.0
+
+[node name="PolynomialEconomy" type="Node" parent="GrowthMeter"]
+script = ExtResource("12_bvv6h")
 
 [node name="DamageInstanceListener" type="Node" parent="."]
 script = ExtResource("11_gplwb")

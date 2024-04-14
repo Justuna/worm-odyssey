@@ -12,7 +12,7 @@
 script = ExtResource("1_mv2oe")
 catalog = ExtResource("2_upa5o")
 pickup_prefab = ExtResource("3_ldj6x")
-restock_time = 5.0
+restock_time = 180.0
 use_children_as_slots = false
 slots = [NodePath("BG/ShopSlot1"), NodePath("BG/ShopSlot2"), NodePath("BG/ShopSlot3")]
 cost_label = NodePath("Control/Label")
