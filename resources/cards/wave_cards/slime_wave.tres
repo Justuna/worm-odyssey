@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="WaveCard" load_steps=3 format=3 uid="uid://bi1l2l34g6h6b"]
+
+[ext_resource type="Resource" uid="uid://cmlfe1u1jubtm" path="res://resources/cards/enemy_cards/slime_card.tres" id="1_5i40r"]
+[ext_resource type="Script" path="res://scripts/entities/enemies/cards/wave_card.gd" id="1_rjcuy"]
+
+[resource]
+script = ExtResource("1_rjcuy")
+enemy_cards = Array[Resource("res://scripts/entities/enemies/cards/enemy_card.gd")]([ExtResource("1_5i40r")])

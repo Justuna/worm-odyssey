@@ -33,7 +33,7 @@ func _process(delta):
 
 
 func _can_purchase(balance: int):
-	print("Seeing if available")
+	# print("Seeing if available")
 	if balance >= current_cost:
 		_make_available()
 	else:
@@ -41,11 +41,13 @@ func _can_purchase(balance: int):
 
 
 func _make_available():
-	print("Can afford this shop")
+	# print("Can afford this shop")
+	pass
 
 
 func _make_unavailable():
-	print("Cannot afford this shop")
+	# print("Cannot afford this shop")
+	pass
 
 
 func _restock():
