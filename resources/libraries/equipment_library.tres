@@ -1,12 +1,13 @@
-[gd_resource type="Resource" script_class="EquipmentLibrary" load_steps=6 format=3 uid="uid://dxe2vo0p5hajv"]
+[gd_resource type="Resource" script_class="EquipmentLibrary" load_steps=7 format=3 uid="uid://dxe2vo0p5hajv"]
 
 [ext_resource type="Script" path="res://scripts/equipment/equipment_library.gd" id="1_nwjns"]
 [ext_resource type="PackedScene" uid="uid://dgqx3we05fwxx" path="res://prefabs/pickups/equipment_pickup.tscn" id="1_xr3rw"]
 [ext_resource type="PackedScene" uid="uid://bplmeut6jbu2y" path="res://prefabs/equipment/bow_equipment.tscn" id="2_5vylb"]
 [ext_resource type="PackedScene" uid="uid://8hyifksoti7y" path="res://prefabs/equipment/blunderbuss_equipment.tscn" id="3_l67lf"]
 [ext_resource type="PackedScene" uid="uid://bf71hwhnlk23m" path="res://prefabs/equipment/missile_launcher_equipment.tscn" id="4_t2j5a"]
+[ext_resource type="PackedScene" uid="uid://dkfoacix7kfiq" path="res://prefabs/equipment/sword_equipment.tscn" id="5_8xd8m"]
 
 [resource]
 script = ExtResource("1_nwjns")
-equipment_prefabs = Array[PackedScene]([ExtResource("2_5vylb"), ExtResource("3_l67lf"), ExtResource("4_t2j5a")])
+equipment_prefabs = Array[PackedScene]([ExtResource("2_5vylb"), ExtResource("3_l67lf"), ExtResource("4_t2j5a"), ExtResource("5_8xd8m")])
 dropped_equipment_prefab = ExtResource("1_xr3rw")
