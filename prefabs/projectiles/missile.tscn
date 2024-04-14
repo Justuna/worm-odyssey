@@ -103,7 +103,7 @@ script = ExtResource("10_tawvl")
 enabled = false
 speed_stat = NodePath("../StatBlock/Speed")
 entity_tracker = NodePath("EntityTracker")
-rotation_speed_factor = 30.0
+rotation_speed_factor = 0.5
 rotate_projectile = true
 
 [node name="EntityTracker" type="Area2D" parent="HomingProjectile" node_paths=PackedStringArray("team")]

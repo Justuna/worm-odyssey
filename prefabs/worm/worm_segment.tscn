@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://df0c367funl53"]
+[gd_scene load_steps=28 format=3 uid="uid://df0c367funl53"]
 
 [ext_resource type="Script" path="res://scripts/worm/worm_segment.gd" id="1_44kv3"]
 [ext_resource type="Texture2D" uid="uid://cqsjwv7i833mh" path="res://assets/art/segments/strap.png" id="3_rg1sj"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://scripts/entities/fx.gd" id="17_7hgfs"]
 [ext_resource type="Texture2D" uid="uid://p62o42eelno8" path="res://assets/art/fx/96_circle_fx.png" id="18_r3ojj"]
 [ext_resource type="Script" path="res://scripts/entities/advanced_gpu_particles_2d.gd" id="19_4nexv"]
+[ext_resource type="Texture2D" uid="uid://ymbeyfdpi2o3" path="res://assets/art/segments/direction_indicator.png" id="20_pprqp"]
 
 [sub_resource type="Gradient" id="Gradient_4p2et"]
 offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
@@ -62,7 +63,7 @@ initial_velocity_max = 200.0
 gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_ge0bh")
 
-[node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group", "equipment_container", "health", "team", "stat_block", "health_indicator", "health_indicator_container", "active_cooldown_indicator", "active_cooldown_indicator_container")]
+[node name="WormSegment" type="Node2D" node_paths=PackedStringArray("canvas_group", "equipment_container", "health", "team", "stat_block", "health_indicator", "health_indicator_container", "active_cooldown_indicator", "active_cooldown_indicator_container", "direction_indicator")]
 script = ExtResource("1_44kv3")
 canvas_group = NodePath("CanvasGroup")
 equipment_container = NodePath("CanvasGroup/EquipmentContainer")
@@ -78,6 +79,7 @@ health_indicator_container = NodePath("HealthIndicatorContainer")
 damage_gradient = SubResource("Gradient_4p2et")
 active_cooldown_indicator = NodePath("ActiveCooldownIndicatorContainer/ActiveCooldownIndicator")
 active_cooldown_indicator_container = NodePath("ActiveCooldownIndicatorContainer")
+direction_indicator = NodePath("CanvasGroup/SlotVisuals/DirectionIndicator")
 
 [node name="StatBlock" type="Node" parent="."]
 script = ExtResource("10_nyqvj")
@@ -154,6 +156,9 @@ scale = Vector2(1.25, 1.25)
 
 [node name="SlotSprite" type="Sprite2D" parent="CanvasGroup/SlotVisuals"]
 texture = ExtResource("3_rg1sj")
+
+[node name="DirectionIndicator" type="Sprite2D" parent="CanvasGroup/SlotVisuals"]
+texture = ExtResource("20_pprqp")
 
 [node name="EquipmentContainer" type="Node2D" parent="CanvasGroup"]
 

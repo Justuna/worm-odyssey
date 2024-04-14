@@ -221,6 +221,7 @@ script = ExtResource("12_xukil")
 random_offset = 5.0
 fire_round = 2
 fire_interval = 0.2
+delay = 0.5
 bullet_number = 7
 angle = 60.0
 bullet_prefab = ExtResource("13_r1btm")
@@ -231,6 +232,7 @@ team = NodePath("../Team")
 script = ExtResource("15_iiwvx")
 
 [connection signal="active_used" from="." to="ActiveShootOnce" method="shoot"]
+[connection signal="active_used" from="." to="EquipmentTurret" method="lock_to_direction" binds= [1.0]]
 [connection signal="on_shoot" from="EquipmentTurret" to="EquipmentTurret/TurretHead/TurretMuzzle/FireFX" method="play"]
 [connection signal="on_shoot" from="EquipmentTurret" to="PassiveShootOnce" method="shoot"]
 [connection signal="on_shoot" from="ActiveShootOnce" to="EquipmentTurret/TurretHead/TurretMuzzle/ActiveFireFX" method="play"]

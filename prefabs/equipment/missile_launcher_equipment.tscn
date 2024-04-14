@@ -74,5 +74,6 @@ reload_duration = 0.5
 [node name="Team" type="Node" parent="."]
 script = ExtResource("15_c180v")
 
+[connection signal="active_used" from="." to="EquipmentTurret" method="lock_to_direction" binds= [1.0]]
 [connection signal="active_used" from="." to="ShootMissile" method="spawn_and_shoot_missile" binds= [1]]
 [connection signal="on_shoot" from="EquipmentTurret" to="ShootMissile" method="shoot"]

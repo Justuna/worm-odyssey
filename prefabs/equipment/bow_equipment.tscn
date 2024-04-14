@@ -218,11 +218,13 @@ script = ExtResource("12_38ptw")
 bullet_prefab = ExtResource("13_yv2yj")
 muzzle = NodePath("../EquipmentTurret/TurretHead/TurretMuzzle")
 team = NodePath("../Team")
+delay = 0.5
 
 [node name="Team" type="Node" parent="."]
 script = ExtResource("12_ftm3c")
 
 [connection signal="active_used" from="." to="ActiveShootOnce" method="shoot"]
+[connection signal="active_used" from="." to="EquipmentTurret" method="lock_to_direction" binds= [1.0]]
 [connection signal="on_shoot" from="EquipmentTurret" to="EquipmentTurret/TurretHead/TurretMuzzle/FireFX" method="play"]
 [connection signal="on_shoot" from="EquipmentTurret" to="PassiveShootOnce" method="shoot"]
 [connection signal="on_shoot" from="ActiveShootOnce" to="EquipmentTurret/TurretHead/TurretMuzzle/PierceFireFX" method="play"]

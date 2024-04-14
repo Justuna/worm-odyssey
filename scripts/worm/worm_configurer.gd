@@ -79,7 +79,7 @@ func rotate_segment_left():
 		return
 	var current_segment = _current_segment
 	if current_segment.equipment:
-		current_segment.equipment.direction = Equipment.rotate_left(current_segment.equipment.direction)
+		current_segment.direction = Equipment.rotate_left(current_segment.equipment.direction)
 
 
 func rotate_segment_right():
@@ -87,7 +87,7 @@ func rotate_segment_right():
 		return
 	var current_segment = _current_segment
 	if current_segment.equipment:
-		current_segment.equipment.direction = Equipment.rotate_right(current_segment.equipment.direction)
+		current_segment.direction = Equipment.rotate_right(current_segment.equipment.direction)
 
 
 func _swap_segments(index_one: int, index_two: int):

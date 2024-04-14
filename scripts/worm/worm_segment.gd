@@ -33,6 +33,15 @@ var is_moving: bool :
 		if _is_moving != old_val:
 			_update_is_moving_visuals()
 var _is_moving: bool
+var direction: Equipment.Direction :
+	get:
+		if equipment:
+			return equipment.direction
+		return Equipment.Direction.UP
+	set(value):
+		if equipment:
+			equipment.direction = value
+			_update_direction_visuals()
 
 @export var canvas_group: CanvasGroup
 @export var equipment_container: Node2D
@@ -46,6 +55,7 @@ var _is_moving: bool
 	set(value):
 		_binding = value
 		_update_binding_visuals()
+		_update_direction_visuals()
 @export var health: Health
 @export var team: Team
 @export var stat_block: StatBlock
@@ -54,6 +64,7 @@ var _is_moving: bool
 @export var damage_gradient: Gradient
 @export var active_cooldown_indicator: Sprite2D
 @export var active_cooldown_indicator_container: Node2D
+@export var direction_indicator: Node2D
 
 var _binding: Binding
 @onready var BINDING_TO_COLOR: Dictionary = {
@@ -69,6 +80,7 @@ func _ready():
 	_update_binding_visuals()
 	_update_is_selected_visuals()
 	_update_is_moving_visuals()
+	_update_direction_visuals()
 	canvas_group.material = canvas_group.material.duplicate()
 	health_indicator.material = health_indicator.material.duplicate()
 	active_cooldown_indicator.material = active_cooldown_indicator.material.duplicate()
@@ -114,7 +126,7 @@ func swap_equipment(other_segment: WormSegment):
 
 ## Tries to add _equipment to this segment. If this segment already has
 ## an equipment, then the old equipment is returned
-func add_equipment(_equipment: Equipment, direction: Equipment.Direction) -> Equipment:
+func add_equipment(_equipment: Equipment, _direction: Equipment.Direction) -> Equipment:
 	var old_equipment = null
 	if equipment != null:
 		old_equipment = remove_equipment()
@@ -126,8 +138,10 @@ func add_equipment(_equipment: Equipment, direction: Equipment.Direction) -> Equ
 			equipment_container.add_child(equipment)
 		equipment.position = Vector2.ZERO
 		equipment.rotation = 0
-		equipment.construct(worm, self, direction)
+		equipment.construct(worm, self, _direction)
 		_update_binding_visuals()
+		_update_direction_visuals()
+		direction = _direction
 	return old_equipment
 
 
@@ -138,6 +152,7 @@ func remove_equipment() -> Equipment:
 		equipment.destruct()
 		equipment = null
 		_update_binding_visuals()
+		_update_direction_visuals()
 		return old_equipment
 	else:
 		return null
@@ -199,3 +214,12 @@ func _animate_health_indicator(fill_amount: float):
 	fill_color.v -= 0.2
 	(health_indicator.material as ShaderMaterial).set_shader_parameter("background_color", fill_color)
 	(health_indicator.material as ShaderMaterial).set_shader_parameter("fill_amount", fill_amount)
+
+
+func _update_direction_visuals():
+	if is_inside_tree():
+		direction_indicator.visible = equipment != null and _binding != Binding.NONE
+		if _binding != Binding.NONE:
+			var binding_color = BINDING_TO_COLOR[_binding]
+			direction_indicator.self_modulate = binding_color
+			direction_indicator.rotation = Equipment.DIRECTION_TO_RADIANS[direction]

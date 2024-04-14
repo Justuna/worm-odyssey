@@ -34,8 +34,8 @@ func _process(delta):
 		var dir_to_target = (entity_tracker.target_entity.global_position - projectile.global_position)
 		var angle_to_target = projectile.direction.angle_to(dir_to_target)
 		var rot_amount = deg_to_rad(rotation_speed_factor * speed_stat.amount * SPEED_FACTOR) * delta
-		if angle_to_target < rot_amount:
+		if abs(angle_to_target) < abs(rot_amount):
 			rot_amount = angle_to_target
 		projectile.direction = projectile.direction.rotated(rot_amount)
-		if rotate_projectile:
-			projectile.global_rotation = projectile.direction.angle() + deg_to_rad(rotate_projectile_offset)
+	if rotate_projectile:
+		projectile.global_rotation = projectile.direction.angle() + deg_to_rad(rotate_projectile_offset)

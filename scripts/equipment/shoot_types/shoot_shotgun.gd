@@ -7,6 +7,7 @@ signal on_shoot
 @export var random_offset : float
 @export var fire_round : int = 1
 @export var fire_interval : float
+@export var delay: float
 @export var bullet_number : int
 @export var angle : float
 @export var bullet_prefab: PackedScene
@@ -16,6 +17,8 @@ signal on_shoot
 
 
 func shoot():
+	if delay > 0:
+		await get_tree().create_timer(delay).timeout
 	var even_angle = angle / bullet_number
 	for j in range(fire_round) :
 		await get_tree().create_timer(fire_interval).timeout
