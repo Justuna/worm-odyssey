@@ -12,10 +12,10 @@ base_amount = 100
 [node name="Damage" parent="StatBlock" index="1"]
 base_amount = 10
 
-[node name="Sprite2D" parent="." index="1"]
+[node name="Sprite2D" parent="." index="2"]
 texture = ExtResource("2_ji4pm")
 
-[node name="Death" parent="." index="5"]
+[node name="Death" parent="." index="6"]
 lifetime = 5.0
 
 [node name="Particles" parent="Death/FX" index="0"]

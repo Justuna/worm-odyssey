@@ -25,7 +25,7 @@ func shoot():
 		for i in range(bullet_number) :
 			var bullet = bullet_prefab.instantiate() as Projectile
 			World.instance.add_child(bullet)
-			bullet.construct(muzzle.global_position, Node2DUtils.local_to_global_dir(muzzle, Vector2.from_angle(deg_to_rad(i*even_angle-angle/2-90 + randf_range(-random_offset,random_offset)))), team.team)
+			bullet.construct(muzzle.global_position, Node2DUtils.local_to_global_dir(muzzle, Vector2.from_angle(deg_to_rad(i*even_angle-angle/2-90 + randf_range(-random_offset,random_offset)))), team)
 		
 	on_shoot.emit()
 

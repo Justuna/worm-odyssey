@@ -161,19 +161,19 @@ func _shoot_pattern():
 			for i in range(4):
 				var projectile = bullet_prefab.instantiate() as Projectile
 				world.add_child(projectile)
-				projectile.construct(global_position, Vector2.from_angle(i / 4.0 * 2 * PI), team.team)
+				projectile.construct(global_position, Vector2.from_angle(i / 4.0 * 2 * PI), team)
 			var offset = deg_to_rad(45)
 			for i in range(4):
 				var projectile = bullet_prefab.instantiate() as Projectile
 				world.add_child(projectile)
-				projectile.construct(global_position, Vector2.from_angle(i / 4.0 * 2 * PI + offset), team.team)
+				projectile.construct(global_position, Vector2.from_angle(i / 4.0 * 2 * PI + offset), team)
 				var stat_block = projectile.stat_block as StatBlock
 				stat_block.get_stat(Stat.Type.SPEED).add_modifier(_star_pattern_speed_modifier)
 		Pattern.RADIAL:
 			for i in range(8):
 				var projectile = bullet_prefab.instantiate() as Projectile
 				world.add_child(projectile)
-				projectile.construct(global_position, Vector2.from_angle(i / 8.0 * 2 * PI), team.team)
+				projectile.construct(global_position, Vector2.from_angle(i / 8.0 * 2 * PI), team)
 		Pattern.SHOTGUN:
 			var count = 5
 			var arc_length = deg_to_rad(60)
@@ -182,11 +182,11 @@ func _shoot_pattern():
 			for i in range(count):
 				var projectile = bullet_prefab.instantiate() as Projectile
 				world.add_child(projectile)
-				projectile.construct(global_position, Vector2.from_angle(global_rotation + i * per_bullet_deg - arc_length / 2.0  + deg_offset), team.team)
+				projectile.construct(global_position, Vector2.from_angle(global_rotation + i * per_bullet_deg - arc_length / 2.0  + deg_offset), team)
 		Pattern.LINE:
 			var projectile = bullet_prefab.instantiate() as Projectile
 			world.add_child(projectile)
-			projectile.construct(global_position, Vector2.ONE, team.team)
+			projectile.construct(global_position, Vector2.ONE, team)
 			var stat_block = projectile.stat_block as StatBlock
 			stat_block.get_stat(Stat.Type.SPEED).add_modifier(_line_pattern_speed_modifier)
 	on_shoot.emit()

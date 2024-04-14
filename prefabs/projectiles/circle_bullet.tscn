@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://dp6ibxtg4brre"]
+[gd_scene load_steps=18 format=3 uid="uid://dp6ibxtg4brre"]
 
 [ext_resource type="Script" path="res://scripts/projectiles/projectile.gd" id="1_3xcda"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="2_mf0kw"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_2hbf6"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detection/damage_instance/damage_instance.gd" id="4_1i8hl"]
 [ext_resource type="Texture2D" uid="uid://d17x15wqqedto" path="res://assets/art/bullets/bullet_circle.png" id="4_uw4xu"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detection/hit_detector.gd" id="5_jkoj3"]
 [ext_resource type="Script" path="res://scripts/entities/hit_detection/hit_dealers/hit_once.gd" id="6_2jhj3"]
@@ -53,6 +54,11 @@ script = ExtResource("3_2hbf6")
 type = 5
 base_amount = 25
 
+[node name="DamageInstance" type="Node" parent="." node_paths=PackedStringArray("base_stat", "team")]
+script = ExtResource("4_1i8hl")
+base_stat = NodePath("../StatBlock/Damage")
+team = NodePath("../Team")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("4_uw4xu")
 
@@ -67,10 +73,10 @@ track_wall = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource("CircleShape2D_2nwya")
 
-[node name="HitOnce" type="Node" parent="HitBox" node_paths=PackedStringArray("hitbox", "amount_stat")]
+[node name="HitOnce" type="Node" parent="HitBox" node_paths=PackedStringArray("hitbox", "damage_inst")]
 script = ExtResource("6_2jhj3")
 hitbox = NodePath("..")
-amount_stat = NodePath("../../StatBlock/Damage")
+damage_inst = NodePath("../../DamageInstance")
 
 [node name="Team" type="Node" parent="."]
 script = ExtResource("7_4qopn")

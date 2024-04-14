@@ -83,7 +83,7 @@ func shoot():
 	if is_despawning_missile or is_spawning_missile or not is_instance_valid(loaded_missile):
 		return
 	loaded_missile.reparent(World.instance)
-	loaded_missile.construct(muzzle.global_position, Node2DUtils.local_to_global_dir(muzzle, Vector2.UP), team.team)
+	loaded_missile.construct(muzzle.global_position, Node2DUtils.local_to_global_dir(muzzle, Vector2.UP), team)
 	loaded_missile = null
 	on_shoot.emit()
 	_reload_timer = reload_duration

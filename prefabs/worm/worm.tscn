@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://m3fds71c0yiy"]
+[gd_scene load_steps=15 format=3 uid="uid://m3fds71c0yiy"]
 
 [ext_resource type="Texture2D" uid="uid://ble783o2t5wng" path="res://assets/art/worms/worm_3/worm_body_3.png" id="1_2pkf7"]
 [ext_resource type="Script" path="res://scripts/worm/worm_controller.gd" id="1_7wfu0"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/interaction/interactor.gd" id="7_uru4d"]
 [ext_resource type="Script" path="res://scripts/entities/team.gd" id="8_t6qpe"]
 [ext_resource type="Script" path="res://scripts/shop/bank.gd" id="9_658wi"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detection/damage_instance/damage_instance_listener.gd" id="11_gplwb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ex6gi"]
 radius = 32.0
@@ -63,7 +64,7 @@ position = Vector2(36, 102)
 texture = ExtResource("3_g1otc")
 offset = Vector2(-32, 0)
 
-[node name="WormController" type="Node2D" parent="." node_paths=PackedStringArray("team", "line_2D", "worm_head", "worm_tail", "segments_container")]
+[node name="WormController" type="Node2D" parent="." node_paths=PackedStringArray("team", "line_2D", "worm_head", "worm_tail", "segments_container", "damage_instance_listener")]
 script = ExtResource("1_7wfu0")
 speed = 500.0
 segment_count = 8
@@ -73,6 +74,7 @@ worm_head = NodePath("../WormHead")
 worm_tail = NodePath("../WormTail")
 worm_segment_prefab = ExtResource("2_lv01b")
 segments_container = NodePath("../WormSegments")
+damage_instance_listener = NodePath("../DamageInstanceListener")
 
 [node name="WormSegments" type="Node2D" parent="."]
 
@@ -92,3 +94,6 @@ team = "Player"
 [node name="Bank" type="Node" parent="."]
 script = ExtResource("9_658wi")
 starting_balance = 25
+
+[node name="DamageInstanceListener" type="Node" parent="."]
+script = ExtResource("11_gplwb")

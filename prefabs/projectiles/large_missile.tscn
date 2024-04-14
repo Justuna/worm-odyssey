@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://dk8hihv2xvjs5"]
+[gd_scene load_steps=23 format=3 uid="uid://dk8hihv2xvjs5"]
 
 [ext_resource type="Script" path="res://scripts/projectiles/projectile.gd" id="1_46e13"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block.gd" id="2_cv415"]
 [ext_resource type="Texture2D" uid="uid://c1hecckiex8v8" path="res://assets/art/fx/64_circle_fx.png" id="2_jctxc"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat.gd" id="3_d6dpd"]
+[ext_resource type="Script" path="res://scripts/entities/hit_detection/damage_instance/damage_instance.gd" id="4_gogqc"]
 [ext_resource type="Script" path="res://scripts/projectiles/spawn_projectile.gd" id="4_ngi6b"]
 [ext_resource type="Texture2D" uid="uid://bll4trxhsfd27" path="res://assets/art/equipment/missile.png" id="5_1oo0l"]
 [ext_resource type="Script" path="res://scripts/entities/stats/stat_block_injector.gd" id="5_tij3x"]
@@ -57,10 +58,21 @@ script = ExtResource("3_d6dpd")
 type = 5
 base_amount = 20
 
+[node name="ExplosiveDamage" type="Node" parent="StatBlock"]
+script = ExtResource("3_d6dpd")
+type = 10
+base_amount = 20
+
 [node name="Range" type="Node" parent="StatBlock"]
 script = ExtResource("3_d6dpd")
 type = 13
 base_amount = 12
+
+[node name="DamageInstance" type="Node" parent="." node_paths=PackedStringArray("base_stat", "mult_stats", "team")]
+script = ExtResource("4_gogqc")
+base_stat = NodePath("../StatBlock/Damage")
+mult_stats = [NodePath("../StatBlock/ExplosiveDamage")]
+team = NodePath("../Team")
 
 [node name="Trail" type="GPUParticles2D" parent="."]
 self_modulate = Color(0.545098, 0.556863, 0.572549, 1)
@@ -86,9 +98,10 @@ track_wall = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 shape = SubResource("CapsuleShape2D_1v07c")
 
-[node name="HitOnce" type="Node" parent="HitBox" node_paths=PackedStringArray("hitbox")]
+[node name="HitOnce" type="Node" parent="HitBox" node_paths=PackedStringArray("hitbox", "damage_inst")]
 script = ExtResource("7_c1br2")
 hitbox = NodePath("..")
+damage_inst = NodePath("../../DamageInstance")
 
 [node name="Team" type="Node" parent="."]
 script = ExtResource("8_i4cp5")
