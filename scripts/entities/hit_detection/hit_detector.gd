@@ -64,6 +64,7 @@ func _on_body_exited(body: Node2D):
 
 
 func _on_enter(area: Area2D):
+	print("Area entered: %s" % get_parent().name)
 	if area is HitDetector:
 		if area.type != type and _can_add(area.entity):
 			detectors[area] = null

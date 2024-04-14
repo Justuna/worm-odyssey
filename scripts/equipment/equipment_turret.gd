@@ -31,7 +31,7 @@ func _ready():
 func lock_to_direction(hold_duration: float = 1):
 	_is_locking_to_direction = true
 	_is_tweening = true
-	if _is_tweening:
+	if _tween and _is_tweening:
 		_tween.kill()
 	_tween = get_tree().create_tween()
 	_tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)

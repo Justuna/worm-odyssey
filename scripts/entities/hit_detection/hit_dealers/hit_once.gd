@@ -13,12 +13,15 @@ func _ready():
 
 
 func _on_detector_entered(other_hit_detector: HitDetector):	
+	print("Detected hit")
 	var hit_taker = other_hit_detector.get_node_or_null("HitTaker")
 	if not hit_taker:
+		print("Nothing to take hit")
 		return
 	
 	var hit_entity = other_hit_detector.entity
 	if hit_entity in _been_hit:
+		print("Already hit this once")
 		return
 	else:
 		_been_hit[hit_entity] = null
@@ -27,7 +30,9 @@ func _on_detector_entered(other_hit_detector: HitDetector):
 
 
 func _deal_hit(hit_taker: HitTaker):
+	print(damage_inst)
 	if damage_inst:
+		print("Hit")
 		reset_damage_inst()
 		hit_taker.route_damage_inst(damage_inst, can_crit)
 
