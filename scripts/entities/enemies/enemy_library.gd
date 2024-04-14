@@ -26,10 +26,12 @@ func library_init():
 		return
 	library_inited = true
 	_enemy_prefabs_dict = {}
-	for prefab in enemy_prefabs:
-		if prefab.name in _enemy_prefabs_dict:
-			printerr("Enemy Library: Enemy with name %s already exists, is there a duplicate name?" % prefab.name)
-		_enemy_prefabs_dict[prefab.name] = prefab
+	for enemy_prefab in enemy_prefabs:
+		var inst = enemy_prefab.instantiate()
+		if inst.name in _enemy_prefabs_dict:
+			printerr("Enemy Library: Enemy with name %s already exists, is there a duplicate name?" % inst.name)
+		_enemy_prefabs_dict[inst.name] = enemy_prefab
+		inst.queue_free()
 	_enemy_types = []
 	_enemy_types.assign(_enemy_prefabs_dict.keys())
 

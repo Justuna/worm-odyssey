@@ -9,6 +9,7 @@ extends Node2D
 
 @export_category("Dependencies")
 @export var slots: Array[Node2D]
+@export var cost_label: Label
 
 var current_cost: int
 
@@ -39,3 +40,4 @@ func _can_purchase(interactor: Interactor) -> bool:
 
 func _restock():
 	current_cost = ceil(World.instance.shop_inflation.value) * price_multiplier
+	cost_label.text = "$" + str(current_cost)
