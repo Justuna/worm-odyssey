@@ -1,25 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://dmma7ldnvvwku"]
+[gd_scene load_steps=7 format=3 uid="uid://dmma7ldnvvwku"]
 
 [ext_resource type="Script" path="res://scripts/shop/money_pickup.gd" id="1_71db8"]
 [ext_resource type="Script" path="res://scripts/interaction/auto_interactable.gd" id="2_swx71"]
-[ext_resource type="Shader" path="res://assets/shaders/outline.gdshader" id="3_2ioqa"]
 [ext_resource type="Texture2D" uid="uid://iebecrctif65" path="res://assets/art/items/money_new.png" id="4_u4q72"]
 [ext_resource type="Script" path="res://scripts/entities/flicker.gd" id="5_02hy2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6wwd8"]
 radius = 32.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_woqb7"]
-shader = ExtResource("3_2ioqa")
-shader_parameter/line_thickness = null
-shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_enabled = false
-shader_parameter/overlay_color = Color(0, 0, 0, 0)
-shader_parameter/overlay_amount = null
-shader_parameter/overlay_enabled = true
-shader_parameter/overlay_2_color = Color(0, 0, 0, 0)
-shader_parameter/overlay_2_amount = null
-shader_parameter/overlay_2_enabled = true
+[sub_resource type="Curve" id="Curve_x1jpc"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.514084, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [node name="MoneyPickup" type="Area2D"]
 
@@ -38,7 +29,6 @@ script = ExtResource("2_swx71")
 collision_shape = NodePath("../CollisionShape2D")
 
 [node name="Visuals" type="CanvasGroup" parent="."]
-material = SubResource("ShaderMaterial_woqb7")
 
 [node name="Sprite" type="Sprite2D" parent="Visuals"]
 position = Vector2(0, -10)
@@ -48,3 +38,4 @@ texture = ExtResource("4_u4q72")
 script = ExtResource("5_02hy2")
 visuals = NodePath("../Visuals")
 frequency = 0.15
+curve = SubResource("Curve_x1jpc")

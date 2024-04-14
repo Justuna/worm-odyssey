@@ -13,7 +13,7 @@ var _value: int
 var _timer: float
 
 
-func init(value: int):
+func construct(value: int):
 	_value = value
 	_timer = lifetime
 	_inited = true
