@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="WaveCard" load_steps=3 format=3 uid="uid://cd5qsuvjpjn30"]
+
+[ext_resource type="Resource" uid="uid://dxng6p0c8ryq4" path="res://resources/cards/enemy_cards/lantern_fly_line_card.tres" id="1_e26cu"]
+[ext_resource type="Script" path="res://scripts/entities/enemies/cards/wave_card.gd" id="1_t06ef"]
+
+[resource]
+script = ExtResource("1_t06ef")
+enemy_cards = Array[Resource("res://scripts/entities/enemies/cards/enemy_card.gd")]([ExtResource("1_e26cu")])

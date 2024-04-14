@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WaveCard" load_steps=6 format=3 uid="uid://hsilpsovqcbf"]
+
+[ext_resource type="Resource" uid="uid://dxng6p0c8ryq4" path="res://resources/cards/enemy_cards/lantern_fly_line_card.tres" id="1_f4hsk"]
+[ext_resource type="Script" path="res://scripts/entities/enemies/cards/wave_card.gd" id="1_t06ef"]
+[ext_resource type="Resource" uid="uid://b3u0h2ypkaohd" path="res://resources/cards/enemy_cards/lantern_fly_radial_card.tres" id="2_h8yby"]
+[ext_resource type="Resource" uid="uid://c834c7aw8icb4" path="res://resources/cards/enemy_cards/lantern_fly_shotgun_card.tres" id="3_yucpf"]
+[ext_resource type="Resource" uid="uid://kkd6x8njbsgl" path="res://resources/cards/enemy_cards/lantern_fly_star_card.tres" id="4_5qcnb"]
+
+[resource]
+script = ExtResource("1_t06ef")
+enemy_cards = Array[Resource("res://scripts/entities/enemies/cards/enemy_card.gd")]([ExtResource("1_f4hsk"), ExtResource("2_h8yby"), ExtResource("3_yucpf"), ExtResource("4_5qcnb")])
