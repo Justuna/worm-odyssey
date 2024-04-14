@@ -23,10 +23,10 @@ func _ready():
 
 func _on_interact(interactor: Interactor):
 	var worm_controller = interactor.get_parent().get_node_or_null("WormController") as WormController
-	_equipment.visible = true;
 
 	if worm_controller:
-		if worm_controller.try_add_equipment(_equipment):
-			picked_up.emit()
+		if pickup_condition.call(interactor) and worm_controller.try_add_equipment(_equipment):
+			_equipment.visible = true
+			picked_up.emit(interactor)
 			root.queue_free()
 

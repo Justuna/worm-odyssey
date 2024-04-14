@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://75btb7j6820b"]
+
+[ext_resource type="Script" path="res://scripts/shop/equipment_shop_group.gd" id="1_mv2oe"]
+[ext_resource type="Resource" uid="uid://dxe2vo0p5hajv" path="res://resources/libraries/equipment_library.tres" id="2_upa5o"]
+[ext_resource type="PackedScene" uid="uid://dgqx3we05fwxx" path="res://prefabs/pickups/equipment_pickup.tscn" id="3_ldj6x"]
+[ext_resource type="Texture2D" uid="uid://cljq3rs212xsk" path="res://assets/art/shops/shop_3_slot.png" id="4_1ec5d"]
+[ext_resource type="Texture2D" uid="uid://ue5xm0smm1n6" path="res://assets/art/shops/shop_slot.png" id="5_8342v"]
+[ext_resource type="Theme" uid="uid://hl7m0movyn5i" path="res://assets/themes/theme.tres" id="6_d2uoe"]
+[ext_resource type="Script" path="res://scripts/ui/set_theme_variation.gd" id="7_nhs4t"]
+
+[node name="TripleEquipmentShop" type="Node2D" node_paths=PackedStringArray("slots", "cost_label")]
+script = ExtResource("1_mv2oe")
+catalog = ExtResource("2_upa5o")
+pickup_prefab = ExtResource("3_ldj6x")
+restock_time = 5.0
+use_children_as_slots = false
+slots = [NodePath("BG/ShopSlot1"), NodePath("BG/ShopSlot2"), NodePath("BG/ShopSlot3")]
+cost_label = NodePath("Control/Label")
+
+[node name="BG" type="Sprite2D" parent="."]
+texture = ExtResource("4_1ec5d")
+
+[node name="ShopSlot1" type="Sprite2D" parent="BG"]
+position = Vector2(0, -24)
+texture = ExtResource("5_8342v")
+
+[node name="ShopSlot2" type="Sprite2D" parent="BG"]
+position = Vector2(-28, 20)
+texture = ExtResource("5_8342v")
+
+[node name="ShopSlot3" type="Sprite2D" parent="BG"]
+position = Vector2(27, 21)
+texture = ExtResource("5_8342v")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("6_d2uoe")
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = 60.0
+offset_right = 17.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HeaderSmall"
+theme_override_colors/font_color = Color(1, 1, 1, 0.619608)
+text = "30"
+horizontal_alignment = 1
+
+[node name="SetThemeVariation" type="Node" parent="Control/Label"]
+script = ExtResource("7_nhs4t")
+theme_variation = "HeaderSmall"

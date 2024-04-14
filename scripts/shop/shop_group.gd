@@ -4,24 +4,24 @@ class_name ShopGroup
 extends Node2D
 
 @export var restock_time: float
+@export var use_children_as_slots: bool = true
 @export var price_multiplier: float = 1
 
 @export_category("Dependencies")
-@export var worm: Node
 @export var slots: Array[Node2D]
+@export var cost_label: Label
 
 var current_cost: int
 
 var _restock_timer: float
-var _bank: Bank
 
 
 func _ready():
-	_bank = worm.get_node_or_null("Bank")
-
+	if use_children_as_slots:
+		for child in get_children():
+			if child is Node2D and not slots.has(child):
+				slots.append(child)
 	_restock()
-
-	_bank.balance_changed.connect(_can_purchase)
 
 
 func _process(delta):
@@ -31,24 +31,13 @@ func _process(delta):
 			_restock()
 
 
-func _can_purchase(balance: int):
-	# print("Seeing if available")
-	if balance >= current_cost:
-		_make_available()
-	else:
-		_make_unavailable()
-
-
-func _make_available():
-	# print("Can afford this shop")
-	pass
-
-
-func _make_unavailable():
-	# print("Cannot afford this shop")
-	pass
+func _can_purchase(interactor: Interactor) -> bool:
+	var bank = interactor.get_parent().get_node_or_null("Bank") as Bank
+	if bank:
+		return bank.balance >= current_cost
+	return false
 
 
 func _restock():
 	current_cost = ceil(World.instance.shop_inflation.value) * price_multiplier
-	_can_purchase(_bank.balance)
+	cost_label.text = "$" + str(current_cost)

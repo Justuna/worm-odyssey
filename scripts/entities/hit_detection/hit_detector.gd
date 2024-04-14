@@ -25,14 +25,16 @@ enum DetectorType {
 		return _enabled
 	set(value):
 		_enabled = value
-		monitoring = value
-		monitorable = value
+		if _collision_shape:
+			_collision_shape.disabled = not enabled
 var _enabled: bool = true
 @export var entity: Node
 @export var mode: TeamMode
 @export var type: DetectorType
 @export var team: Team
 @export var track_wall: bool
+
+@onready var _collision_shape: CollisionShape2D = get_child(0)
 
 # [HitDetector]: null
 var detectors: Dictionary

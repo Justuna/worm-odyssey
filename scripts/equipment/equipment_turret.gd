@@ -23,6 +23,7 @@ var _fire_timer: float = 0
 func _ready():
 	entity_tracker.target_entity_changed.connect(_target_changed)
 	equipment.equipped_changed.connect(_on_equipped_changed)
+	_on_equipped_changed()
 	set_process(false)
 
 

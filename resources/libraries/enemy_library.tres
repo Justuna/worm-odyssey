@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="EnemyLibrary" load_steps=4 format=3 uid="uid://dvnlqsxlrldp7"]
+
+[ext_resource type="PackedScene" uid="uid://cjdnwt6earyai" path="res://prefabs/enemies/lantern_fly_line.tscn" id="1_5v615"]
+[ext_resource type="Script" path="res://scripts/entities/enemies/enemy_library.gd" id="1_cptkc"]
+[ext_resource type="PackedScene" uid="uid://4yl4bjq6n3j0" path="res://prefabs/enemies/lantern_fly_star.tscn" id="2_gat4u"]
+
+[resource]
+script = ExtResource("1_cptkc")
+enemy_prefabs = Array[PackedScene]([ExtResource("1_5v615"), ExtResource("2_gat4u")])

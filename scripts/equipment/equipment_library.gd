@@ -30,7 +30,7 @@ func library_init():
 	for equipment_prefab in equipment_prefabs:
 		var inst = equipment_prefab.instantiate()
 		if inst.name in _equipment_prefabs_dict:
-			printerr("Enemy Library: Enemy with name %s already exists, is there a duplicate name?" % inst.name)
+			printerr("Equipment Library: Equipment with name %s already exists, is there a duplicate name?" % inst.name)
 		_equipment_prefabs_dict[inst.name] = equipment_prefab
 		inst.queue_free()
 	_equipment_types = []

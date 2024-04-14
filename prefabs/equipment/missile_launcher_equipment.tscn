@@ -54,10 +54,7 @@ texture = ExtResource("4_sphhu")
 [node name="TurretMuzzle" type="Node2D" parent="EquipmentTurret/TurretHead"]
 
 [node name="EntityTracker" type="Area2D" parent="EquipmentTurret" node_paths=PackedStringArray("team")]
-monitoring = false
-monitorable = false
 script = ExtResource("10_dbj3h")
-enabled = false
 mode = 2
 team = NodePath("../../Team")
 

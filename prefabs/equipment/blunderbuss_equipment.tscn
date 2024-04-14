@@ -197,11 +197,7 @@ libraries = {
 }
 
 [node name="EntityTracker" type="Area2D" parent="EquipmentTurret" node_paths=PackedStringArray("team")]
-visible = false
-monitoring = false
-monitorable = false
 script = ExtResource("11_d2y01")
-enabled = false
 mode = 2
 team = NodePath("../../Team")
 

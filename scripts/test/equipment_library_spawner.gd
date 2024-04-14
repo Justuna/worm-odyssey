@@ -25,6 +25,10 @@ func _ready():
 func _spawn_equipment(equipment_type: String, spawn_pos: Vector2):
 	var inst = library.spawn_dropped_equipment(equipment_type)
 	var dropped_equipment = inst.get_node("EquipmentPickup") as EquipmentPickup
-	dropped_equipment.picked_up.connect(_spawn_equipment.bind(equipment_type, spawn_pos))
+	dropped_equipment.picked_up.connect(_on_picked_up.bind(equipment_type, spawn_pos))
 	add_child(inst)
 	inst.global_position = spawn_pos
+
+
+func _on_picked_up(interactor: Interactor, equipment_type: String, spawn_pos: Vector2):
+	_spawn_equipment(equipment_type, spawn_pos)

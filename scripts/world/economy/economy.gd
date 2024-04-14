@@ -13,9 +13,9 @@ var t: float = 0
 var value: float
 
 
-func _ready():
-    value = base_value
+func _enter_tree():
+	value = base_value
 
 
 func _physics_process(delta):
-    t += delta
+	t += delta
