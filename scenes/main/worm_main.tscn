@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=3 uid="uid://bbt3eexxkwd4"]
+[gd_scene load_steps=109 format=3 uid="uid://bbt3eexxkwd4"]
 
 [ext_resource type="Script" path="res://scripts/world/world.gd" id="1_elg0d"]
 [ext_resource type="Shader" path="res://assets/shaders/floor.gdshader" id="2_pgim0"]
@@ -35,7 +35,9 @@
 [ext_resource type="Resource" uid="uid://cxggpiyowtytg" path="res://resources/cards/wave_cards/lantern_fly_only_shotgun_wave.tres" id="35_68bei"]
 [ext_resource type="Resource" uid="uid://bln3x2581mjbj" path="res://resources/cards/wave_cards/lantern_fly_only_star_wave.tres" id="36_dwdfq"]
 [ext_resource type="Resource" uid="uid://bi1l2l34g6h6b" path="res://resources/cards/wave_cards/slime_wave.tres" id="37_3huqq"]
+[ext_resource type="PackedScene" path="res://prefabs/pickups/growth_pickup.tscn" id="37_h5qvy"]
 [ext_resource type="Script" path="res://scripts/entities/enemies/tracking/loot_table.gd" id="38_3svkd"]
+[ext_resource type="Script" path="res://scripts/entities/enemies/tracking/loot_chance.gd" id="38_7hm0e"]
 [ext_resource type="Script" path="res://scripts/ui/hit_indicator_spawner.gd" id="39_b46iv"]
 [ext_resource type="PackedScene" uid="uid://bb37ero7f3n18" path="res://prefabs/ui/hit_indicator.tscn" id="40_lpjm4"]
 
@@ -535,6 +537,11 @@ point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6uaxl"]
 size = Vector2(1024, 1024)
+
+[sub_resource type="Resource" id="Resource_0cpb8"]
+script = ExtResource("38_7hm0e")
+drop = ExtResource("37_h5qvy")
+base_chance = 0.25
 
 [node name="WormTest" type="Node2D"]
 
@@ -2125,6 +2132,7 @@ script = ExtResource("38_3svkd")
 money_drop_inflation = NodePath("LootEconomy")
 money_drop_prefab = ExtResource("27_7xs20")
 spawners = [NodePath("../PassiveSpawner")]
+drop_table = Array[ExtResource("38_7hm0e")]([SubResource("Resource_0cpb8")])
 
 [node name="LootEconomy" type="Node" parent="World/LootTable"]
 script = ExtResource("30_ptqin")

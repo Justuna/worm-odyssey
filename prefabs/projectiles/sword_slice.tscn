@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dnaxpgibkablf"]
+[gd_scene load_steps=4 format=3 uid="uid://cuvlbar83rb66"]
 
 [ext_resource type="PackedScene" uid="uid://dp6ibxtg4brre" path="res://prefabs/projectiles/circle_bullet.tscn" id="1_6w4f7"]
 [ext_resource type="Texture2D" uid="uid://bkf7u1uwm8l3f" path="res://assets/art/equipment/swipe_small.png" id="2_50pfv"]
+[ext_resource type="Texture2D" uid="uid://1h26xngwhymm" path="res://assets/art/fx/64_star_fx.png" id="3_rx8we"]
 
 [node name="SwordSlice" instance=ExtResource("1_6w4f7")]
 rotate_to_direction = true
@@ -19,5 +20,6 @@ texture = ExtResource("2_50pfv")
 lifetime = 0.5
 
 [node name="Particles" parent="Death/FX" index="0"]
-self_modulate = Color(0.309804, 0.831373, 0.133333, 1)
+self_modulate = Color(1, 1, 1, 1)
 rotation = -0.0229226
+texture = ExtResource("3_rx8we")
